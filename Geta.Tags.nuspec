@@ -8,7 +8,7 @@
     <projectUrl>https://github.com/Geta/Tags</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <tags>CMS6R2RTM</tags>
+    <tags>EPiServer7</tags>
   </metadata>
   <files>
     <file src="modules\Geta\Tags\TagNameLookup.ashx" target="content\modules\Geta\Tags" />

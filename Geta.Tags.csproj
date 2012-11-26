@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Geta.Tags</RootNamespace>
     <AssemblyName>Geta.Tags</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -24,6 +24,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,31 +47,43 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPiServer, Version=6.1.379.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\EPiServer\CMS\6.1.379.0\bin\EPiServer.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Program Files (x86)\EPiServer\CMS\7.0.586.1\bin\EPiServer.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="EPiServer.BaseLibrary, Version=6.1.379.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\EPiServer\CMS\6.1.379.0\bin\EPiServer.BaseLibrary.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Program Files (x86)\EPiServer\CMS\7.0.586.1\bin\EPiServer.BaseLibrary.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="EPiServer.Data, Version=6.2.267.1, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\EPiServer\Framework\6.2.267.1\bin\EPiServer.Data.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Program Files (x86)\EPiServer\Framework\7.0.859.1\bin\EPiServer.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="EPiServer.Enterprise, Version=6.1.379.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\EPiServer\CMS\6.1.379.0\bin\EPiServer.Enterprise.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Program Files (x86)\EPiServer\CMS\7.0.586.1\bin\EPiServer.Enterprise.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="EPiServer.Framework, Version=6.2.267.1, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\EPiServer\Framework\6.2.267.1\bin\EPiServer.Framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Program Files (x86)\EPiServer\Framework\7.0.859.1\bin\EPiServer.Framework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition, Version=2009.22.10.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\..\Program Files (x86)\EPiServer\Framework\6.2.267.1\bin\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\TagsHelper.cs" />
@@ -113,6 +126,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="modules\Geta\Tags\TagNameLookup.ashx" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
