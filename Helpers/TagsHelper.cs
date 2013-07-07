@@ -8,8 +8,8 @@ namespace Geta.Tags.Helpers
     {
         public static PageReference GetPageReference(Guid pageGuid)
         {
-            var map = PermanentLinkMapStore.Find(pageGuid) as PermanentPageLinkMap;
-            return (map != null) ? map.PageReference : PageReference.EmptyReference;
+            var map = PermanentLinkMapStore.Find(pageGuid) as PermanentContentLinkMap;
+            return (map != null) ? map.ContentReference as PageReference : PageReference.EmptyReference;
         }
     }
 }

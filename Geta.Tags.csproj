@@ -125,6 +125,7 @@
     <Content Include="modules\Geta\Tags\Resources\jquery.tagsinput.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Geta.Tags.nuspec" />
     <None Include="modules\Geta\Tags\TagNameLookup.ashx" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
