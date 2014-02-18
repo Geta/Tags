@@ -1,4 +1,5 @@
-﻿using System.Web.UI.HtmlControls;
+﻿using System;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
@@ -90,12 +91,20 @@ namespace Geta.Tags.SpecializedProperties
         public override void ApplyEditChanges()
         {
             string tags = this.TextBox.Text;
-
+            var guid = Guid.Empty;
+            if (CurrentPage != null)
+            {
+                guid = CurrentPage.PageGuid;
+            }
+            else if (CurrentContent != null)
+            {
+                guid = CurrentContent.ContentGuid;
+            }
             if (!string.IsNullOrEmpty(tags))
             {
                 foreach (string name in tags.Split(','))
                 {
-                    this.TagService.Save(CurrentPage.PageGuid, name);
+                    this.TagService.Save(guid, name);
                 }
             }
 

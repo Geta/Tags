@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geta AS")]
 [assembly: AssemblyProduct("Geta.Tags")]
-[assembly: AssemblyCopyright("Copyright © Geta AS 2013")]
+[assembly: AssemblyCopyright("Copyright © Geta AS 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
