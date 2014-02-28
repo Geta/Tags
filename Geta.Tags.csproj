@@ -4,7 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>
+    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DAC7C620-4960-4523-8ED6-352D9FBF5E17}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -16,7 +17,6 @@
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>4.0</OldToolsVersion>
     <UseIISExpress>false</UseIISExpress>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
@@ -35,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,6 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -147,8 +149,8 @@
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
@@ -177,6 +179,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorDescriptors\TagsEditorSelectionEditorDescriptor.cs" />
     <Compile Include="Helpers\TagsHelper.cs" />
     <Compile Include="Implementations\TagEngine.cs" />
     <Compile Include="Implementations\TagRepository.cs" />
@@ -189,12 +192,16 @@
     <Compile Include="modules\Geta\Tags\TagNameLookup.ashx.cs">
       <DependentUpon>TagNameLookup.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Rest\TagStore.cs" />
     <Compile Include="SpecializedProperties\PropertyTags.cs" />
     <Compile Include="SpecializedProperties\PropertyTagsControl.cs" />
     <Compile Include="TagsScheduledJob.cs" />
     <Compile Include="TagsTransferModule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientResources\Scripts\Editors\TagsSelection.js" />
+    <Content Include="ClientResources\Scripts\ModuleInitializer.js" />
+    <Content Include="ClientResources\Scripts\RequireModule.js" />
     <Content Include="modules\Geta\Tags\Resources\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="modules\Geta\Tags\Resources\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="modules\Geta\Tags\Resources\images\ui-bg_flat_10_000000_40x100.png" />
@@ -217,16 +224,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Geta.Tags.nuspec" />
+    <Content Include="module.config.transform" />
     <None Include="modules\Geta\Tags\TagNameLookup.ashx" />
     <Content Include="packages.config" />
   </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
@@ -246,6 +248,8 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
