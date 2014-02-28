@@ -2,14 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Geta.Tags</id>
-    <version>0.9.0</version>
+    <version>1.0.0</version>
     <title>Geta.Tags</title>
     <authors>Geta AS</authors>
     <owners>Geta AS</owners>
     <projectUrl>https://github.com/Geta/Tags</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easily add tags to your EPiServer content and use the powerful query engine to get back what you want.</description>
+    <copyright>Copyright © 2014 Geta AS</copyright>
     <tags>EPiServer, EPiServer 7.5</tags>
+    <dependencies>
+      <dependency id="EPiServer.CMS.Core" version="7.5" />
+    </dependencies>
   </metadata>
   <files>
     <file src="modules\Geta\Tags\TagNameLookup.ashx" target="content\modules\Geta\Tags" />
