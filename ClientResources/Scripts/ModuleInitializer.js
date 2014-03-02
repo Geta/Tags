@@ -26,14 +26,6 @@
         initialize: function () {
 
             this.inherited(arguments);
-            var registry = this.resolveDependency("epi.storeregistry");
-
-            //Register the store
-            registry.create("geta.tags", this._getRestPath("tags"));
-        },
-
-        _getRestPath: function (name) {
-            return routes.getRestPath({ moduleArea: "app", storeName: name });
         }
     });
 });

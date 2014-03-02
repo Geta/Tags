@@ -12,8 +12,7 @@ function (
 
     return declare([MultiComboBox], {
         postMixInProperties: function () {
-            this.storeurl = this.storeurl || routes.getRestPath({ moduleArea: "app", storeName: "tags" });
-            var store = new JsonRest(dojo.mixin({ target: this.storeurl }));
+            var store = new JsonRest(dojo.mixin({ target: '/api/tags' }));
             this.set("store", store);
             // call base implementation            
             this.inherited(arguments);
