@@ -210,7 +210,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientResources\Scripts\Editors\TagsSelection.js" />
-    <Content Include="ClientResources\Scripts\ModuleInitializer.js" />
     <Content Include="modules\Geta\Tags\Resources\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="modules\Geta\Tags\Resources\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="modules\Geta\Tags\Resources\images\ui-bg_flat_10_000000_40x100.png" />
