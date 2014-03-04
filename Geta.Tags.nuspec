@@ -13,6 +13,7 @@
     <tags>EPiServer, EPiServer 7.5</tags>
     <dependencies>
       <dependency id="EPiServer.CMS.Core" version="7.5" />
+      <dependency id="Microsoft.AspNet.WebApi.Core" version="5" />
     </dependencies>
   </metadata>
 </package>
