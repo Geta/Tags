@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using EPiServer;
 using EPiServer.Core;
@@ -7,6 +6,7 @@ using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
+using Geta.Tags.Helpers;
 using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
 
@@ -30,7 +30,7 @@ namespace Geta.Tags
             var pageType = _pageTypeRepository.Load(page.PageTypeID);
 
             return pageType.PropertyDefinitions
-                .Where(IsTagProperty)
+                .Where(TagsHelper.IsTagProperty)
                 .SelectMany(x => GetPropertyTags(page, x));
         }
 
@@ -40,13 +40,6 @@ namespace Geta.Tags
             return tagNames == null 
                 ? Enumerable.Empty<string>() 
                 : tagNames.Split(',');
-        }
-
-        private static bool IsTagProperty(PropertyDefinition propertyDefinition)
-        {
-            return propertyDefinition != null && propertyDefinition.Type != null &&
-                propertyDefinition.Type.DefinitionType.Name.Equals("PropertyTags",
-                    StringComparison.InvariantCultureIgnoreCase);
         }
 
         public void Initialize(InitializationEngine context)
