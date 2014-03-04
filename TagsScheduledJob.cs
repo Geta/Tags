@@ -101,7 +101,8 @@ namespace Geta.Tags
         private static IEnumerable<Guid> GetTaggedPageGuids(IEnumerable<Tag> tags)
         {
             return tags.Where(x => x != null && x.PermanentLinks != null)
-                .SelectMany(x => x.PermanentLinks);
+                .SelectMany(x => x.PermanentLinks)
+                .ToList();
         }
 
         private void UpdateTagCount()
