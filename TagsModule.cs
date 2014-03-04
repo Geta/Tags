@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using EPiServer;
+using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
@@ -18,29 +21,31 @@ namespace Geta.Tags
         private void OnPublishedPage(object sender, PageEventArgs e)
         {
             var page = e.Page;
-            var pageType = _pageTypeRepository.Load(page.PageTypeID);
-
-            foreach (var propertyDefinition in pageType.PropertyDefinitions)
-            {
-                if (propertyDefinition == null || propertyDefinition.Type == null)
-                {
-                    continue;
-                }
-
-                if (IsNotTagProperty(propertyDefinition)) continue;
-
-                var tagNames = page[propertyDefinition.Name] as string;
-                if (tagNames == null) continue;
-
-                var tags = tagNames.Split(',');
-                _tagService.Save(page.PageGuid, tags);
-            }
+            var tags = GetPageTags(page);
+            _tagService.Save(page.PageGuid, tags);
         }
 
-        private static bool IsNotTagProperty(PropertyDefinition pageDefinition)
+        private IEnumerable<string> GetPageTags(PageData page)
         {
-            return
-                !pageDefinition.Type.DefinitionType.Name.Equals("PropertyTags",
+            var pageType = _pageTypeRepository.Load(page.PageTypeID);
+
+            return pageType.PropertyDefinitions
+                .Where(IsTagProperty)
+                .SelectMany(x => GetPropertyTags(page, x));
+        }
+
+        private static IEnumerable<string> GetPropertyTags(PageData page, PropertyDefinition propertyDefinition)
+        {
+            var tagNames = page[propertyDefinition.Name] as string;
+            return tagNames == null 
+                ? Enumerable.Empty<string>() 
+                : tagNames.Split(',');
+        }
+
+        private static bool IsTagProperty(PropertyDefinition propertyDefinition)
+        {
+            return propertyDefinition != null && propertyDefinition.Type != null &&
+                propertyDefinition.Type.DefinitionType.Name.Equals("PropertyTags",
                     StringComparison.InvariantCultureIgnoreCase);
         }
 
