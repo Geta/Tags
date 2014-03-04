@@ -16,6 +16,14 @@ function (
             this.set("store", store);
             // call base implementation            
             this.inherited(arguments);
+        },
+        _setValueAttr: function (value) {
+            value = value || '';
+            if (this.delimiter && value.length != 0) {
+                value = value + this.delimiter + " ";
+                arguments[0] = this._addPreviousMatches(value);
+            }
+            this.inherited(arguments);
         }
     });
 });
