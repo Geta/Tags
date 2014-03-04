@@ -27,27 +27,17 @@ namespace Geta.Tags
 
         public TagsScheduledJob(ITagService tagService)
         {
-            this._tagService = tagService;
+            _tagService = tagService;
         }
 
         public override string Execute()
         {
-            List<Tag> tags = this._tagService.GetAllTags().ToList();
+            var tags = _tagService.GetAllTags().ToList();
+            var pageGuids = GetTaggedPageGuids(tags);
 
-            var pageGuids = new List<Guid>();
-            
-            // Find all pages that have a tag property on them
-            foreach (Tag tag in tags)
+            foreach (var pageGuid in pageGuids)
             {
-                if (tag != null && tag.PermanentLinks != null)
-                {
-                    pageGuids.AddRange(tag.PermanentLinks);
-                }
-            }
-
-            foreach (Guid pageGuid in pageGuids)
-            {
-                if (this._stop)
+                if (_stop)
                 {
                     return "Geta Tags maintenance was stopped";
                 }
@@ -58,132 +48,112 @@ namespace Geta.Tags
                 {
                     page = DataFactory.Instance.GetPage(TagsHelper.GetPageReference(pageGuid));
                 }
-                catch (Exception exception)
-                {
-                    this.RemoveFromAllTags(pageGuid, tags);
-                }
+                catch (PageNotFoundException) {}
 
-                if (page == null)
+                if (page == null || page.IsDeleted)
                 {
+                    RemoveFromAllTags(pageGuid, tags);
                     continue;
                 }
 
-                if (page.IsDeleted)
-                {
-                    // remove pageReference from all tags
-                    this.RemoveFromAllTags(pageGuid, tags);
-                }
-
-                // Get property names from page type
-                PageType pageType = PageType.Load(page.PageTypeID);
-
-                foreach (PageDefinition pageDefinition in pageType.Definitions)
-                {
-                    if (pageDefinition == null || pageDefinition.Type == null)
-                    {
-                        continue;
-                    }
-
-                    if (this.IsTagProperty(pageDefinition))
-                    {
-                        string tagNames = page[pageDefinition.Name] as string;
-
-                        IList<Tag> allTags = tags;
-
-                        if (tagNames == null)
-                        {
-                            this.RemoveFromAllTags(pageGuid, allTags);
-
-                            continue;
-                        }
-
-                        IEnumerable<Tag> addedTags = this.ParseTags(tagNames);
-
-                        // make sure the tags it has added has the pagereference
-                        this.ValidateTags(allTags, pageGuid, addedTags);
-
-                        // make sure there's no pagereference to this pagereference in the rest of the tags
-                        this.RemoveFromAllTags(pageGuid, allTags);
-                    }
-                }
+                CheckPageProperties(page, tags);
             }
 
-            this.UpdateTagCount();
+            UpdateTagCount();
 
             return "Geta Tags maintenance completed successfully";
         }
 
+        private void CheckPageProperties(PageData page, List<Tag> tags)
+        {
+            // Get property names from page type
+            var pageType = PageType.Load(page.PageTypeID);
+
+            foreach (var pageDefinition in pageType.Definitions)
+            {
+                if (pageDefinition == null || pageDefinition.Type == null)
+                {
+                    continue;
+                }
+
+                if (IsNotTagProperty(pageDefinition)) continue;
+
+                var tagNames = page[pageDefinition.Name] as string;
+
+                IList<Tag> allTags = tags;
+
+                if (tagNames == null)
+                {
+                    RemoveFromAllTags(page.PageGuid, allTags);
+                    continue;
+                }
+
+                var addedTags = ParseTags(tagNames);
+
+                // make sure the tags it has added has the pagereference
+                ValidateTags(allTags, page.PageGuid, addedTags);
+
+                // make sure there's no pagereference to this pagereference in the rest of the tags
+                RemoveFromAllTags(page.PageGuid, allTags);
+            }
+        }
+
+        private static IEnumerable<Guid> GetTaggedPageGuids(IEnumerable<Tag> tags)
+        {
+            return tags.Where(x => x != null && x.PermanentLinks != null)
+                .SelectMany(x => x.PermanentLinks);
+        }
+
         private void UpdateTagCount()
         {
-            var tags = this._tagService.GetAllTags();
+            var tags = _tagService.GetAllTags();
 
-            foreach (Tag tag in tags)
+            foreach (var tag in tags)
             {
-                if (tag.PermanentLinks == null)
-                {
-                    tag.Count = 0;
-                }
-                else
-                {
-                    tag.Count = tag.PermanentLinks.Count;
-                }
+                tag.Count = tag.PermanentLinks == null 
+                    ? 0 
+                    : tag.PermanentLinks.Count;
 
-                this._tagService.Save(tag);
+                _tagService.Save(tag);
             }
         }
 
         private IEnumerable<Tag> ParseTags(string tagNames)
         {
-            IList<Tag> addedTags = new List<Tag>();
-
-            foreach (string tagName in tagNames.Split(','))
-            {
-                Tag tag = this._tagService.GetTagByName(tagName);
-
-                if (tag == null)
-                {
-                    continue;
-                }
-
-                addedTags.Add(tag);
-            }
-
-            return addedTags;
+            return tagNames.Split(',')
+                .Select(_tagService.GetTagByName)
+                .Where(tag => tag != null)
+                .ToList();
         }
 
-        private void ValidateTags(IList<Tag> allTags, Guid pageGuid, IEnumerable<Tag> addedTags)
+        private void ValidateTags(ICollection<Tag> allTags, Guid pageGuid, IEnumerable<Tag> addedTags)
         {
-            foreach (Tag addedTag in addedTags)
+            foreach (var addedTag in addedTags)
             {
-                if (allTags.Remove(addedTag))
-                {
-                    
-                }
+                allTags.Remove(addedTag);
 
-                if (!addedTag.PermanentLinks.Contains(pageGuid))
-                {
-                    addedTag.PermanentLinks.Add(pageGuid);
+                if (addedTag.PermanentLinks.Contains(pageGuid)) continue;
 
-                    this._tagService.Save(addedTag);
-                }
+                addedTag.PermanentLinks.Add(pageGuid);
+
+                _tagService.Save(addedTag);
             }
         }
 
-        private bool IsTagProperty(PageDefinition pageDefinition)
+        private static bool IsNotTagProperty(PageDefinition pageDefinition)
         {
-            return pageDefinition.Type.DefinitionType.Name.Equals("PropertyTags", StringComparison.InvariantCultureIgnoreCase);
+            return !pageDefinition.Type.DefinitionType.Name.Equals("PropertyTags", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private void RemoveFromAllTags(Guid guid, IEnumerable<Tag> tags)
         {
-            foreach (Tag tag in tags)
+            foreach (var tag in tags)
             {
-                if (tag.PermanentLinks != null && tag.PermanentLinks.Contains(guid))
-                {
-                    tag.PermanentLinks.Remove(guid);
+                if (tag.PermanentLinks == null || !tag.PermanentLinks.Contains(guid)) continue;
 
-                    this._tagService.Save(tag);
-                }
+                tag.PermanentLinks.Remove(guid);
+
+                _tagService.Save(tag);
             }
         }
 
