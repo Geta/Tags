@@ -87,6 +87,14 @@ namespace Geta.Tags.Implementations
             return tag;
         }
 
+        public void Save(Guid pageGuid, IEnumerable<string> names)
+        {
+            foreach (var name in names)
+            {
+                Save(pageGuid, name);
+            }
+        }
+
         public void Delete(string name)
         {
             Tag tag = this.GetTagByName(name);

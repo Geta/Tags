@@ -35,16 +35,7 @@ namespace Geta.Tags
                 if (tagNames == null) continue;
 
                 var tags = tagNames.Split(',');
-
-                Store(page, tags);
-            }
-        }
-
-        private void Store(PageData page, IEnumerable<string> tags)
-        {
-            foreach (var tag in tags)
-            {
-                _tagService.Save(page.PageGuid, tag);
+                _tagService.Save(page.PageGuid, tags);
             }
         }
 
