@@ -5,36 +5,33 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
+using EPiServer.ServiceLocation;
 using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
 
 namespace Geta.Tags
 {
-    [ModuleDependency(typeof (EPiServer.Web.InitializationModule))]
+    [ModuleDependency(typeof (ServiceContainerInitialization))]
     public class TagsModule : IInitializableModule
     {
-        public ITagService TagService { get; set; }
-
-        public TagsModule()
-        {
-            TagService = new TagService();
-        }
+        private ITagService _tagService;
+        private PageTypeRepository _pageTypeRepository;
 
         private void OnPublishedPage(object sender, PageEventArgs e)
         {
             var page = e.Page;
-            var pageType = PageType.Load(page.PageTypeID);
+            var pageType = _pageTypeRepository.Load(page.PageTypeID);
 
-            foreach (var pageDefinition in pageType.Definitions)
+            foreach (var propertyDefinition in pageType.PropertyDefinitions)
             {
-                if (pageDefinition == null || pageDefinition.Type == null)
+                if (propertyDefinition == null || propertyDefinition.Type == null)
                 {
                     continue;
                 }
 
-                if (IsNotTagProperty(pageDefinition)) continue;
+                if (IsNotTagProperty(propertyDefinition)) continue;
 
-                var tagNames = page[pageDefinition.Name] as string;
+                var tagNames = page[propertyDefinition.Name] as string;
                 if (tagNames == null) continue;
 
                 var tags = tagNames.Split(',');
@@ -47,17 +44,22 @@ namespace Geta.Tags
         {
             foreach (var tag in tags)
             {
-                TagService.Save(page.PageGuid, tag);
+                _tagService.Save(page.PageGuid, tag);
             }
         }
 
-        private static bool IsNotTagProperty(PageDefinition pageDefinition)
+        private static bool IsNotTagProperty(PropertyDefinition pageDefinition)
         {
-            return !pageDefinition.Type.DefinitionType.Name.Equals("PropertyTags", StringComparison.InvariantCultureIgnoreCase);
+            return
+                !pageDefinition.Type.DefinitionType.Name.Equals("PropertyTags",
+                    StringComparison.InvariantCultureIgnoreCase);
         }
 
         public void Initialize(InitializationEngine context)
         {
+            _tagService = new TagService();
+            _pageTypeRepository = ServiceLocator.Current.GetInstance<PageTypeRepository>();
+
             DataFactory.Instance.PublishedPage += OnPublishedPage;
         }
 
