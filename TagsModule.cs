@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using EPiServer;
-using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
