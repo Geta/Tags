@@ -200,9 +200,6 @@
     <Compile Include="Interfaces\ITagService.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="modules\Geta\Tags\TagNameLookup.ashx.cs">
-      <DependentUpon>TagNameLookup.ashx</DependentUpon>
-    </Compile>
     <Compile Include="SpecializedProperties\PropertyTags.cs" />
     <Compile Include="SpecializedProperties\PropertyTagsControl.cs" />
     <Compile Include="TagsScheduledJob.cs" />
@@ -233,7 +230,6 @@
   <ItemGroup>
     <Content Include="Geta.Tags.nuspec" />
     <Content Include="module.config.transform" />
-    <None Include="modules\Geta\Tags\TagNameLookup.ashx" />
     <Content Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
