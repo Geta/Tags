@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EPiServer;
 using EPiServer.Core;
@@ -37,9 +38,9 @@ namespace Geta.Tags
         private static IEnumerable<string> GetPropertyTags(PageData page, PropertyDefinition propertyDefinition)
         {
             var tagNames = page[propertyDefinition.Name] as string;
-            return tagNames == null 
-                ? Enumerable.Empty<string>() 
-                : tagNames.Split(',');
+            return tagNames == null
+                ? Enumerable.Empty<string>()
+                : tagNames.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public void Initialize(InitializationEngine context)
