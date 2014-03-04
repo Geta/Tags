@@ -200,7 +200,6 @@
     <Compile Include="Interfaces\ITagService.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecializedProperties\PropertyTags.cs" />
     <Compile Include="TagsModule.cs" />
     <Compile Include="TagsScheduledJob.cs" />
     <Compile Include="TagsTransferModule.cs" />

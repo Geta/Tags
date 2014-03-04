@@ -6,6 +6,7 @@ using EPiServer.BaseLibrary.Scheduling;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.PlugIn;
+using EPiServer.ServiceLocation;
 using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
@@ -19,6 +20,7 @@ namespace Geta.Tags
         private bool _stop;
 
         private readonly ITagService _tagService;
+        private readonly PageTypeRepository _pageTypeRepository;
 
         public TagsScheduledJob() : this(new TagService())
         {
@@ -28,6 +30,7 @@ namespace Geta.Tags
         public TagsScheduledJob(ITagService tagService)
         {
             _tagService = tagService;
+            _pageTypeRepository = ServiceLocator.Current.GetInstance<PageTypeRepository>();
         }
 
         public override string Execute()
@@ -64,21 +67,18 @@ namespace Geta.Tags
             return "Geta Tags maintenance completed successfully";
         }
 
-        private void CheckPageProperties(PageData page, List<Tag> tags)
+        private void CheckPageProperties(PageData page, IList<Tag> tags)
         {
-            // Get property names from page type
-            var pageType = PageType.Load(page.PageTypeID);
+            var pageType = _pageTypeRepository.Load(page.PageTypeID);
 
-            foreach (var pageDefinition in pageType.Definitions)
+            foreach (var propertyDefinition in pageType.PropertyDefinitions)
             {
-                if (pageDefinition == null || pageDefinition.Type == null)
+                if (!TagsHelper.IsTagProperty(propertyDefinition))
                 {
                     continue;
                 }
 
-                if (IsNotTagProperty(pageDefinition)) continue;
-
-                var tagNames = page[pageDefinition.Name] as string;
+                var tagNames = page[propertyDefinition.Name] as string;
 
                 IList<Tag> allTags = tags;
 
@@ -139,11 +139,6 @@ namespace Geta.Tags
 
                 _tagService.Save(addedTag);
             }
-        }
-
-        private static bool IsNotTagProperty(PageDefinition pageDefinition)
-        {
-            return !pageDefinition.Type.DefinitionType.Name.Equals("PropertyTags", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private void RemoveFromAllTags(Guid guid, IEnumerable<Tag> tags)

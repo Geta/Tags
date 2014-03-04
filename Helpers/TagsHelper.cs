@@ -15,9 +15,8 @@ namespace Geta.Tags.Helpers
 
         public static bool IsTagProperty(PropertyDefinition propertyDefinition)
         {
-            return propertyDefinition != null 
-                && propertyDefinition.Type != null 
-                && propertyDefinition.Type.DefinitionType.Name.Equals("PropertyTags", StringComparison.InvariantCultureIgnoreCase);
+            return propertyDefinition != null
+                   && propertyDefinition.TemplateHint == "Tags";
         }
     }
 }
