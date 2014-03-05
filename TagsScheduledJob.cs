@@ -62,8 +62,6 @@ namespace Geta.Tags
                 CheckPageProperties(page, tags);
             }
 
-            UpdateTagCount();
-
             return "Geta Tags maintenance completed successfully";
         }
 
@@ -103,20 +101,6 @@ namespace Geta.Tags
             return tags.Where(x => x != null && x.PermanentLinks != null)
                 .SelectMany(x => x.PermanentLinks)
                 .ToList();
-        }
-
-        private void UpdateTagCount()
-        {
-            var tags = _tagService.GetAllTags();
-
-            foreach (var tag in tags)
-            {
-                tag.Count = tag.PermanentLinks == null 
-                    ? 0 
-                    : tag.PermanentLinks.Count;
-
-                _tagService.Save(tag);
-            }
         }
 
         private IEnumerable<Tag> ParseTags(string tagNames)

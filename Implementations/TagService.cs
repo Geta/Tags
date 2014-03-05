@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Data;
 using Geta.Tags.Interfaces;
@@ -6,8 +7,6 @@ using Geta.Tags.Models;
 
 namespace Geta.Tags.Implementations
 {
-    using System;
-
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
@@ -18,32 +17,32 @@ namespace Geta.Tags.Implementations
 
         public TagService(ITagRepository tagRepository)
         {
-            this._tagRepository = tagRepository;
+            _tagRepository = tagRepository;
         }
 
         public Tag GetTagById(Identity id)
         {
-            return this._tagRepository.GetTagById(id);
+            return _tagRepository.GetTagById(id);
         }
 
         public IEnumerable<Tag> GetTagByPage(Guid pageGuid)
         {
-            return this._tagRepository.GetTagsByPage(pageGuid);
+            return _tagRepository.GetTagsByPage(pageGuid);
         }
 
         public Tag GetTagByName(string name)
         {
-            return this._tagRepository.GetTagByName(name);
+            return _tagRepository.GetTagByName(name);
         }
 
         public IQueryable<Tag> GetAllTags()
         {
-            return this._tagRepository.GetAllTags();
+            return _tagRepository.GetAllTags();
         }
 
         public Identity Save(Tag tag)
         {
-            return this._tagRepository.Save(tag);
+            return _tagRepository.Save(tag);
         }
 
         public Tag Save(Guid pageGuid, string name)
@@ -53,36 +52,25 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            Tag tag = this.GetTagByName(name);
+            var tag = GetTagByName(name)
+                      ?? new Tag
+                      {
+                          Name = name
+                      };
 
-            if (tag == null)
+            if (tag.PermanentLinks == null)
             {
-                tag = new Tag
-                {
-                    Count = 1,
-                    Name = name,
-                    PermanentLinks = new List<Guid>() { pageGuid }
-                };
+                tag.PermanentLinks = new List<Guid> {pageGuid};
             }
             else
             {
-                if (tag.PermanentLinks == null)
+                if (!tag.PermanentLinks.Contains(pageGuid))
                 {
-                    tag.PermanentLinks = new List<Guid>() { pageGuid };
-                    tag.Count = tag.Count + 1;
-                }
-                else
-                {
-                    if (!tag.PermanentLinks.Contains(pageGuid))
-                    {
-                        tag.PermanentLinks.Add(pageGuid);
-
-                        tag.Count = tag.Count + 1;
-                    }
+                    tag.PermanentLinks.Add(pageGuid);
                 }
             }
 
-            this.Save(tag);
+            Save(tag);
 
             return tag;
         }
@@ -97,26 +85,26 @@ namespace Geta.Tags.Implementations
 
         public void Delete(string name)
         {
-            Tag tag = this.GetTagByName(name);
+            Tag tag = GetTagByName(name);
 
             if (tag == null)
             {
                 return;
             }
 
-            this._tagRepository.Delete(tag);
+            _tagRepository.Delete(tag);
         }
 
         public void Delete(Identity id)
         {
-            Tag tag = this._tagRepository.GetTagById(id);
+            Tag tag = _tagRepository.GetTagById(id);
 
             if (tag == null)
             {
                 return;
             }
 
-            this._tagRepository.Delete(tag);
+            _tagRepository.Delete(tag);
         }
     }
 }
