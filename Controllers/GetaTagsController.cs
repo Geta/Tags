@@ -1,27 +1,21 @@
 ﻿using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Web.Mvc;
 using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 
-namespace Geta.Tags.Api
+namespace Geta.Tags.Controllers
 {
-    public class TagsController : ApiController
+    public class GetaTagsController : Controller
     {
         private readonly ITagService _tagService;
 
-        public TagsController() : this(new TagService())
+        public GetaTagsController()
         {
+            _tagService = new TagService();
         }
 
-        public TagsController(ITagService tagService)
-        {
-            _tagService = tagService;
-        }
-
-        public HttpResponseMessage Get(string name)
+        public JsonResult Index(string name)
         {
             var normalizedName = Normalize(name);
             var tags = _tagService.GetAllTags();
@@ -36,7 +30,7 @@ namespace Geta.Tags.Api
                 .ToList()
                 .Select(ToAutoComplete);
 
-            return Request.CreateResponse(HttpStatusCode.OK, items);
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
 
         private static string Normalize(string name)

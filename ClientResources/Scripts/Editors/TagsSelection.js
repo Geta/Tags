@@ -12,7 +12,7 @@ function (
 
     return declare([MultiComboBox], {
         postMixInProperties: function () {
-            var store = new JsonRest(dojo.mixin({ target: '/api/tags' }));
+            var store = new JsonRest(dojo.mixin({ target: '/getatags' }));
             this.set("store", store);
             // call base implementation            
             this.inherited(arguments);

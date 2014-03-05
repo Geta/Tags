@@ -188,13 +188,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\TagsController.cs" />
+    <Compile Include="Controllers\GetaTagsController.cs" />
     <Compile Include="EditorDescriptors\TagsEditorSelectionEditorDescriptor.cs" />
     <Compile Include="Helpers\TagsHelper.cs" />
     <Compile Include="Implementations\TagEngine.cs" />
     <Compile Include="Implementations\TagRepository.cs" />
     <Compile Include="Implementations\TagService.cs" />
-    <Compile Include="Infrastructure\TagsConfig.cs" />
     <Compile Include="Interfaces\ITagEngine.cs" />
     <Compile Include="Interfaces\ITagRepository.cs" />
     <Compile Include="Interfaces\ITagService.cs" />
