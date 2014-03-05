@@ -1,11 +1,10 @@
-﻿using EPiServer.Data;
+﻿using System;
+using System.Collections.Generic;
+using EPiServer.Data;
 using EPiServer.Data.Dynamic;
 
 namespace Geta.Tags.Models
 {
-    using System;
-    using System.Collections.Generic;
-
     [EPiServerDataStore(AutomaticallyCreateStore = true, AutomaticallyRemapStore = true)]
     public class Tag
     {
@@ -14,25 +13,28 @@ namespace Geta.Tags.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Lowercase, words combined by - between them
+        ///     Lowercase, words combined by - between them
         /// </summary>
         public string Slug { get; set; }
 
         public string Description { get; set; }
 
         // number of objects, pages that use this term
-        public int Count { get; set; }
+        public int Count
+        {
+            get { return PermanentLinks == null ? 0 : PermanentLinks.Count; }
+        }
 
         public IList<Guid> PermanentLinks { get; set; }
 
         public override int GetHashCode()
         {
-            if (this.Name == null)
+            if (Name == null)
             {
                 return base.GetHashCode();
             }
 
-            return this.Name.GetHashCode();
+            return Name.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -42,19 +44,19 @@ namespace Geta.Tags.Models
                 return false;
             }
 
-            if (this.GetType() != obj.GetType())
+            if (GetType() != obj.GetType())
             {
                 return false;
             }
 
-            Tag tag = (Tag)obj;
+            var tag = (Tag) obj;
 
-            if (!Equals(this.Name, tag.Name))
+            if (!Equals(Name, tag.Name))
             {
                 return false;
             }
 
             return true;
-        } 
+        }
     }
 }

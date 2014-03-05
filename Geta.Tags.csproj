@@ -4,7 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>
+    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DAC7C620-4960-4523-8ED6-352D9FBF5E17}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -12,11 +13,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Geta.Tags</RootNamespace>
     <AssemblyName>Geta.Tags</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>4.0</OldToolsVersion>
     <UseIISExpress>false</UseIISExpress>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
@@ -35,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,15 +45,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>packages\Castle.Core.3.2.2\lib\net40-client\Castle.Core.dll</HintPath>
+      <HintPath>packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Windsor, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>packages\Castle.Windsor.3.2.1\lib\net40\Castle.Windsor.dll</HintPath>
+      <HintPath>packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer, Version=7.5.394.2, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -132,7 +134,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.5.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -143,12 +145,13 @@
       <HintPath>..\..\..\Program Files (x86)\EPiServer\Framework\6.2.267.1\bin\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
@@ -177,6 +180,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\GetaTagsController.cs" />
+    <Compile Include="EditorDescriptors\TagsEditorSelectionEditorDescriptor.cs" />
     <Compile Include="Helpers\TagsHelper.cs" />
     <Compile Include="Implementations\TagEngine.cs" />
     <Compile Include="Implementations\TagRepository.cs" />
@@ -186,47 +191,19 @@
     <Compile Include="Interfaces\ITagService.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="modules\Geta\Tags\TagNameLookup.ashx.cs">
-      <DependentUpon>TagNameLookup.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="SpecializedProperties\PropertyTags.cs" />
-    <Compile Include="SpecializedProperties\PropertyTagsControl.cs" />
+    <Compile Include="TagsModule.cs" />
     <Compile Include="TagsScheduledJob.cs" />
     <Compile Include="TagsTransferModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_flat_10_000000_40x100.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_glass_100_f6f6f6_1x400.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_glass_100_fdf5ce_1x400.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-icons_222222_256x240.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-icons_228ef1_256x240.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-icons_ef8c08_256x240.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-icons_ffd27a_256x240.png" />
-    <Content Include="modules\Geta\Tags\Resources\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="modules\Geta\Tags\Resources\jquery-ui-1.8.24.custom.css" />
-    <Content Include="modules\Geta\Tags\Resources\jquery-ui-1.8.24.custom.min.js" />
-    <Content Include="modules\Geta\Tags\Resources\jquery-1.8.2.min.js" />
-    <Content Include="modules\Geta\Tags\Resources\jquery.tagsinput.css" />
-    <Content Include="modules\Geta\Tags\Resources\jquery.tagsinput.min.js" />
+    <Content Include="ClientResources\Scripts\Editors\TagsSelection.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Geta.Tags.nuspec" />
-    <None Include="modules\Geta\Tags\TagNameLookup.ashx" />
+    <Content Include="module.config.transform" />
     <Content Include="packages.config" />
   </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
@@ -246,6 +223,8 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -15,7 +15,4 @@
       <dependency id="EPiServer.CMS.Core" version="7.5" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="modules\Geta\Tags\TagNameLookup.ashx" target="content\modules\Geta\Tags" />
-  </files>
 </package>
