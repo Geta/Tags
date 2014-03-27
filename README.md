@@ -10,8 +10,8 @@ Start by installing NuGet package (use [EPiServer NuGet](http://nuget.episerver.
 
     Install-Package Geta.Tags
 
-The latest version 0.9.8 is compiled for .NET 4.5 and EPiServer 7.5. 
-Geta Tags library uses EPiServer 7 Dojo MultiComboBox for selecting tags.
+The latest version 1.0.0 is compiled for .NET 4.0 and EPiServer 7.5. 
+Geta Tags library uses [tag-it](https://github.com/aehlke/tag-it) jQuery UI plugin for selecting tags.
 To add Tags as a new property to your page types you need to use the UIHint attribute like in this example:
 
 ```csharp
