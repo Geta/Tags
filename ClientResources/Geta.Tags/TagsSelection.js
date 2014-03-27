@@ -1,11 +1,9 @@
 ﻿define([
     "dojo/_base/declare",
-    "dojo/store/JsonRest",
     "dijit/form/TextBox"
 ],
 function (
     declare,
-    JsonRest,
     TextBox) {
 
     return declare([TextBox], {
