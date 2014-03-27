@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
-using Geta.Tags.Models;
 
 namespace Geta.Tags.Controllers
 {
@@ -15,41 +14,32 @@ namespace Geta.Tags.Controllers
             _tagService = new TagService();
         }
 
-        public JsonResult Index(string name)
+        public JsonResult Index(string term)
         {
-            var normalizedName = Normalize(name);
+            var normalized = Normalize(term);
             var tags = _tagService.GetAllTags();
 
-            if (IsNotEmpty(normalizedName))
+            if (IsNotEmpty(normalized))
             {
-                tags = tags.Where(t => t.Name.ToLower().StartsWith(normalizedName.ToLower()));
+                tags = tags.Where(t => t.Name.ToLower().StartsWith(normalized.ToLower()));
             }
 
             var items = tags.OrderBy(t => t.Name)
+                .Select(t => t.Name)
                 .Take(10)
-                .ToList()
-                .Select(ToAutoComplete);
+                .ToList();
 
             return Json(items, JsonRequestBehavior.AllowGet);
         }
 
-        private static string Normalize(string name)
+        private static string Normalize(string term)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return string.Empty;
-            }
-            return name.TrimEnd('*');
+            return string.IsNullOrWhiteSpace(term) ? string.Empty : term;
         }
 
         private static bool IsNotEmpty(string name)
         {
             return !string.IsNullOrEmpty(name);
-        }
-
-        private static object ToAutoComplete(Tag tag)
-        {
-            return new { name = tag.Name, id = tag.Name };
         }
     }
 }

@@ -3,11 +3,11 @@
 namespace Geta.Tags.EditorDescriptors
 {
     [EditorDescriptorRegistration(TargetType = typeof(string), UIHint = "Tags")]
-    public class TagsEditorSelectionEditorDescriptor : EditorDescriptor
+    public class TagsEditorDescriptor : EditorDescriptor
     {
-        public TagsEditorSelectionEditorDescriptor()
+        public TagsEditorDescriptor()
         {
-            ClientEditingClass = "geta.editors.TagsSelection";
+            ClientEditingClass = "geta-tags.TagsSelection";
         }
     }
 }

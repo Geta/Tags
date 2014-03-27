@@ -181,7 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\GetaTagsController.cs" />
-    <Compile Include="EditorDescriptors\TagsEditorSelectionEditorDescriptor.cs" />
+    <Compile Include="EditorDescriptors\TagsEditorDescriptor.cs" />
     <Compile Include="Helpers\TagsHelper.cs" />
     <Compile Include="Implementations\TagEngine.cs" />
     <Compile Include="Implementations\TagRepository.cs" />
@@ -196,13 +196,20 @@
     <Compile Include="TagsTransferModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientResources\Scripts\Editors\TagsSelection.js" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="ClientResources\Geta.Tags\styles\jquery.tagit.css" />
+    <Content Include="ClientResources\Geta.Tags\styles\tagit.ui-zendesk.css" />
+    <Content Include="ClientResources\Geta.Tags\TagsSelection.js" />
+    <Content Include="ClientResources\Geta.Tags\vendor\jquery-2.0.3.js" />
+    <Content Include="ClientResources\Geta.Tags\vendor\jquery-2.0.3.min.js" />
+    <Content Include="ClientResources\Geta.Tags\vendor\jquery-ui-1.10.3.js" />
+    <Content Include="ClientResources\Geta.Tags\vendor\jquery-ui-1.10.3.min.js" />
+    <Content Include="ClientResources\Geta.Tags\vendor\tag-it.js" />
+    <Content Include="ClientResources\Geta.Tags\vendor\tag-it.min.js" />
     <Content Include="Geta.Tags.nuspec" />
     <Content Include="module.config.transform" />
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
