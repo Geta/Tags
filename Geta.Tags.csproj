@@ -186,6 +186,7 @@
     <Compile Include="Implementations\TagEngine.cs" />
     <Compile Include="Implementations\TagRepository.cs" />
     <Compile Include="Implementations\TagService.cs" />
+    <Compile Include="InitializeModule.cs" />
     <Compile Include="Interfaces\ITagEngine.cs" />
     <Compile Include="Interfaces\ITagRepository.cs" />
     <Compile Include="Interfaces\ITagService.cs" />
