@@ -49,7 +49,12 @@ namespace Geta.Tags
 
                 try
                 {
-                    page = DataFactory.Instance.GetPage(TagsHelper.GetPageReference(pageGuid));
+                    var contentReference = TagsHelper.GetPageReference(pageGuid);
+
+                    if (!ContentReference.IsNullOrEmpty(contentReference))
+                    {
+                        page = DataFactory.Instance.GetPage(contentReference);
+                    }
                 }
                 catch (PageNotFoundException) {}
 
