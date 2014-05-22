@@ -14,8 +14,6 @@ using Geta.Tags.Helpers;
 
 namespace Geta.Tags
 {
-    using System.Web.UI.WebControls;
-
     [ScheduledPlugIn(DisplayName = "Geta Tags maintenance", DefaultEnabled = true)]
     public class TagsScheduledJob : JobBase
     {
