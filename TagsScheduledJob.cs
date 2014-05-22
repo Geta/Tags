@@ -14,6 +14,8 @@ using Geta.Tags.Helpers;
 
 namespace Geta.Tags
 {
+    using System.Web.UI.WebControls;
+
     [ScheduledPlugIn(DisplayName = "Geta Tags maintenance", DefaultEnabled = true)]
     public class TagsScheduledJob : JobBase
     {
@@ -49,7 +51,12 @@ namespace Geta.Tags
 
                 try
                 {
-                    page = DataFactory.Instance.GetPage(TagsHelper.GetPageReference(pageGuid));
+                    var contentReference = TagsHelper.GetPageReference(pageGuid);
+
+                    if (!ContentReference.IsNullOrEmpty(contentReference))
+                    {
+                        page = DataFactory.Instance.GetPage(contentReference);
+                    }
                 }
                 catch (PageNotFoundException) {}
 
