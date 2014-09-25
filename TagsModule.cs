@@ -40,7 +40,7 @@ namespace Geta.Tags
             var tagNames = page[propertyDefinition.Name] as string;
             return tagNames == null
                 ? Enumerable.Empty<string>()
-                : tagNames.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+                : tagNames.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public void Initialize(InitializationEngine context)
