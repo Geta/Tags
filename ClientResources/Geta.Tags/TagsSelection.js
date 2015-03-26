@@ -7,9 +7,13 @@ function (
     TextBox) {
 
     return declare([TextBox], {
-        postCreate: function() {
-            $(this.domNode).find('input').tagit({
-                autocomplete: { delay: 0, minLength: 2, source: '/getatags' }
+        postCreate: function () {
+            var $domNode = $(this.domNode),
+                isReadonly = $domNode.hasClass('dijitReadOnly');
+
+            $domNode.find('input').tagit({
+                autocomplete: { delay: 0, minLength: 2, source: '/getatags' },
+                readOnly: isReadonly
             });
         }
     });
