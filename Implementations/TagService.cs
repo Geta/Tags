@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Data;
+using EPiServer.ServiceLocation;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 
 namespace Geta.Tags.Implementations
 {
+    [ServiceConfiguration(typeof(ITagService))]
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
 
-        public TagService() : this(new TagRepository())
+        public TagService()
+            : this(new TagRepository())
         {
         }
 
@@ -60,7 +63,7 @@ namespace Geta.Tags.Implementations
 
             if (tag.PermanentLinks == null)
             {
-                tag.PermanentLinks = new List<Guid> {pageGuid};
+                tag.PermanentLinks = new List<Guid> { pageGuid };
             }
             else
             {

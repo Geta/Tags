@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.Data.Dynamic;
+using EPiServer.ServiceLocation;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 
 namespace Geta.Tags.Implementations
 {
-    using System;
-
+    [ServiceConfiguration(typeof(ITagRepository))]
     public class TagRepository : ITagRepository
     {
         private static DynamicDataStore TagStore

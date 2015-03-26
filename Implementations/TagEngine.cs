@@ -2,14 +2,15 @@
 using System.Linq;
 using EPiServer;
 using EPiServer.Core;
+using EPiServer.ServiceLocation;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 using System;
-
 using Geta.Tags.Helpers;
 
 namespace Geta.Tags.Implementations
 {
+    [ServiceConfiguration(typeof(ITagEngine))]
     public class TagEngine : ITagEngine
     {
         private readonly ITagService _tagService;
