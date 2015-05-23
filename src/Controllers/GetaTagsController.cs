@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
 
 namespace Geta.Tags.Controllers
@@ -9,9 +8,9 @@ namespace Geta.Tags.Controllers
     {
         private readonly ITagService _tagService;
 
-        public GetaTagsController()
+        public GetaTagsController(ITagService tagService)
         {
-            _tagService = new TagService();
+            _tagService = tagService;
         }
 
         public JsonResult Index(string term)

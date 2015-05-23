@@ -13,11 +13,6 @@ namespace Geta.Tags.Implementations
     {
         private readonly ITagRepository _tagRepository;
 
-        public TagService()
-            : this(new TagRepository())
-        {
-        }
-
         public TagService(ITagRepository tagRepository)
         {
             _tagRepository = tagRepository;
@@ -48,7 +43,7 @@ namespace Geta.Tags.Implementations
             return _tagRepository.Save(tag);
         }
 
-        public Tag Save(Guid pageGuid, string name)
+        public Tag Save(Guid contentGuid, string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -63,13 +58,13 @@ namespace Geta.Tags.Implementations
 
             if (tag.PermanentLinks == null)
             {
-                tag.PermanentLinks = new List<Guid> { pageGuid };
+                tag.PermanentLinks = new List<Guid> { contentGuid };
             }
             else
             {
-                if (!tag.PermanentLinks.Contains(pageGuid))
+                if (!tag.PermanentLinks.Contains(contentGuid))
                 {
-                    tag.PermanentLinks.Add(pageGuid);
+                    tag.PermanentLinks.Add(contentGuid);
                 }
             }
 

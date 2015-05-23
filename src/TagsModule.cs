@@ -8,7 +8,6 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using Geta.Tags.Helpers;
-using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
 
 namespace Geta.Tags
@@ -17,27 +16,28 @@ namespace Geta.Tags
     public class TagsModule : IInitializableModule
     {
         private ITagService _tagService;
-        private PageTypeRepository _pageTypeRepository;
+        private ContentTypeRepository _contentTypeRepository;
+        private IContentEvents _contentEvents;
 
-        private void OnPublishedPage(object sender, PageEventArgs e)
+        private void OnPublishedContent(object sender, ContentEventArgs e)
         {
-            var page = e.Page;
-            var tags = GetPageTags(page);
-            _tagService.Save(page.PageGuid, tags);
+            var content = e.Content;
+            var tags = GetContentTags(content);
+            _tagService.Save(content.ContentGuid, tags);
         }
 
-        private IEnumerable<string> GetPageTags(PageData page)
+        private IEnumerable<string> GetContentTags(IContent content)
         {
-            var pageType = _pageTypeRepository.Load(page.PageTypeID);
+            var pageType = _contentTypeRepository.Load(content.ContentTypeID);
 
             return pageType.PropertyDefinitions
                 .Where(TagsHelper.IsTagProperty)
-                .SelectMany(x => GetPropertyTags(page, x));
+                .SelectMany(x => GetPropertyTags(content as ContentData, x));
         }
 
-        private static IEnumerable<string> GetPropertyTags(PageData page, PropertyDefinition propertyDefinition)
+        private static IEnumerable<string> GetPropertyTags(ContentData content, PropertyDefinition propertyDefinition)
         {
-            var tagNames = page[propertyDefinition.Name] as string;
+            var tagNames = content[propertyDefinition.Name] as string;
             return tagNames == null
                 ? Enumerable.Empty<string>()
                 : tagNames.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
@@ -45,15 +45,16 @@ namespace Geta.Tags
 
         public void Initialize(InitializationEngine context)
         {
-            _tagService = new TagService();
-            _pageTypeRepository = ServiceLocator.Current.GetInstance<PageTypeRepository>();
+            this._tagService = ServiceLocator.Current.GetInstance<ITagService>();
+            this._contentTypeRepository = ServiceLocator.Current.GetInstance<ContentTypeRepository>();
+            this._contentEvents = ServiceLocator.Current.GetInstance<IContentEvents>();
 
-            DataFactory.Instance.PublishedPage += OnPublishedPage;
+            this._contentEvents.PublishedContent += OnPublishedContent;
         }
 
         public void Uninitialize(InitializationEngine context)
         {
-            DataFactory.Instance.PublishedPage -= OnPublishedPage;
+            this._contentEvents.PublishedContent -= OnPublishedContent;
         }
 
         public void Preload(string[] parameters)

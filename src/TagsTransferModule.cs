@@ -11,7 +11,7 @@ using Geta.Tags.Models;
 namespace Geta.Tags
 {
     /// <summary>
-    /// Module to transfer the robots.txt content to mirrored servers when in a full staging/delivery configuration
+    /// Module to transfer Tags content to mirrored servers when in a full staging/delivery configuration
     /// Source: EPiRobots - http://epirobots.codeplex.com/
     /// </summary>
     [InitializableModule, ModuleDependency(typeof(DataInitialization)), ModuleDependency(typeof(DynamicDataTransferHandler))]
@@ -36,7 +36,7 @@ namespace Geta.Tags
             var exporter = sender as DataExporter;
             if (exporter != null && exporter.TransferType == TypeOfTransfer.MirroringExporting)
             {
-                var ddsHandler = (sender as DataExporter).TransferHandlers.Where(p => p.GetType() == typeof(DynamicDataTransferHandler)).Single() as DynamicDataTransferHandler;
+                var ddsHandler = (sender as DataExporter).TransferHandlers.Single(p => p.GetType() == typeof(DynamicDataTransferHandler)) as DynamicDataTransferHandler;
 
                 var store = typeof(Tag).GetStore();
                 var externalId = store.GetIdentity().ExternalId;

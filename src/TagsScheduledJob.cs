@@ -7,7 +7,6 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.PlugIn;
 using EPiServer.ServiceLocation;
-using Geta.Tags.Implementations;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 using Geta.Tags.Helpers;
@@ -20,88 +19,91 @@ namespace Geta.Tags
         private bool _stop;
 
         private readonly ITagService _tagService;
-        private readonly PageTypeRepository _pageTypeRepository;
+        private readonly ContentTypeRepository _contentTypeRepository;
+        private readonly IContentLoader _contentLoader;
 
-        public TagsScheduledJob() : this(new TagService())
+        public TagsScheduledJob()
         {
             IsStoppable = true;
+            _contentTypeRepository = ServiceLocator.Current.GetInstance<ContentTypeRepository>();
+            _tagService = ServiceLocator.Current.GetInstance<ITagService>();
+            _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
         }
 
         public TagsScheduledJob(ITagService tagService)
         {
             _tagService = tagService;
-            _pageTypeRepository = ServiceLocator.Current.GetInstance<PageTypeRepository>();
         }
 
         public override string Execute()
         {
             var tags = _tagService.GetAllTags().ToList();
-            var pageGuids = GetTaggedPageGuids(tags);
+            var contentGuids = GetTaggedContentGuids(tags);
 
-            foreach (var pageGuid in pageGuids)
+            foreach (var contentGuid in contentGuids)
             {
                 if (_stop)
                 {
                     return "Geta Tags maintenance was stopped";
                 }
 
-                PageData page = null;
+                IContent content = null;
 
                 try
                 {
-                    var contentReference = TagsHelper.GetPageReference(pageGuid);
+                    var contentReference = TagsHelper.GetContentReference(contentGuid);
 
                     if (!ContentReference.IsNullOrEmpty(contentReference))
                     {
-                        page = DataFactory.Instance.GetPage(contentReference);
+                        content = this._contentLoader.Get<IContent>(contentReference);
                     }
                 }
-                catch (PageNotFoundException) {}
+                catch (ContentNotFoundException) {}
 
-                if (page == null || page.IsDeleted)
+                if (content == null || (content is PageData && ((PageData)content).IsDeleted))
                 {
-                    RemoveFromAllTags(pageGuid, tags);
+                    RemoveFromAllTags(contentGuid, tags);
                     continue;
                 }
 
-                CheckPageProperties(page, tags);
+                CheckContentProperties(content, tags);
             }
 
             return "Geta Tags maintenance completed successfully";
         }
 
-        private void CheckPageProperties(PageData page, IList<Tag> tags)
+        private void CheckContentProperties(IContent content, IList<Tag> tags)
         {
-            var pageType = _pageTypeRepository.Load(page.PageTypeID);
+            var contentType = _contentTypeRepository.Load(content.ContentTypeID);
 
-            foreach (var propertyDefinition in pageType.PropertyDefinitions)
+            foreach (var propertyDefinition in contentType.PropertyDefinitions)
             {
                 if (!TagsHelper.IsTagProperty(propertyDefinition))
                 {
                     continue;
                 }
 
-                var tagNames = page[propertyDefinition.Name] as string;
+                var tagNames = ((ContentData)content)[propertyDefinition.Name] as string;
 
                 IList<Tag> allTags = tags;
 
                 if (tagNames == null)
                 {
-                    RemoveFromAllTags(page.PageGuid, allTags);
+                    RemoveFromAllTags(content.ContentGuid, allTags);
                     continue;
                 }
 
                 var addedTags = ParseTags(tagNames);
 
-                // make sure the tags it has added has the pagereference
-                ValidateTags(allTags, page.PageGuid, addedTags);
+                // make sure the tags it has added has the ContentReference
+                ValidateTags(allTags, content.ContentGuid, addedTags);
 
-                // make sure there's no pagereference to this pagereference in the rest of the tags
-                RemoveFromAllTags(page.PageGuid, allTags);
+                // make sure there's no ContentReference to this ContentReference in the rest of the tags
+                RemoveFromAllTags(content.ContentGuid, allTags);
             }
         }
 
-        private static IEnumerable<Guid> GetTaggedPageGuids(IEnumerable<Tag> tags)
+        private static IEnumerable<Guid> GetTaggedContentGuids(IEnumerable<Tag> tags)
         {
             return tags.Where(x => x != null && x.PermanentLinks != null)
                 .SelectMany(x => x.PermanentLinks)
@@ -116,15 +118,15 @@ namespace Geta.Tags
                 .ToList();
         }
 
-        private void ValidateTags(ICollection<Tag> allTags, Guid pageGuid, IEnumerable<Tag> addedTags)
+        private void ValidateTags(ICollection<Tag> allTags, Guid contentGuid, IEnumerable<Tag> addedTags)
         {
             foreach (var addedTag in addedTags)
             {
                 allTags.Remove(addedTag);
 
-                if (addedTag.PermanentLinks.Contains(pageGuid)) continue;
+                if (addedTag.PermanentLinks.Contains(contentGuid)) continue;
 
-                addedTag.PermanentLinks.Add(pageGuid);
+                addedTag.PermanentLinks.Add(contentGuid);
 
                 _tagService.Save(addedTag);
             }
