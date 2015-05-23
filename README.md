@@ -1,8 +1,8 @@
-Geta Tags for EPiServer CMS
+Geta Tags for EPiServer
 ====
 ## What is Geta Tags?
 
-Geta Tags is library that adds tagging functionality to EPiServer Pages.
+Geta Tags is library that adds tagging functionality to EPiServer content.
 
 ## How to get started?
 
@@ -19,4 +19,14 @@ To add Tags as a new property to your page types you need to use the UIHint attr
 public virtual string Tags { get; set; }
 ```
 
-For an introduction see: [Tags for EPiServer CMS] (http://www.frederikvig.com/2011/07/tags-for-episerver-cms/) and [Tags version 0.2 released for EPiServer CMS] (http://www.frederikvig.com/2011/09/tags-version-0-2-released-for-episerver-cms/).
+Use ITagEngine to query for data:
+```csharp
+IEnumerable<ContentData> GetContentByTag(string tagName);
+IEnumerable<ContentData> GetContentsByTag(Tag tag);
+IEnumerable<ContentData> GetContentsByTag(string tagName, ContentReference rootContentReference);
+IEnumerable<ContentData> GetContentsByTag(Tag tag, ContentReference rootContentReference);
+IEnumerable<ContentReference> GetContentReferencesByTags(string tagNames);
+IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags);
+IEnumerable<ContentReference> GetContentReferencesByTags(string tagNames, ContentReference rootContentReference);
+IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags, ContentReference rootContentReference);
+```
