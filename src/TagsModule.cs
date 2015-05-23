@@ -16,7 +16,7 @@ namespace Geta.Tags
     public class TagsModule : IInitializableModule
     {
         private ITagService _tagService;
-        private ContentTypeRepository _contentTypeRepository;
+        private IContentTypeRepository _contentTypeRepository;
         private IContentEvents _contentEvents;
 
         private void OnPublishedContent(object sender, ContentEventArgs e)
@@ -46,7 +46,7 @@ namespace Geta.Tags
         public void Initialize(InitializationEngine context)
         {
             this._tagService = ServiceLocator.Current.GetInstance<ITagService>();
-            this._contentTypeRepository = ServiceLocator.Current.GetInstance<ContentTypeRepository>();
+            this._contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
             this._contentEvents = ServiceLocator.Current.GetInstance<IContentEvents>();
 
             this._contentEvents.PublishedContent += OnPublishedContent;

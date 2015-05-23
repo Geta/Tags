@@ -19,13 +19,13 @@ namespace Geta.Tags
         private bool _stop;
 
         private readonly ITagService _tagService;
-        private readonly ContentTypeRepository _contentTypeRepository;
+        private readonly IContentTypeRepository _contentTypeRepository;
         private readonly IContentLoader _contentLoader;
 
         public TagsScheduledJob()
         {
             IsStoppable = true;
-            _contentTypeRepository = ServiceLocator.Current.GetInstance<ContentTypeRepository>();
+            _contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
             _tagService = ServiceLocator.Current.GetInstance<ITagService>();
             _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
         }
