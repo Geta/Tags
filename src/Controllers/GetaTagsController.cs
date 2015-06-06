@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using EPiServer.ServiceLocation;
 using Geta.Tags.Interfaces;
 
 namespace Geta.Tags.Controllers
@@ -7,6 +8,10 @@ namespace Geta.Tags.Controllers
     public class GetaTagsController : Controller
     {
         private readonly ITagService _tagService;
+
+        public GetaTagsController() : this (ServiceLocator.Current.GetInstance<ITagService>())
+        {
+        }
 
         public GetaTagsController(ITagService tagService)
         {
