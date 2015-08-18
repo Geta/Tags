@@ -4,8 +4,8 @@
     <id>Geta.Tags</id>
     <version>1.0.0</version>
     <title>Geta.Tags</title>
-    <authors>Geta AS</authors>
-    <owners>Geta AS</owners>
+    <authors>Geta</authors>
+    <owners>Geta</owners>
     <projectUrl>https://github.com/Geta/Tags</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easily add tags to your EPiServer content and use the powerful query engine to get back what you want.</description>
