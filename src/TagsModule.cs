@@ -23,7 +23,27 @@ namespace Geta.Tags
         {
             var content = e.Content;
             var tags = GetContentTags(content);
+
+            CleanupOldTags(content.ContentGuid);
+
             _tagService.Save(content.ContentGuid, tags);
+        }
+
+        private void CleanupOldTags(Guid contentGuid)
+        {
+            var oldTags = _tagService.GetTagByPage(contentGuid);
+
+            foreach (var tag in oldTags)
+            {
+                if (tag.PermanentLinks == null || !tag.PermanentLinks.Contains(contentGuid))
+                {
+                    continue;
+                }
+
+                tag.PermanentLinks.Remove(contentGuid);
+
+                _tagService.Save(tag);
+            }
         }
 
         private IEnumerable<string> GetContentTags(IContent content)
@@ -55,10 +75,6 @@ namespace Geta.Tags
         public void Uninitialize(InitializationEngine context)
         {
             this._contentEvents.PublishedContent -= OnPublishedContent;
-        }
-
-        public void Preload(string[] parameters)
-        {
         }
     }
 }

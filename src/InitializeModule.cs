@@ -10,17 +10,10 @@ namespace Geta.Tags
     {
         public void Initialize(InitializationEngine context)
         {
-            RouteTable.Routes.MapRoute(
-                "GetaTags", 
-                "getatags",
-                new { action = "Index", controller = "GetaTags" });
+            RouteTable.Routes.MapRoute("GetaTags", "getatags", new { action = "Index", controller = "GetaTags" });
         }
 
         public void Uninitialize(InitializationEngine context)
-        {
-        }
-        
-        public void Preload(string[] parameters)
         {
         }
     }
