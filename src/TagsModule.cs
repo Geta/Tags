@@ -26,7 +26,7 @@ namespace Geta.Tags
 
             CleanupOldTags(content.ContentGuid);
 
-            _tagService.Save(content.ContentGuid, tags);
+            _tagService.Save(content, tags);
         }
 
         private void CleanupOldTags(Guid contentGuid)

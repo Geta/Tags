@@ -18,7 +18,7 @@ namespace Geta.Tags.Controllers
             _tagService = tagService;
         }
 
-        public JsonResult Index(string term)
+        public JsonResult Index(string term, string groupKey=null)
         {
             var normalized = Normalize(term);
             var tags = _tagService.GetAllTags();
@@ -26,6 +26,10 @@ namespace Geta.Tags.Controllers
             if (IsNotEmpty(normalized))
             {
                 tags = tags.Where(t => t.Name.ToLower().StartsWith(normalized.ToLower()));
+                if (groupKey != null)
+                {
+                    tags = tags.Where(t => t.GroupKey.Equals(groupKey));
+                }
             }
 
             var items = tags.OrderBy(t => t.Name)

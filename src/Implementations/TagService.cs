@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using EPiServer.Core;
 using EPiServer.Data;
+using EPiServer.DataAnnotations;
 using EPiServer.ServiceLocation;
+using Geta.Tags.Attributes;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 
@@ -43,7 +47,7 @@ namespace Geta.Tags.Implementations
             return _tagRepository.Save(tag);
         }
 
-        public Tag Save(Guid contentGuid, string name)
+        public Tag Save(Guid contentGuid, string name, string groupKey="")
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -55,6 +59,8 @@ namespace Geta.Tags.Implementations
                       {
                           Name = name
                       };
+
+            tag.GroupKey = groupKey;
 
             if (tag.PermanentLinks == null)
             {
@@ -73,11 +79,16 @@ namespace Geta.Tags.Implementations
             return tag;
         }
 
-        public void Save(Guid pageGuid, IEnumerable<string> names)
+        public void Save(IContent content, IEnumerable<string> names)
         {
+            TagsGroupKey groupKeyAttribute =
+                   (TagsGroupKey)Attribute.GetCustomAttribute(typeof(IContent), typeof(TagsGroupKey));
+            CultureSpecificAttribute cultureSpecificAttribute =
+                (CultureSpecificAttribute)Attribute.GetCustomAttribute(typeof(IContent), typeof(CultureSpecificAttribute));
+            string groupKey = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
             foreach (var name in names)
             {
-                Save(pageGuid, name);
+                Save(content.ContentGuid, name, groupKey);
             }
         }
 

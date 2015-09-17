@@ -1,6 +1,6 @@
 ﻿define([
     "dojo/_base/declare",
-    "dijit/form/TextBox"
+    "dijit/form/TextBox",
 ],
 function (
     declare,
@@ -10,9 +10,8 @@ function (
         postCreate: function () {
             var $domNode = $(this.domNode),
                 isReadonly = $domNode.hasClass('dijitReadOnly');
-
             $domNode.find('input').tagit({
-                autocomplete: { delay: 0, minLength: 2, source: '/getatags' },
+                autocomplete: { delay: 0, minLength: 2, source: '/getatags?groupKey='+this.groupKey },
                 readOnly: isReadonly
             });
         }

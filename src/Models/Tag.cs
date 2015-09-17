@@ -12,6 +12,8 @@ namespace Geta.Tags.Models
 
         public string Name { get; set; }
 
+        public string GroupKey { get; set; }
+
         /// <summary>
         ///     Lowercase, words combined by - between them
         /// </summary>

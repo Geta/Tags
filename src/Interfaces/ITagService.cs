@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Core;
 using EPiServer.Data;
+using Geta.Tags.Attributes;
 using Geta.Tags.Models;
 
 namespace Geta.Tags.Interfaces
@@ -14,8 +16,8 @@ namespace Geta.Tags.Interfaces
         Tag GetTagByName(string name);
         IQueryable<Tag> GetAllTags();
         Identity Save(Tag tag);
-        Tag Save(Guid pageGuid, string name);
-        void Save(Guid pageGuid, IEnumerable<string> names);
+        Tag Save(Guid pageGuid, string name, string groupKey);
+        void Save(IContent content, IEnumerable<string> names);
         void Delete(string name);
         void Delete(Identity id); 
     }
