@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.DataAnnotations;
@@ -79,16 +80,11 @@ namespace Geta.Tags.Implementations
             return tag;
         }
 
-        public void Save(IContent content, IEnumerable<string> names)
+        public void Save(Guid contentGuid, IEnumerable<string> names, string groupKey)
         {
-            TagsGroupKey groupKeyAttribute =
-                   (TagsGroupKey)Attribute.GetCustomAttribute(typeof(IContent), typeof(TagsGroupKey));
-            CultureSpecificAttribute cultureSpecificAttribute =
-                (CultureSpecificAttribute)Attribute.GetCustomAttribute(typeof(IContent), typeof(CultureSpecificAttribute));
-            string groupKey = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
             foreach (var name in names)
             {
-                Save(content.ContentGuid, name, groupKey);
+                Save(contentGuid, name, groupKey);
             }
         }
 

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using EPiServer;
 using EPiServer.Core;
+using EPiServer.Data.Dynamic;
 using EPiServer.DataAbstraction;
+using EPiServer.DataAnnotations;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
+using Geta.Tags.Attributes;
 using Geta.Tags.Helpers;
 using Geta.Tags.Interfaces;
 
@@ -25,8 +29,16 @@ namespace Geta.Tags
             var tags = GetContentTags(content);
 
             CleanupOldTags(content.ContentGuid);
+            
+            var pageType = _contentTypeRepository.Load(content.ContentTypeID);
+            var tagsProp = pageType.ModelType.GetProperty("Tags");
+            
+            var groupKeyAttribute = (TagsGroupKeyAttribute)tagsProp.GetCustomAttribute(typeof(TagsGroupKeyAttribute));
+            var cultureSpecificAttribute = (CultureSpecificAttribute)tagsProp.GetCustomAttribute(typeof(CultureSpecificAttribute));
+            
+            string groupKey = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
 
-            _tagService.Save(content, tags);
+            _tagService.Save(content.ContentGuid, tags, groupKey);
         }
 
         private void CleanupOldTags(Guid contentGuid)
@@ -49,7 +61,7 @@ namespace Geta.Tags
         private IEnumerable<string> GetContentTags(IContent content)
         {
             var pageType = _contentTypeRepository.Load(content.ContentTypeID);
-
+            
             return pageType.PropertyDefinitions
                 .Where(TagsHelper.IsTagProperty)
                 .SelectMany(x => GetPropertyTags(content as ContentData, x));

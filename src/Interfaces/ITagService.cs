@@ -16,8 +16,8 @@ namespace Geta.Tags.Interfaces
         Tag GetTagByName(string name);
         IQueryable<Tag> GetAllTags();
         Identity Save(Tag tag);
-        Tag Save(Guid pageGuid, string name, string groupKey);
-        void Save(IContent content, IEnumerable<string> names);
+        Tag Save(Guid contentGuid, string name, string groupKey);
+        void Save(Guid contentGuid, IEnumerable<string> names, string groupKey);
         void Delete(string name);
         void Delete(Identity id); 
     }

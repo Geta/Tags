@@ -10,7 +10,7 @@ namespace Geta.Tags.Helpers
 {
     public static class TagsHelper
     {
-        public static string GetGroupKeyFromAttributes(TagsGroupKey groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute)
+        public static string GetGroupKeyFromAttributes(TagsGroupKeyAttribute groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute)
         {
             string groupKey = "";
             if (groupKeyAttribute != null)

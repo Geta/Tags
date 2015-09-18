@@ -6,10 +6,10 @@ using System.Web;
 namespace Geta.Tags.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class TagsGroupKey : Attribute
+    public class TagsGroupKeyAttribute : Attribute
     {
         private string key;
-        public TagsGroupKey(string key)
+        public TagsGroupKeyAttribute(string key)
         {
             this.key = key;
         }
