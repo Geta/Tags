@@ -12,15 +12,18 @@ namespace Geta.Tags.Helpers
     {
         public static string GetGroupKeyFromAttributes(TagsGroupKeyAttribute groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute)
         {
-            string groupKey = "";
+            string groupKey = string.Empty;
+
             if (groupKeyAttribute != null)
             {
                 groupKey += groupKeyAttribute.Key;
             }
+
             if ((cultureSpecificAttribute != null) && (cultureSpecificAttribute.IsCultureSpecific))
             {
                 groupKey += CultureInfo.CurrentCulture;
             }
+
             return groupKey;
         }
         [Obsolete("Use GetContentReference instead")]
