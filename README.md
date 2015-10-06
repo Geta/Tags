@@ -18,10 +18,12 @@ To add Tags as a new property to your page types you need to use the UIHint attr
 [UIHint("Tags")]
 public virtual string Tags { get; set; }
 
-[TagsGroupKey("mysite")]
+[TagsGroupKey("mykey")]
+[UIHint("Tags")]
 public virtual string Tags { get; set; }
 
 [CultureSpecific]
+[UIHint("Tags")]
 public virtual string Tags { get; set; }
 ```
 
