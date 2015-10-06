@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using EPiServer;
-using EPiServer.Core;
 using EPiServer.Data;
-using EPiServer.DataAnnotations;
 using EPiServer.ServiceLocation;
-using Geta.Tags.Attributes;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 
@@ -48,7 +43,7 @@ namespace Geta.Tags.Implementations
             return _tagRepository.Save(tag);
         }
 
-        public Tag Save(Guid contentGuid, string name, string groupKey="")
+        public Tag Save(Guid contentGuid, string name, string groupKey = "")
         {
             if (string.IsNullOrEmpty(name))
             {
