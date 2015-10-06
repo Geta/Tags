@@ -17,6 +17,12 @@ To add Tags as a new property to your page types you need to use the UIHint attr
 ```csharp
 [UIHint("Tags")]
 public virtual string Tags { get; set; }
+
+[TagsGroupKey("mysite")]
+public virtual string Tags { get; set; }
+
+[CultureSpecific]
+public virtual string Tags { get; set; }
 ```
 
 Use ITagEngine to query for data:
