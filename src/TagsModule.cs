@@ -25,19 +25,35 @@ namespace Geta.Tags
         private void OnPublishedContent(object sender, ContentEventArgs e)
         {
             var content = e.Content;
-            var tags = GetContentTags(content);
-
+            
             CleanupOldTags(content.ContentGuid);
             
-            var pageType = _contentTypeRepository.Load(content.ContentTypeID);
-            var tagsProp = pageType.ModelType.GetProperty("Tags");
-            
-            var groupKeyAttribute = (TagsGroupKeyAttribute)tagsProp.GetCustomAttribute(typeof(TagsGroupKeyAttribute));
-            var cultureSpecificAttribute = (CultureSpecificAttribute)tagsProp.GetCustomAttribute(typeof(CultureSpecificAttribute));
-            
-            string groupKey = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+            var contentType = _contentTypeRepository.Load(content.ContentTypeID);
 
-            _tagService.Save(content.ContentGuid, tags, groupKey);
+            var tagProperties = contentType.PropertyDefinitions.Where(p => p.TemplateHint == "Tags");
+
+            if (!tagProperties.Any())
+            {
+                return;
+            }
+
+            foreach (var tagProperty in tagProperties)
+            {
+                var tagPropertyInfo = contentType.ModelType.GetProperty(tagProperty.Name);
+                var tags = GetPropertyTags(content as ContentData, tagProperty);
+
+                if (tagPropertyInfo == null)
+                {
+                    return;
+                }
+
+                var groupKeyAttribute = tagPropertyInfo.GetCustomAttribute(typeof(TagsGroupKeyAttribute)) as TagsGroupKeyAttribute;
+                var cultureSpecificAttribute = tagPropertyInfo.GetCustomAttribute(typeof(CultureSpecificAttribute)) as CultureSpecificAttribute;
+
+                string groupKey = TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+
+                _tagService.Save(content.ContentGuid, tags, groupKey);
+            }
         }
 
         private void CleanupOldTags(Guid contentGuid)
@@ -55,15 +71,6 @@ namespace Geta.Tags
 
                 _tagService.Save(tag);
             }
-        }
-
-        private IEnumerable<string> GetContentTags(IContent content)
-        {
-            var pageType = _contentTypeRepository.Load(content.ContentTypeID);
-            
-            return pageType.PropertyDefinitions
-                .Where(TagsHelper.IsTagProperty)
-                .SelectMany(x => GetPropertyTags(content as ContentData, x));
         }
 
         private static IEnumerable<string> GetPropertyTags(ContentData content, PropertyDefinition propertyDefinition)

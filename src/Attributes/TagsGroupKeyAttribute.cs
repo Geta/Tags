@@ -5,15 +5,11 @@ namespace Geta.Tags.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public class TagsGroupKeyAttribute : Attribute
     {
-        private string key;
         public TagsGroupKeyAttribute(string key)
         {
-            this.key = key;
+            this.Key = key;
         }
 
-        public virtual string Key
-        {
-            get { return key; }
-        }
+        public virtual string Key { get; private set; }
     }
 }
