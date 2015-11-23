@@ -27,7 +27,7 @@ namespace Geta.Tags.Controllers
             {
                 tags = tags.Where(t => t.Name.ToLower().StartsWith(normalized.ToLower()));
 
-                if (groupKey != null)
+                if (IsNotEmpty(groupKey))
                 {
                     tags = tags.Where(t => t.GroupKey.Equals(groupKey));
                 }
