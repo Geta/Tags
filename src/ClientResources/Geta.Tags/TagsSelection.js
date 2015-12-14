@@ -24,6 +24,7 @@ function (
             this._destroyTags();
             this._tagWidget = $(this.textbox).tagit({
                 autocomplete: { delay: 0, minLength: 2, source: '/getatags?groupKey=' + this.groupKey },
+                allowSpaces: this.allowSpaces,
                 readOnly: this.readOnly
             });
         },

@@ -21,7 +21,8 @@ namespace Geta.Tags.EditorDescriptors
             base.ModifyMetadata(metadata, attributes);
             var groupKeyAttribute = attributes.FirstOrDefault(a => typeof (TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
             var cultureSpecificAttribute = attributes.FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
-            EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+            metadata.EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+            metadata.EditorConfiguration["allowSpaces"] = false;
         }
     }
 }
