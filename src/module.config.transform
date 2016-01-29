@@ -5,16 +5,16 @@
   </assemblies>
 
   <clientResources>
-    <add name="geta-tags-vendor" path="Geta.Tags/vendor/jquery-2.1.0.min.js" resourceType="Script" sortIndex="1" />
-    <add name="geta-tags-vendor" path="Geta.Tags/vendor/jquery-ui.min.js" resourceType="Script" sortIndex="2" />
-    <add name="geta-tags-vendor" path="Geta.Tags/vendor/tag-it.min.js" resourceType="Script" sortIndex="3" />
-    <add name="geta-tags-styles" path="Geta.Tags/styles/jquery.tagit.css" resourceType="Style" sortIndex="1" />
-    <add name="geta-tags-styles" path="Geta.Tags/styles/tagit.ui-zendesk.css" resourceType="Style" sortIndex="2" />
+    <add name="geta-tags-vendor" path="ClientResources/Geta.Tags/vendor/jquery-2.1.0.min.js" resourceType="Script" sortIndex="1" />
+    <add name="geta-tags-vendor" path="ClientResources/Geta.Tags/vendor/jquery-ui.min.js" resourceType="Script" sortIndex="2" />
+    <add name="geta-tags-vendor" path="ClientResources/Geta.Tags/vendor/tag-it.min.js" resourceType="Script" sortIndex="3" />
+    <add name="geta-tags-styles" path="ClientResources/Geta.Tags/styles/jquery.tagit.css" resourceType="Style" sortIndex="1" />
+    <add name="geta-tags-styles" path="ClientResources/Geta.Tags/styles/tagit.ui-zendesk.css" resourceType="Style" sortIndex="2" />
   </clientResources>
   
   <dojoModules>
     <!-- Add a mapping from geta to ~/ClientResources/Scripts to the dojo loader configuration -->
-    <add name="geta-tags" path="Geta.Tags" />
+    <add name="geta-tags" path="ClientResources/Geta.Tags" />
   </dojoModules>
 
   <clientModule>
