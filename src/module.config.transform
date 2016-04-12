@@ -10,6 +10,7 @@
     <add name="geta-tags-vendor" path="Geta.Tags/vendor/tag-it.min.js" resourceType="Script" sortIndex="3" />
     <add name="geta-tags-styles" path="Geta.Tags/styles/jquery.tagit.css" resourceType="Style" sortIndex="1" />
     <add name="geta-tags-styles" path="Geta.Tags/styles/tagit.ui-zendesk.css" resourceType="Style" sortIndex="2" />
+    <add name="geta-tags-styles" path="Geta.Tags/styles/tagit.overrides.css" resourceType="Style" sortIndex="3" />
   </clientResources>
   
   <dojoModules>

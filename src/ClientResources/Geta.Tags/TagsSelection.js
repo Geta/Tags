@@ -25,7 +25,17 @@ function (
             this._tagWidget = $(this.textbox).tagit({
                 autocomplete: { delay: 0, minLength: 2, source: '/getatags?groupKey=' + this.groupKey },
                 allowSpaces: this.allowSpaces,
-                readOnly: this.readOnly
+                readOnly: this.readOnly,
+                beforeTagAdded: function () {
+                    this.onFocus();
+                }.bind(this),
+                afterTagAdded: function () {
+                    if (this._tagWidget) {
+                        var value = this._tagWidget.val();
+                        this._set("value", value);
+                        this.onChange(value);
+                    }
+                }.bind(this)
             });
         },
 
