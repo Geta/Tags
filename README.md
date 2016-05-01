@@ -1,5 +1,7 @@
-Geta Tags for EPiServer
-====
+# Geta Tags for EPiServer
+
+![](http://tc.geta.no/app/rest/builds/buildType:(id:TeamFrederik_Tags_TagsDebug)/statusIcon)
+
 ## What is Geta Tags?
 
 Geta Tags is library that adds tagging functionality to EPiServer content.
