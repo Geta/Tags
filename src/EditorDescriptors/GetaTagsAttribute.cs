@@ -12,8 +12,10 @@ namespace Geta.Tags.EditorDescriptors
     public class GetaTagsAttribute : Attribute, IMetadataAware
     {
         public bool AllowSpaces { get; set; }
+		public bool CaseSensitive { get; set; }
+		public bool AllowDuplicates { get; set; }
 
-        public virtual void OnMetadataCreated(ModelMetadata metadata)
+		public virtual void OnMetadataCreated(ModelMetadata metadata)
         {
             var extendedMetadata = metadata as ExtendedMetadata;
 
@@ -30,6 +32,8 @@ namespace Geta.Tags.EditorDescriptors
             extendedMetadata.CustomEditorSettings["uiWrapperType"] = UiWrapperType.Floating;
             extendedMetadata.EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
             extendedMetadata.EditorConfiguration["allowSpaces"] = this.AllowSpaces;
-        }
+			extendedMetadata.EditorConfiguration["allowDuplicates"] = this.AllowDuplicates;
+			extendedMetadata.EditorConfiguration["caseSensitive "] = this.CaseSensitive;
+		}
     }
 }
