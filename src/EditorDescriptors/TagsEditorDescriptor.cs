@@ -23,6 +23,8 @@ namespace Geta.Tags.EditorDescriptors
             var cultureSpecificAttribute = attributes.FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
             metadata.EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
             metadata.EditorConfiguration["allowSpaces"] = false;
+            metadata.EditorConfiguration["allowDuplicates"] = false;
+            metadata.EditorConfiguration["caseSensitive"] = true;
         }
     }
 }

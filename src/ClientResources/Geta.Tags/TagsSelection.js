@@ -25,6 +25,8 @@ function (
             this._tagWidget = $(this.textbox).tagit({
                 autocomplete: { delay: 0, minLength: 2, source: '/getatags?groupKey=' + this.groupKey },
                 allowSpaces: this.allowSpaces,
+                allowDuplicates: this.allowDuplicates,
+                caseSensitive: this.caseSensitive,
                 readOnly: this.readOnly,
                 beforeTagAdded: function () {
                     this.onFocus();
