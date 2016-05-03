@@ -40,3 +40,15 @@ IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags);
 IEnumerable<ContentReference> GetContentReferencesByTags(string tagNames, ContentReference rootContentReference);
 IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags, ContentReference rootContentReference);
 ```
+
+##Customize Tag-it behaviour
+You can customize the [Tag-it.js](https://github.com/aehlke/tag-it) settings by using the GetaTagsAttribute.
+The following settings can currently be customized
+* allowSpaces - defaults to **false**
+* allowDuplicates - defaults to **false**
+* caseSensitive - defaults to **true**
+```csharp
+[CultureSpecific]
+[UIHint("Tags")]
+[GetaTags(AllowSpaces = true, AllowDuplicates = true, CaseSensitive = false)]
+public virtual string Tags { get; set; }
