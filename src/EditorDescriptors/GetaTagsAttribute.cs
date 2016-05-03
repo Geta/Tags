@@ -15,6 +15,13 @@ namespace Geta.Tags.EditorDescriptors
         public bool CaseSensitive { get; set; }
         public bool AllowDuplicates { get; set; }
 
+        public GetaTagsAttribute() {
+            AllowDuplicates = false;
+            AllowSpaces = false;
+            CaseSensitive = true;
+
+        }
+
         public virtual void OnMetadataCreated(ModelMetadata metadata)
         {
             var extendedMetadata = metadata as ExtendedMetadata;
