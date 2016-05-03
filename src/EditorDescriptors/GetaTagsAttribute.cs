@@ -19,7 +19,6 @@ namespace Geta.Tags.EditorDescriptors
             AllowDuplicates = false;
             AllowSpaces = false;
             CaseSensitive = true;
-
         }
 
         public virtual void OnMetadataCreated(ModelMetadata metadata)
