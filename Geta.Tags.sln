@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Tags", "Geta.Tags.csproj", "{DAC7C620-4960-4523-8ED6-352D9FBF5E17}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Tags", "src\Geta.Tags.csproj", "{DAC7C620-4960-4523-8ED6-352D9FBF5E17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
