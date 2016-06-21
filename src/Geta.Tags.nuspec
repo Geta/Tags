@@ -13,4 +13,8 @@
     <tags>EPiServer Tags</tags>
     <iconUrl>http://cdn.geta.no/opensource/icons/geta-tags-icon.png</iconUrl>
   </metadata>
+  <files>
+    <file src="bin\Geta.Tags.dll" target="lib\net45\" />
+    <file src="bin\Geta.Tags.zip" target="content\modules\_protected\Geta.Tags\" />
+  </files>
 </package>
