@@ -24,9 +24,10 @@ namespace Geta.Tags.EditorDescriptors
             var getaAttribute = attributes.FirstOrDefault(a => typeof(GetaTagsAttribute) == a.GetType()) as GetaTagsAttribute;
 
             metadata.EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
-            metadata.EditorConfiguration["allowSpaces"] = getaAttribute != null ? getaAttribute.AllowSpaces : false;
-            metadata.EditorConfiguration["allowDuplicates"] = getaAttribute != null ? getaAttribute.AllowDuplicates : false;
-            metadata.EditorConfiguration["caseSensitive"] = getaAttribute != null ? getaAttribute.CaseSensitive : true;
+            metadata.EditorConfiguration["allowSpaces"] = getaAttribute?.AllowSpaces ?? false;
+            metadata.EditorConfiguration["allowDuplicates"] = getaAttribute?.AllowDuplicates ?? false;
+            metadata.EditorConfiguration["readOnly"] = getaAttribute?.ReadOnly ?? false;
+            metadata.EditorConfiguration["caseSensitive"] = getaAttribute?.CaseSensitive ?? true;
         }
     }
 }

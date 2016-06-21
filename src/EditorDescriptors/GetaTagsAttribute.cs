@@ -15,10 +15,13 @@ namespace Geta.Tags.EditorDescriptors
         public bool CaseSensitive { get; set; }
         public bool AllowDuplicates { get; set; }
 
+        public bool ReadOnly { get; set; }
+
         public GetaTagsAttribute() {
             AllowDuplicates = false;
             AllowSpaces = false;
             CaseSensitive = true;
+            ReadOnly = false;
         }
 
         public virtual void OnMetadataCreated(ModelMetadata metadata)
@@ -40,6 +43,7 @@ namespace Geta.Tags.EditorDescriptors
             extendedMetadata.EditorConfiguration["allowSpaces"] = this.AllowSpaces;
             extendedMetadata.EditorConfiguration["allowDuplicates"] = this.AllowDuplicates;
             extendedMetadata.EditorConfiguration["caseSensitive "] = this.CaseSensitive;
+            extendedMetadata.EditorConfiguration["readOnly "] = this.ReadOnly;
         }
     }
 }

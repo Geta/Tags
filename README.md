@@ -47,8 +47,9 @@ The following settings can currently be customized
 * allowSpaces - defaults to **false**
 * allowDuplicates - defaults to **false**
 * caseSensitive - defaults to **true**
+* readOnly - defaults to **false**
 ```csharp
 [CultureSpecific]
 [UIHint("Tags")]
-[GetaTags(AllowSpaces = true, AllowDuplicates = true, CaseSensitive = false)]
+[GetaTags(AllowSpaces = true, AllowDuplicates = true, CaseSensitive = false, ReadOnly = true)]
 public virtual string Tags { get; set; }
