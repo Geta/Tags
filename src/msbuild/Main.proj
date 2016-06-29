@@ -66,19 +66,21 @@
       <!-- Copy -->
       <ItemGroup>
         <ClientResources Include="$(SolutionDir)\src\ClientResources\**\*" />
+        <Views Include="$(SolutionDir)\src\Views\**\*" />
       </ItemGroup>  
       
       <Copy SourceFiles="$(SolutionDir)\src\module.config" DestinationFolder="$(TmpOutDir)\content" />
       <Copy SourceFiles="@(ClientResources)" DestinationFiles="@(ClientResources -> '$(TmpOutDir)\content\$(Version)\ClientResources\%(RecursiveDir)%(Filename)%(Extension)')"/>
+      <Copy SourceFiles="@(Views)" DestinationFiles="@(Views -> '$(TmpOutDir)\content\$(Version)\Views\%(RecursiveDir)%(Filename)%(Extension)')"/>
 
       <!-- Update the module config with the version information -->
       <XmlPoke XmlInputPath="$(TmpOutDir)\content\module.config" Query="/module/@clientResourceRelativePath" Value="$(Version)" />
 
       <!-- Create the Zip file -->
-      <ZipDirectory
+      <!--<ZipDirectory
         InputPath="$(TmpOutDir)\content"
         OutputFileName="$(OutDir)\Geta.Tags.zip"
-        OverwriteExistingFile="true" />
+        OverwriteExistingFile="true" />-->
 
       <!-- Create the package -->
       <PropertyGroup>

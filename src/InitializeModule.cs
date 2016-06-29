@@ -11,6 +11,7 @@ namespace Geta.Tags
         public void Initialize(InitializationEngine context)
         {
             RouteTable.Routes.MapRoute("GetaTags", "getatags", new { action = "Index", controller = "GetaTags" });
+            RouteTable.Routes.MapRoute("GetaTagsAdmin", "getatagsadmin", new { action = "Index", controller = "GetaTagsAdmin" });
         }
 
         public void Uninitialize(InitializationEngine context)

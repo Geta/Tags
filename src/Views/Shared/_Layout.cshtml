@@ -1,0 +1,63 @@
+﻿@using System.Web.Mvc.Html
+@using EPiServer.Shell
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/App_Themes/Default/Styles/system.css")" type="text/css" rel="stylesheet">
+    <link href="@Url.Content("~/App_Themes/Default/Styles/ToolButton.css")" type="text/css" rel="stylesheet">
+    <link href="@Paths.ToShellClientResource("ClientResources/epi/themes/legacy/ShellCore.css")" rel="stylesheet" type="text/css">
+    <link href="@Paths.ToShellClientResource("ClientResources/epi/themes/legacy/ShellCoreLightTheme.css")" rel="stylesheet" type="text/css">
+    <style>
+        a.epi-cmsButton-tools{background-repeat:no-repeat;background-color:transparent;background-position:1px 1px;height:18px;width:18px;overflow:visible;border:0;padding:0;margin:0;vertical-align:middle}
+a.epi-cmsButton-text{padding-left:20px;width:auto;min-width:20px}
+h1
+{
+border-bottom: 3px solid #cc9900;
+font: Georgia, serif;
+color: #996600;
+}
+a:hover{color:#333;text-decoration:none}
+a{color:#333;text-decoration:none}
+.epi-contentContainer a {color: #333;}
+.epi-contentContainer a:hover{color:#666;text-decoration: none; }
+.epi-contentContainer a:visited{color:#333;text-decoration: none; }
+
+/* Data Styles ------------------------------*/ 
+table.data
+{
+background-color:#ffffff;
+border:1px solid #c3c3c3;
+border-collapse:collapse;
+width:100%;
+}
+table.data th
+{
+background-color:#e8eef4;
+border:1px solid #c3c3c3;
+padding:3px;
+}
+table.data td 
+{
+border:1px solid #c3c3c3;
+padding:3px;
+}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+</head>
+<body id="body">
+    <div class="epi-contentContainer epi-padding">
+        <div class="epi-contentArea">
+            <h1 class="EP-prefix">Geta Tags Management</h1>
+        </div>
+        <div id="FullRegion_MainRegion_TabView" class="epi-paddingVertical">
+            <div id="ajaxBody">
+                @RenderBody()
+            </div>
+            <div id="footer">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

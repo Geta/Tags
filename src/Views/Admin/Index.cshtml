@@ -1,0 +1,67 @@
+﻿@using EPiServer.Shell
+@using PagedList.Mvc
+@using System.Web.Mvc.Html
+@using Geta.Tags.Controllers
+
+
+@model PagedList.PagedList<Geta.Tags.Models.Tag>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Geta Tags Management";
+    Layout = Paths.ToClientResource(typeof(GetaTagsAdminController), "Views/Shared/_Layout.cshtml");
+}
+
+@using (Html.BeginForm("Index", "GetaTagsAdmin", FormMethod.Get))
+{
+    <p>
+        Find by tag name: @Html.TextBox("SearchString", ViewBag.SearchString as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<p>
+    Total tags: @ViewBag.TotalCount
+</p>
+<p class="EP-systemInfo">@ViewBag.StatusMessage</p>
+
+<div class="epi-contentContainer epi-padding-large">
+    <table id="FullRegion_DatabaseTable" class="epi-default">
+        <tbody>
+        <tr>
+            <th>Tag name</th>
+            <th colspan="2">Group key</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="35%">
+                    @Html.DisplayFor(x => item.Name)
+                </td>
+                <td width="35%">
+                    @Html.DisplayFor(x => item.GroupKey)
+                </td>
+                <td>
+                    <span class="epi-cmsButton">
+                        @Ajax.ActionLink("Edit", "Edit", new { id = item.Id, page = Model.PageNumber, searchString = ViewBag.SearchString }, new AjaxOptions { UpdateTargetId = "ajaxBody" }, new { @class = "epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Edit" })
+                    </span>
+                    <span class="epi-cmsButton">
+                        @using (Html.BeginForm("Delete", "GetaTagsAdmin", FormMethod.Post, new { id = "deleteForm-" + item.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", item.Id)
+                            @Html.Hidden("page", Model.PageNumber)
+                            @Html.Hidden("searchString", ViewBag.SearchString as string)
+                            <a href="javascript:document.getElementById('deleteForm-@item.Id').submit()" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Delete">Delete</a>
+                        }
+                    </span>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.SearchString }))
+</div>

@@ -1,0 +1,31 @@
+﻿@using EPiServer.Shell
+@using Geta.Tags.Controllers
+@model Geta.Tags.Models.Tag
+@{
+    ViewBag.Title = "Edit tag";
+    Layout = Paths.ToClientResource(typeof(GetaTagsAdminController), "Views/Shared/_Layout.cshtml");
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+    <p>
+        @Html.LabelFor(model => model.Name) @Html.TextBoxFor(model => model.Name)
+    </p>
+    <p>
+        @Html.LabelFor(model => model.GroupKey) @Html.TextBoxFor(model => model.GroupKey)
+    </p>
+    <div class="epi-buttonContainer">
+        <span class="epi-cmsButton">
+            <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" value="Save" />
+        </span>
+        <span class="epi-cmsButton">
+            @Html.ActionLink("Cancel", "Index", new { @class = "epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Cancel" })
+        </span>
+    </div>
+}

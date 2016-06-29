@@ -125,12 +125,21 @@
       <HintPath>..\packages\EPiServer.CMS.Core.9.0.0\lib\net45\EPiServer.XForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
@@ -183,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\TagsGroupKeyAttribute.cs" />
+    <Compile Include="Controllers\GetaTagsAdminController.cs" />
     <Compile Include="Controllers\GetaTagsController.cs" />
     <Compile Include="EditorDescriptors\GetaTagsAttribute.cs" />
     <Compile Include="EditorDescriptors\TagsEditorDescriptor.cs" />
@@ -207,10 +217,15 @@
     <Content Include="ClientResources\vendor\jquery-2.1.0.min.js" />
     <Content Include="ClientResources\vendor\jquery-ui.min.js" />
     <Content Include="ClientResources\vendor\tag-it.min.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Geta.Tags.nuspec" />
     <None Include="module.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -221,6 +236,7 @@
   <ItemGroup>
     <None Include="msbuild\Main.proj" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\src\msbuild\Main.proj" />
