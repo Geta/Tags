@@ -43,14 +43,14 @@ namespace Geta.Tags.Controllers
             return View(GetViewPath("Index"), tags.ToPagedList(pageNumber, PageSize));
         }
 
-        public ActionResult Edit(string id, int? page, string searchString)
+        public ActionResult Edit(string tagId, int? page, string searchString)
         {
-            if (id == null)
+            if (tagId == null)
             {
                 return HttpNotFound();
             }
 
-            var tag = _tagRepository.GetTagById(Identity.Parse(id));
+            var tag = _tagRepository.GetTagById(Identity.Parse(tagId));
             if (tag == null)
             {
                 return HttpNotFound();
@@ -63,9 +63,14 @@ namespace Geta.Tags.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Tag tag, int? page, string searchString, string password)
+        public ActionResult Edit(string id, Tag tag, int? page, string searchString)
         {
-            var existingTag = _tagRepository.GetTagById(tag.Id);
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var existingTag = _tagRepository.GetTagById(Identity.Parse(id));
 
             if (existingTag == null)
             {
@@ -76,17 +81,17 @@ namespace Geta.Tags.Controllers
             existingTag.GroupKey = tag.GroupKey;
 
             _tagRepository.Save(existingTag);
-                
+
             return RedirectToAction("Index", new { page = page, searchString = searchString });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id, int? page, string searchString)
+        public ActionResult Delete(string tagId, int? page, string searchString)
         {
-            if (id != null)
+            if (tagId != null)
             {
-                var existingTag = _tagRepository.GetTagById(Identity.Parse(id));
+                var existingTag = _tagRepository.GetTagById(Identity.Parse(tagId));
 
                 _tagRepository.Delete(existingTag);
 

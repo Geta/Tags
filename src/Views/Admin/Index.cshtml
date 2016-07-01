@@ -43,13 +43,13 @@
                 </td>
                 <td>
                     <span class="epi-cmsButton">
-                        @Ajax.ActionLink("Edit", "Edit", new { id = item.Id, page = Model.PageNumber, searchString = ViewBag.SearchString }, new AjaxOptions { UpdateTargetId = "ajaxBody" }, new { @class = "epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Edit" })
+                        @Ajax.ActionLink("Edit", "Edit", new { tagId = item.Id, page = Model.PageNumber, searchString = ViewBag.SearchString }, new AjaxOptions { UpdateTargetId = "ajaxBody" }, new { @class = "epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Edit" })
                     </span>
                     <span class="epi-cmsButton">
                         @using (Html.BeginForm("Delete", "GetaTagsAdmin", FormMethod.Post, new { id = "deleteForm-" + item.Id }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.Hidden("id", item.Id)
+                            @Html.Hidden("tagId", item.Id)
                             @Html.Hidden("page", Model.PageNumber)
                             @Html.Hidden("searchString", ViewBag.SearchString as string)
                             <a href="javascript:document.getElementById('deleteForm-@item.Id').submit()" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Delete">Delete</a>

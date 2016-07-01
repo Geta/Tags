@@ -12,6 +12,11 @@
     <copyright>Copyright © 2016 Geta</copyright>
     <tags>EPiServer Tags</tags>
     <iconUrl>http://cdn.geta.no/opensource/icons/geta-tags-icon.png</iconUrl>
+    <dependencies>
+      <dependency id="EPiServer.CMS.Core" version="9.0.0" />
+      <dependency id="EPiServer.CMS.UI.Core" version="9.0.0" />
+      <dependency id="PagedList.Mvc" version="4.5.0.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\Geta.Tags.dll" target="lib\net45\" />
