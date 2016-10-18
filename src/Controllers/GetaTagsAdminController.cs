@@ -10,7 +10,7 @@ using PagedList;
 namespace Geta.Tags.Controllers
 {
     [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins")]
-    [EPiServer.PlugIn.GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/GetaTagsAdmin/Index", DisplayName = "Geta Tags Management")]
+    [EPiServer.PlugIn.GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/GetaTagsAdmin", DisplayName = "Geta Tags Management")]
     public class GetaTagsAdminController : Controller
     {
         public static int PageSize { get; } = 30;

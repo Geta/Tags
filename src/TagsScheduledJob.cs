@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using EPiServer;
-using EPiServer.BaseLibrary.Scheduling;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.PlugIn;
+using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
@@ -14,7 +14,7 @@ using Geta.Tags.Helpers;
 namespace Geta.Tags
 {
     [ScheduledPlugIn(DisplayName = "Geta Tags maintenance", DefaultEnabled = true)]
-    public class TagsScheduledJob : JobBase
+    public class TagsScheduledJob : ScheduledJobBase
     {
         private bool _stop;
 
