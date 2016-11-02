@@ -36,7 +36,7 @@ namespace Geta.Tags.EditorDescriptors
             var groupKeyAttribute = extendedMetadata.Attributes.FirstOrDefault(a => typeof(TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
             var cultureSpecificAttribute = extendedMetadata.Attributes.FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
 
-            extendedMetadata.ClientEditingClass = "geta-tags.TagsSelection";
+            extendedMetadata.ClientEditingClass = "geta-tags/TagsSelection";
             extendedMetadata.CustomEditorSettings["uiType"] = extendedMetadata.ClientEditingClass;
             extendedMetadata.CustomEditorSettings["uiWrapperType"] = UiWrapperType.Floating;
             extendedMetadata.EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);

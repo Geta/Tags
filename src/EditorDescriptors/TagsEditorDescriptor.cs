@@ -12,7 +12,7 @@ namespace Geta.Tags.EditorDescriptors
     {
         public TagsEditorDescriptor()
         {
-            ClientEditingClass = "geta-tags.TagsSelection";
+            ClientEditingClass = "geta-tags/TagsSelection";
         }
 
         public override void ModifyMetadata(EPiServer.Shell.ObjectEditing.ExtendedMetadata metadata,
