@@ -4,6 +4,7 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Web;
+using EPiServer.Web.Internal;
 using Geta.Tags.Attributes;
 
 namespace Geta.Tags.Helpers

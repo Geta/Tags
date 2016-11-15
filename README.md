@@ -1,6 +1,8 @@
 # Geta Tags for EPiServer
 
 ![](http://tc.geta.no/app/rest/builds/buildType:(id:TeamFrederik_Tags_TagsDebug)/statusIcon)
+[![Platform](https://img.shields.io/badge/Platform-.NET 4.5.2-blue.svg?style=flat)](https://msdn.microsoft.com/en-us/library/w0x726c2%28v=vs.110%29.aspx)
+[![Platform](https://img.shields.io/badge/EPiServer-%2010-orange.svg?style=flat)](http://world.episerver.com/cms/)
 
 ## What is Geta Tags?
 
@@ -12,7 +14,7 @@ Start by installing NuGet package (use [EPiServer NuGet](http://nuget.episerver.
 
     Install-Package Geta.Tags
 
-The latest version is compiled for .NET 4.5 and EPiServer 9. 
+The latest version is compiled for .NET 4.5 and EPiServer 10. 
 Geta Tags library uses [tag-it](https://github.com/aehlke/tag-it) jQuery UI plugin for selecting tags.
 To add Tags as a new property to your page types you need to use the UIHint attribute like in this example:
 

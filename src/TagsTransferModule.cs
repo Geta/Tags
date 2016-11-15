@@ -1,11 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using EPiServer.Core.Transfer;
 using EPiServer.Data;
 using EPiServer.Data.Dynamic;
 using EPiServer.Enterprise;
+using EPiServer.Enterprise.Transfer;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
+using EPiServer.ServiceLocation;
 using Geta.Tags.Models;
 
 namespace Geta.Tags
@@ -17,26 +18,19 @@ namespace Geta.Tags
     [InitializableModule, ModuleDependency(typeof(DataInitialization)), ModuleDependency(typeof(DynamicDataTransferHandler))]
     public class TagsTransferModule : IInitializableModule
     {
+        private Injected<IDataExportEvents> DataExportEvents { get; set; }
+
         public void Initialize(InitializationEngine context)
         {
-            DataExporter.Exporting += this.DataExporter_Exporting;
+            DataExportEvents.Service.ContentExporting += DataExportEvents_ContentExporting;
         }
 
-        public void Uninitialize(InitializationEngine context)
+        private void DataExportEvents_ContentExporting(ITransferContext transferContext, ContentExportingEventArgs e)
         {
-            DataExporter.Exporting -= this.DataExporter_Exporting;
-        }
-
-        public void Preload(string[] parameters)
-        {
-        }
-
-        private void DataExporter_Exporting(object sender, EventArgs e)
-        {
-            var exporter = sender as DataExporter;
+            var exporter = transferContext as ITransferHandlerContext;
             if (exporter != null && exporter.TransferType == TypeOfTransfer.MirroringExporting)
             {
-                var ddsHandler = (sender as DataExporter).TransferHandlers.Single(p => p.GetType() == typeof(DynamicDataTransferHandler)) as DynamicDataTransferHandler;
+                var ddsHandler = exporter.TransferHandlers.Single(p => p.GetType() == typeof(DynamicDataTransferHandler)) as DynamicDataTransferHandler;
 
                 var store = typeof(Tag).GetStore();
                 var externalId = store.GetIdentity().ExternalId;
@@ -47,6 +41,11 @@ namespace Geta.Tags
                     ddsHandler.AddToExport(externalId, storeName);
                 }
             }
+        }
+
+        public void Uninitialize(InitializationEngine context)
+        {
+            DataExportEvents.Service.ContentExporting -= DataExportEvents_ContentExporting;
         }
     }
 }
