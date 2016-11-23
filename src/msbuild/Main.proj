@@ -76,7 +76,7 @@
       <!-- Update the module config with the version information -->
       <XmlPoke XmlInputPath="$(TmpOutDir)\content\module.config" Query="/module/@clientResourceRelativePath" Value="$(Version)" />
 
-      <!-- Create the Zip file -->
+      <!-- Create the Zip file BUG: CMS-3891 protected modules and .cshtml files-->
       <!--<ZipDirectory
         InputPath="$(TmpOutDir)\content"
         OutputFileName="$(OutDir)\Geta.Tags.zip"
