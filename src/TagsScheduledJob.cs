@@ -22,17 +22,17 @@ namespace Geta.Tags
         private readonly IContentTypeRepository _contentTypeRepository;
         private readonly IContentLoader _contentLoader;
 
-        public TagsScheduledJob()
+        public TagsScheduledJob() : this(ServiceLocator.Current.GetInstance<ITagService>())
         {
-            IsStoppable = true;
-            _contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
-            _tagService = ServiceLocator.Current.GetInstance<ITagService>();
-            _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+            
         }
 
         public TagsScheduledJob(ITagService tagService)
         {
+            IsStoppable = true;
             _tagService = tagService;
+            _contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
+            _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
         }
 
         public override string Execute()
