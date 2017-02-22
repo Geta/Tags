@@ -30,11 +30,6 @@ namespace Geta.Tags
             _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
         }
 
-        public TagsScheduledJob(ITagService tagService)
-        {
-            _tagService = tagService;
-        }
-
         public override string Execute()
         {
             var tags = _tagService.GetAllTags().ToList();
