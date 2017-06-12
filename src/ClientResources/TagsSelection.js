@@ -28,6 +28,7 @@ function (
                 allowDuplicates: this.allowDuplicates,
                 caseSensitive: this.caseSensitive,
                 readOnly: this.readOnly,
+                tagLimit: this.tagLimit !== -1 ? this.tagLimit : null,
                 beforeTagAdded: function () {
                     this.onFocus();
                 }.bind(this),
