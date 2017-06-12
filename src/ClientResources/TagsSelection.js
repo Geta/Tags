@@ -21,6 +21,9 @@ function (
         },
 
         _createTags: function () {
+
+            console.log('this.tagLimit', this.tagLimit);
+
             this._destroyTags();
             this._tagWidget = $(this.textbox).tagit({
                 autocomplete: { delay: 0, minLength: 2, source: '/getatags?groupKey=' + this.groupKey },
@@ -28,6 +31,7 @@ function (
                 allowDuplicates: this.allowDuplicates,
                 caseSensitive: this.caseSensitive,
                 readOnly: this.readOnly,
+                tagLimit: this.tagLimit !== -1 ? this.tagLimit : null,
                 beforeTagAdded: function () {
                     this.onFocus();
                 }.bind(this),
