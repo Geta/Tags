@@ -50,6 +50,7 @@ The following settings can currently be customized
 * allowDuplicates - defaults to **false**
 * caseSensitive - defaults to **true**
 * readOnly - defaults to **false**
+* tagLimit - defaults to **-1** (none)
 ```csharp
 [CultureSpecific]
 [UIHint("Tags")]
