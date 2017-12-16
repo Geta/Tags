@@ -9,12 +9,12 @@
     <projectUrl>https://github.com/Geta/Tags</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easily add tags to your EPiServer content and use the powerful query engine to get back what you want.</description>
-    <copyright>Copyright © 2016 Geta</copyright>
+    <copyright>Copyright © 2017 Geta</copyright>
     <tags>EPiServer Tags</tags>
     <iconUrl>http://cdn.geta.no/opensource/icons/geta-tags-icon.png</iconUrl>
     <dependencies>
-      <dependency id="EPiServer.CMS.Core" version="10.0.1" />
-      <dependency id="EPiServer.CMS.UI.Core" version="10.0.2" />
+      <dependency id="EPiServer.CMS.Core" version="[11.1.0, 12.0)" />
+      <dependency id="EPiServer.CMS.UI.Core" version="[11.1.0, 12.0)" />
       <dependency id="PagedList.Mvc" version="4.5.0.0" />
     </dependencies>
   </metadata>
