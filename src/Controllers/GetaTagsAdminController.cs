@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Castle.Core.Internal;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Data;
@@ -103,7 +102,7 @@ namespace Geta.Tags.Controllers
                 foreach (var tagAttribute in tagAttributes)
                 {
                     var tags = tagAttribute.GetValue(clone) as string;
-                    if (tags.IsNullOrEmpty()) continue;
+                    if (string.IsNullOrEmpty(tags)) continue;
 
                     IList<string> pageList = tags.Split(',').ToList<string>();
                     int indexItemToRemove = pageList.IndexOf(existingTagName);
