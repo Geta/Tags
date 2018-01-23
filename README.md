@@ -4,9 +4,15 @@
 [![Platform](https://img.shields.io/badge/Platform-.NET%204.6.1-blue.svg?style=flat)](https://msdn.microsoft.com/en-us/library/w0x726c2%28v=vs.110%29.aspx)
 [![Platform](https://img.shields.io/badge/EPiServer-%2011-orange.svg?style=flat)](http://world.episerver.com/cms/)
 
-## What is Geta Tags?
+## Description
 
 Geta Tags is library that adds tagging functionality to EPiServer content.
+
+## Features
+* Define tag properties
+* Query for data
+* Admin page for managing tags
+* Tags maintenance schedule job
 
 ## How to get started?
 
@@ -56,3 +62,7 @@ The following settings can currently be customized
 [UIHint("Tags")]
 [GetaTags(AllowSpaces = true, AllowDuplicates = true, CaseSensitive = false, ReadOnly = true)]
 public virtual string Tags { get; set; }
+```
+
+## Package maintainer
+https://github.com/patkleef
