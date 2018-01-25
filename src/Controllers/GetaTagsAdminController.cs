@@ -1,8 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using EPiServer;
+using EPiServer.Core;
 using EPiServer.Data;
+using EPiServer.DataAccess;
+using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell;
+using Geta.Tags.EditorDescriptors;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 using PagedList;
@@ -16,14 +23,18 @@ namespace Geta.Tags.Controllers
         public static int PageSize { get; } = 30;
 
         private readonly ITagRepository _tagRepository;
+        private readonly IContentRepository _contentRepository;
+        private readonly ITagEngine _tagEngine;
 
-        public GetaTagsAdminController() : this(ServiceLocator.Current.GetInstance<ITagRepository>())
+        public GetaTagsAdminController() : this(ServiceLocator.Current.GetInstance<ITagRepository>(), ServiceLocator.Current.GetInstance<IContentRepository>(), ServiceLocator.Current.GetInstance<ITagEngine>())
         {
         }
 
-        public GetaTagsAdminController(ITagRepository tagRepository)
+        public GetaTagsAdminController(ITagRepository tagRepository, IContentRepository contentRepository, ITagEngine tagEngine)
         {
             this._tagRepository = tagRepository;
+            this._contentRepository = contentRepository;
+            this._tagEngine = tagEngine;
         }
 
         public ActionResult Index(string searchString, int? page)
@@ -63,7 +74,7 @@ namespace Geta.Tags.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, Tag tag, int? page, string searchString)
+        public ActionResult Edit(string id, Tag eddittedTag, int? page, string searchString)
         {
             if (id == null)
             {
@@ -76,13 +87,57 @@ namespace Geta.Tags.Controllers
             {
                 return RedirectToAction("Index", new { page = page, searchString = searchString });
             }
+            
+            if (eddittedTag.checkedEditContentTags)
+            {
+                EditTagsInContentRepository(existingTag, eddittedTag);
+            }
 
-            existingTag.Name = tag.Name;
-            existingTag.GroupKey = tag.GroupKey;
+            existingTag.Name = eddittedTag.Name;
+            existingTag.GroupKey = eddittedTag.GroupKey;
 
             _tagRepository.Save(existingTag);
 
             return RedirectToAction("Index", new { page = page, searchString = searchString });
+        }
+
+        public void EditTagsInContentRepository(Tag tagFromTagRepository, Tag tagFromUser)
+        {
+            var existingTagName = tagFromTagRepository.Name;
+            var contentReferencesFromTag = _tagEngine.GetContentReferencesByTags(existingTagName);
+
+            foreach (var item in contentReferencesFromTag)
+            {
+                var pageFromRepository = _contentRepository.Get<IContent>(item) as PageData;
+
+                var clone = pageFromRepository.CreateWritableClone();
+                var tagAttributes = clone.GetType().GetProperties().Where(
+                    prop => Attribute.IsDefined(prop, typeof(GetaTagsAttribute)) && prop.PropertyType == typeof(string));
+
+                foreach (var tagAttribute in tagAttributes)
+                {
+                    var tags = tagAttribute.GetValue(clone) as string;
+                    if (string.IsNullOrEmpty(tags)) continue;
+
+                    IList<string> pageTagList = tags.Split(',').ToList<string>();
+                    int indexTagToReplace = pageTagList.IndexOf(existingTagName);
+
+                    if (indexTagToReplace == -1) continue;
+                    pageTagList[indexTagToReplace] = tagFromUser.Name;
+
+                    string tagsCommaSeperated = "";
+                    foreach (var tag in pageTagList)
+                    {
+                        tagsCommaSeperated += tag + ",";
+                    }
+
+                    tagAttribute.SetValue(clone, tagsCommaSeperated);
+                }
+
+                _contentRepository.Save(clone, SaveAction.Publish, AccessLevel.NoAccess);
+            }
+
+            _tagRepository.Delete(tagFromTagRepository);
         }
 
         [HttpPost]
