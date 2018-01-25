@@ -74,7 +74,7 @@ namespace Geta.Tags.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, Tag tag, int? page, string searchString)
+        public ActionResult Edit(string id, Tag eddittedTag, int? page, string searchString)
         {
             if (id == null)
             {
@@ -87,8 +87,23 @@ namespace Geta.Tags.Controllers
             {
                 return RedirectToAction("Index", new { page = page, searchString = searchString });
             }
+            
+            if (eddittedTag.checkedEditContentTags)
+            {
+                EditTagsInContentRepository(existingTag, eddittedTag);
+            }
 
-            var existingTagName = existingTag.Name;
+            existingTag.Name = eddittedTag.Name;
+            existingTag.GroupKey = eddittedTag.GroupKey;
+
+            _tagRepository.Save(existingTag);
+
+            return RedirectToAction("Index", new { page = page, searchString = searchString });
+        }
+
+        public void EditTagsInContentRepository(Tag tagFromTagRepository, Tag tagFromUser)
+        {
+            var existingTagName = tagFromTagRepository.Name;
             var contentReferencesFromTag = _tagEngine.GetContentReferencesByTags(existingTagName);
 
             foreach (var item in contentReferencesFromTag)
@@ -104,33 +119,25 @@ namespace Geta.Tags.Controllers
                     var tags = tagAttribute.GetValue(clone) as string;
                     if (string.IsNullOrEmpty(tags)) continue;
 
-                    IList<string> pageList = tags.Split(',').ToList<string>();
-                    int indexItemToRemove = pageList.IndexOf(existingTagName);
+                    IList<string> pageTagList = tags.Split(',').ToList<string>();
+                    int indexTagToReplace = pageTagList.IndexOf(existingTagName);
 
-                    if (indexItemToRemove == -1) continue;
-                    pageList.RemoveAt(indexItemToRemove);
+                    if (indexTagToReplace == -1) continue;
+                    pageTagList[indexTagToReplace] = tagFromUser.Name;
 
-                    var newPageTags = "";
-                    foreach (var listItem in pageList)
+                    string tagsCommaSeperated = "";
+                    foreach (var tag in pageTagList)
                     {
-                        newPageTags += listItem + ",";
+                        tagsCommaSeperated += tag + ",";
                     }
 
-                    var allTags = newPageTags + tag.Name;
-                    tagAttribute.SetValue(clone, allTags);
+                    tagAttribute.SetValue(clone, tagsCommaSeperated);
                 }
 
                 _contentRepository.Save(clone, SaveAction.Publish, AccessLevel.NoAccess);
             }
 
-            _tagRepository.Delete(existingTag);
-
-            existingTag.Name = tag.Name;
-            existingTag.GroupKey = tag.GroupKey;
-
-            _tagRepository.Save(existingTag);
-
-            return RedirectToAction("Index", new { page = page, searchString = searchString });
+            _tagRepository.Delete(tagFromTagRepository);
         }
 
         [HttpPost]

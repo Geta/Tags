@@ -29,6 +29,8 @@ namespace Geta.Tags.Models
 
         public IList<Guid> PermanentLinks { get; set; }
 
+        public bool checkedEditContentTags { get; set; }
+
         public override int GetHashCode()
         {
             if (Name == null)
