@@ -66,3 +66,6 @@ public virtual string Tags { get; set; }
 
 ## Package maintainer
 https://github.com/patkleef
+
+## Changelog
+[Changelog](CHANGELOG.md)
