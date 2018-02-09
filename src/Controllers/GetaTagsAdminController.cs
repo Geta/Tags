@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using EPiServer;
@@ -9,7 +10,6 @@ using EPiServer.DataAccess;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell;
-using Geta.Tags.EditorDescriptors;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 using PagedList;
@@ -111,8 +111,11 @@ namespace Geta.Tags.Controllers
                 var pageFromRepository = _contentRepository.Get<IContent>(item) as PageData;
 
                 var clone = pageFromRepository.CreateWritableClone();
+
                 var tagAttributes = clone.GetType().GetProperties().Where(
-                    prop => Attribute.IsDefined(prop, typeof(GetaTagsAttribute)) && prop.PropertyType == typeof(string));
+                    prop => Attribute.IsDefined(prop, typeof(UIHintAttribute)) && 
+                    prop.PropertyType == typeof(string) && 
+                    ((UIHintAttribute)Attribute.GetCustomAttribute(prop, typeof(UIHintAttribute))).UIHint.Equals("Tags"));
 
                 foreach (var tagAttribute in tagAttributes)
                 {
@@ -125,18 +128,12 @@ namespace Geta.Tags.Controllers
                     if (indexTagToReplace == -1) continue;
                     pageTagList[indexTagToReplace] = tagFromUser.Name;
 
-                    string tagsCommaSeperated = "";
-                    foreach (var tag in pageTagList)
-                    {
-                        tagsCommaSeperated += tag + ",";
-                    }
+                    var tagsCommaSeperated = string.Join(",", pageTagList);
 
                     tagAttribute.SetValue(clone, tagsCommaSeperated);
                 }
-
                 _contentRepository.Save(clone, SaveAction.Publish, AccessLevel.NoAccess);
             }
-
             _tagRepository.Delete(tagFromTagRepository);
         }
 
