@@ -20,6 +20,9 @@
     <p>
         @Html.LabelFor(model => model.GroupKey) <br/>@Html.TextBoxFor(model => model.GroupKey)
     </p>
+    <p>
+        @Html.CheckBoxFor(model => model.checkedEditContentTags) Check this box to edit existing tags in the content
+    </p>
     <div class="epi-buttonContainer">
         <span class="epi-cmsButton">
             <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" value="Save" />
