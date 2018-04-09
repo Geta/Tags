@@ -6,7 +6,7 @@
 
 ## Description
 
-Geta Tags is library that adds tagging functionality to EPiServer content.
+Geta Tags is a library that adds tagging functionality to EPiServer content.
 
 ## Features
 * Define tag properties
