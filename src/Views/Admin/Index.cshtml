@@ -6,7 +6,7 @@
 
 @model PagedList.PagedList<Geta.Tags.Models.Tag>
 
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="@Paths.ToClientResource(typeof(GetaTagsAdminController), "ClientResources/styles/PagedList.css")" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Geta Tags Management";
     Layout = Paths.ToClientResource(typeof(GetaTagsAdminController), "Views/Shared/_Layout.cshtml");

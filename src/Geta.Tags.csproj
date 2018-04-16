@@ -213,7 +213,7 @@
     <Content Include="ClientResources\vendor\jquery-2.1.0.min.js" />
     <Content Include="ClientResources\vendor\jquery-ui.min.js" />
     <Content Include="ClientResources\vendor\tag-it.min.js" />
-    <Content Include="Content\PagedList.css" />
+    <Content Include="ClientResources\styles\PagedList.css" />
     <Content Include="Geta.Tags.nuspec" />
     <None Include="module.config">
       <SubType>Designer</SubType>
