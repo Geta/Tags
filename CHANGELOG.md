@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.3]
+ - Added #59 Add sortable tags
+
 ## [3.0.2]
  - Fixed #57 Add PagedList to modules/Geta.Tags/ClientResources/styles
 
