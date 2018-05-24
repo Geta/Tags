@@ -22,6 +22,7 @@ function (
 
         _createTags: function () {
             this._destroyTags();
+
             this._tagWidget = $(this.textbox).tagit({
                 autocomplete: { delay: 0, minLength: 2, source: '/getatags?groupKey=' + this.groupKey },
                 allowSpaces: this.allowSpaces,
@@ -40,6 +41,16 @@ function (
                     }
                 }.bind(this)
             });
+
+            $(this.textbox).siblings("ul").first().sortable({
+                stop: function (event, ui) {
+                    var list = $(event.target);
+                    var value = this._getTagValues(list);
+                    $(this._tagWidget).val(value);
+                    this._set("value", value);
+                    this.onChange(value);
+                }.bind(this)
+            });
         },
 
         _destroyTags: function() {
@@ -50,6 +61,15 @@ function (
         _setValueAttr: function (value, priorityChange) {
             this.inherited(arguments);
             this._started && !priorityChange && this._createTags();
+        },
+
+        _getTagValues: function (list) {
+            return $(".tagit-label", list)
+                .clone()
+                .text(function (index, text) {
+                    return (index == 0) ? text : "," + text;
+                })
+                .text();
         }
     });
 });
