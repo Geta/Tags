@@ -76,9 +76,7 @@ namespace Geta.Tags
         private static IEnumerable<string> GetPropertyTags(ContentData content, PropertyDefinition propertyDefinition)
         {
             var tagNames = content[propertyDefinition.Name] as string;
-            return tagNames == null
-                ? Enumerable.Empty<string>()
-                : tagNames.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            return tagNames?.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>();
         }
 
         public void Initialize(InitializationEngine context)

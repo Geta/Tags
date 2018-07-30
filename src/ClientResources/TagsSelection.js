@@ -29,7 +29,9 @@ function (
                 allowDuplicates: this.allowDuplicates,
                 caseSensitive: this.caseSensitive,
                 readOnly: this.readOnly,
+                singleFieldDelimiter : this.singleFieldDelimiter,
                 tagLimit: this.tagLimit !== -1 ? this.tagLimit : null,
+                convertFromOldDelimeter: this.convertFromOldDelimeter,
                 beforeTagAdded: function () {
                     this.onFocus();
                 }.bind(this),
@@ -67,7 +69,7 @@ function (
             return $(".tagit-label", list)
                 .clone()
                 .text(function (index, text) {
-                    return (index == 0) ? text : "," + text;
+                    return (index == 0) ? text : this._tagWidget.singleFieldDelimiter + text;
                 })
                 .text();
         }

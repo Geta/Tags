@@ -15,8 +15,11 @@ namespace Geta.Tags.EditorDescriptors
         public bool CaseSensitive { get; set; }
         public bool AllowDuplicates { get; set; }
         public int TagLimit { get; set; }
-
+        public string SingleFieldDelimiter { get; set; }
         public bool ReadOnly { get; set; }
+        public string SpecialChar => "₦";
+        public string CheckSum => $"{SpecialChar}{SingleFieldDelimiter}{SpecialChar}";
+        
 
         public GetaTagsAttribute() {
             AllowDuplicates = false;
@@ -24,6 +27,7 @@ namespace Geta.Tags.EditorDescriptors
             CaseSensitive = true;
             ReadOnly = false;
             TagLimit = -1;
+            SingleFieldDelimiter = ",";
         }
 
         public virtual void OnMetadataCreated(ModelMetadata metadata)
@@ -47,6 +51,7 @@ namespace Geta.Tags.EditorDescriptors
             extendedMetadata.EditorConfiguration["caseSensitive "] = this.CaseSensitive;
             extendedMetadata.EditorConfiguration["readOnly "] = this.ReadOnly;
             extendedMetadata.EditorConfiguration["tagLimit"] = this.TagLimit;
+            extendedMetadata.EditorConfiguration["singleFieldDelimiter"] = this.SingleFieldDelimiter;
         }
     }
 }

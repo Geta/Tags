@@ -10,6 +10,7 @@ using EPiServer.DataAccess;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell;
+using Geta.Tags.EditorDescriptors;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 using PagedList;
@@ -85,7 +86,7 @@ namespace Geta.Tags.Controllers
 
             if (existingTag == null)
             {
-                return RedirectToAction("Index", new { page = page, searchString = searchString });
+                return RedirectToAction("Index", new {page, searchString });
             }
             
             if (eddittedTag.checkedEditContentTags)
@@ -98,7 +99,7 @@ namespace Geta.Tags.Controllers
 
             _tagRepository.Save(existingTag);
 
-            return RedirectToAction("Index", new { page = page, searchString = searchString });
+            return RedirectToAction("Index", new {page, searchString });
         }
 
         public void EditTagsInContentRepository(Tag tagFromTagRepository, Tag tagFromUser)
@@ -121,16 +122,35 @@ namespace Geta.Tags.Controllers
                 {
                     var tags = tagAttribute.GetValue(clone) as string;
                     if (string.IsNullOrEmpty(tags)) continue;
-
-                    IList<string> pageTagList = tags.Split(',').ToList<string>();
+                    var attribute = tagAttribute.GetCustomAttributes(typeof(GetaTagsAttribute), true);
+                    var getaTagAttribute = attribute.OfType<GetaTagsAttribute>().FirstOrDefault();
+                    var delimeter = string.Empty;
+                    delimeter = getaTagAttribute?.SingleFieldDelimiter;
+                    delimeter = string.IsNullOrEmpty(delimeter) ? "," : delimeter;
+                    if (tags.StartsWith(getaTagAttribute.SpecialChar))
+                    {
+                        if (tags.StartsWith(getaTagAttribute.CheckSum))
+                        {
+                            
+                        }
+                        else
+                        {
+                            
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+                    IList<string> pageTagList = tags.Split(new []{delimeter}, StringSplitOptions.RemoveEmptyEntries).ToList();
                     int indexTagToReplace = pageTagList.IndexOf(existingTagName);
 
                     if (indexTagToReplace == -1) continue;
                     pageTagList[indexTagToReplace] = tagFromUser.Name;
+                    
+                    var tagsSeperated = string.Join(string.IsNullOrEmpty(delimeter) ? "," : delimeter, pageTagList);
 
-                    var tagsCommaSeperated = string.Join(",", pageTagList);
-
-                    tagAttribute.SetValue(clone, tagsCommaSeperated);
+                    tagAttribute.SetValue(clone, tagsSeperated);
                 }
                 _contentRepository.Save(clone, SaveAction.Publish, AccessLevel.NoAccess);
             }
