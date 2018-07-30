@@ -11,7 +11,7 @@ namespace Geta.Tags
         public string EditedTag(string tags,Tag fromRepository,Tag fromUser, GetaTagsAttribute attribute)
         {
             var existingTagName = fromRepository.Name;
-            var checksum = tags.Substring(0, tags.LastIndexOf(attribute.SpecialChar));
+            var checksum = tags.LastIndexOf(attribute.SpecialChar) > 0 ? tags.Substring(0, tags.LastIndexOf(attribute.SpecialChar) + 1) : string.Empty;
             IList<string> pageTagList = new List<string>();
             if (!string.IsNullOrEmpty(checksum))
             {
