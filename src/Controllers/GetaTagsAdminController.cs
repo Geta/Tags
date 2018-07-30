@@ -127,7 +127,6 @@ namespace Geta.Tags.Controllers
                     var attribute = tagAttribute.GetCustomAttributes(typeof(GetaTagsAttribute), true);
                     var getaTagAttribute = attribute.OfType<GetaTagsAttribute>().FirstOrDefault();
                     var tagsSeperated = _tagEditorService.EditedTag(tags,tagFromTagRepository,tagFromUser, getaTagAttribute);
-
                     tagAttribute.SetValue(clone, tagsSeperated);
                 }
                 _contentRepository.Save(clone, SaveAction.Publish, AccessLevel.NoAccess);
