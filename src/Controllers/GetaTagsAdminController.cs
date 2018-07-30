@@ -26,6 +26,7 @@ namespace Geta.Tags.Controllers
         private readonly ITagRepository _tagRepository;
         private readonly IContentRepository _contentRepository;
         private readonly ITagEngine _tagEngine;
+        private readonly TagEditorService _tagEditorService;
 
         public GetaTagsAdminController() : this(ServiceLocator.Current.GetInstance<ITagRepository>(), ServiceLocator.Current.GetInstance<IContentRepository>(), ServiceLocator.Current.GetInstance<ITagEngine>())
         {
@@ -36,6 +37,7 @@ namespace Geta.Tags.Controllers
             this._tagRepository = tagRepository;
             this._contentRepository = contentRepository;
             this._tagEngine = tagEngine;
+            _tagEditorService = new TagEditorService();
         }
 
         public ActionResult Index(string searchString, int? page)
@@ -124,31 +126,7 @@ namespace Geta.Tags.Controllers
                     if (string.IsNullOrEmpty(tags)) continue;
                     var attribute = tagAttribute.GetCustomAttributes(typeof(GetaTagsAttribute), true);
                     var getaTagAttribute = attribute.OfType<GetaTagsAttribute>().FirstOrDefault();
-                    var delimeter = string.Empty;
-                    delimeter = getaTagAttribute?.SingleFieldDelimiter;
-                    delimeter = string.IsNullOrEmpty(delimeter) ? "," : delimeter;
-                    if (tags.StartsWith(getaTagAttribute.SpecialChar))
-                    {
-                        if (tags.StartsWith(getaTagAttribute.CheckSum))
-                        {
-                            
-                        }
-                        else
-                        {
-                            
-                        }
-                    }
-                    else
-                    {
-                        
-                    }
-                    IList<string> pageTagList = tags.Split(new []{delimeter}, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    int indexTagToReplace = pageTagList.IndexOf(existingTagName);
-
-                    if (indexTagToReplace == -1) continue;
-                    pageTagList[indexTagToReplace] = tagFromUser.Name;
-                    
-                    var tagsSeperated = string.Join(string.IsNullOrEmpty(delimeter) ? "," : delimeter, pageTagList);
+                    var tagsSeperated = _tagEditorService.EditedTag(tags,tagFromTagRepository,tagFromUser, getaTagAttribute);
 
                     tagAttribute.SetValue(clone, tagsSeperated);
                 }
