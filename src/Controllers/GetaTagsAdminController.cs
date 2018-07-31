@@ -10,6 +10,7 @@ using EPiServer.DataAccess;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell;
+using Geta.Tags.EditorDescriptors;
 using Geta.Tags.Interfaces;
 using Geta.Tags.Models;
 using PagedList;
@@ -25,6 +26,7 @@ namespace Geta.Tags.Controllers
         private readonly ITagRepository _tagRepository;
         private readonly IContentRepository _contentRepository;
         private readonly ITagEngine _tagEngine;
+        private readonly TagEditorService _tagEditorService;
 
         public GetaTagsAdminController() : this(ServiceLocator.Current.GetInstance<ITagRepository>(), ServiceLocator.Current.GetInstance<IContentRepository>(), ServiceLocator.Current.GetInstance<ITagEngine>())
         {
@@ -35,6 +37,7 @@ namespace Geta.Tags.Controllers
             this._tagRepository = tagRepository;
             this._contentRepository = contentRepository;
             this._tagEngine = tagEngine;
+            _tagEditorService = new TagEditorService();
         }
 
         public ActionResult Index(string searchString, int? page)
@@ -85,7 +88,7 @@ namespace Geta.Tags.Controllers
 
             if (existingTag == null)
             {
-                return RedirectToAction("Index", new { page = page, searchString = searchString });
+                return RedirectToAction("Index", new {page, searchString });
             }
             
             if (eddittedTag.checkedEditContentTags)
@@ -98,7 +101,7 @@ namespace Geta.Tags.Controllers
 
             _tagRepository.Save(existingTag);
 
-            return RedirectToAction("Index", new { page = page, searchString = searchString });
+            return RedirectToAction("Index", new {page, searchString });
         }
 
         public void EditTagsInContentRepository(Tag tagFromTagRepository, Tag tagFromUser)
@@ -121,16 +124,10 @@ namespace Geta.Tags.Controllers
                 {
                     var tags = tagAttribute.GetValue(clone) as string;
                     if (string.IsNullOrEmpty(tags)) continue;
-
-                    IList<string> pageTagList = tags.Split(',').ToList<string>();
-                    int indexTagToReplace = pageTagList.IndexOf(existingTagName);
-
-                    if (indexTagToReplace == -1) continue;
-                    pageTagList[indexTagToReplace] = tagFromUser.Name;
-
-                    var tagsCommaSeperated = string.Join(",", pageTagList);
-
-                    tagAttribute.SetValue(clone, tagsCommaSeperated);
+                    var attribute = tagAttribute.GetCustomAttributes(typeof(GetaTagsAttribute), true);
+                    var getaTagAttribute = attribute.OfType<GetaTagsAttribute>().FirstOrDefault();
+                    var tagsSeperated = _tagEditorService.EditedTag(tags,tagFromTagRepository,tagFromUser, getaTagAttribute);
+                    tagAttribute.SetValue(clone, tagsSeperated);
                 }
                 _contentRepository.Save(clone, SaveAction.Publish, AccessLevel.NoAccess);
             }

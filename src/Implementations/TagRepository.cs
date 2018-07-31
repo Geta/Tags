@@ -12,13 +12,7 @@ namespace Geta.Tags.Implementations
     [ServiceConfiguration(typeof(ITagRepository))]
     public class TagRepository : ITagRepository
     {
-        private static DynamicDataStore TagStore
-        {
-            get
-            {
-                return typeof(Tag).GetOrCreateStore();
-            }
-        }
+        private static DynamicDataStore TagStore => typeof(Tag).GetOrCreateStore();
 
         public Tag GetTagById(Identity id)
         {
@@ -48,7 +42,7 @@ namespace Geta.Tags.Implementations
 
         public Identity Save(Tag tag)
         {
-            if (tag == null || string.IsNullOrEmpty(tag.Name))
+            if (string.IsNullOrEmpty(tag?.Name))
             {
                 return null;
             }

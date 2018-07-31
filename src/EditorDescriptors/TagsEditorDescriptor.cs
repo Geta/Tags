@@ -28,6 +28,7 @@ namespace Geta.Tags.EditorDescriptors
             metadata.EditorConfiguration["allowDuplicates"] = getaAttribute?.AllowDuplicates ?? false;
             metadata.EditorConfiguration["readOnly"] = getaAttribute?.ReadOnly ?? false;
             metadata.EditorConfiguration["caseSensitive"] = getaAttribute?.CaseSensitive ?? true;
+            metadata.EditorConfiguration["singleFieldDelimiter"] = getaAttribute?.SingleFieldDelimiter ?? ",";
         }
     }
 }
