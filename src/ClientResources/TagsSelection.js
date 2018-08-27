@@ -31,7 +31,6 @@ function (
                 readOnly: this.readOnly,
                 singleFieldDelimiter : this.singleFieldDelimiter,
                 tagLimit: this.tagLimit !== -1 ? this.tagLimit : null,
-                convertFromOldDelimeter: this.convertFromOldDelimeter,
                 beforeTagAdded: function () {
                     this.onFocus();
                 }.bind(this),
