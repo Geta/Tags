@@ -61,7 +61,7 @@ The following settings can currently be customized
 ```csharp
 [CultureSpecific]
 [UIHint("Tags")]
-[GetaTags(AllowSpaces = true, AllowDuplicates = true, CaseSensitive = false, ReadOnly = true)]
+[GetaTags(AllowSpaces = true, AllowDuplicates = true, CaseSensitive = false, ReadOnly = true, SingleFieldDelimiter = ",")]
 public virtual string Tags { get; set; }
 ```
 
