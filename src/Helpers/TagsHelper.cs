@@ -3,6 +3,7 @@ using System.Globalization;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using EPiServer.Globalization;
 using EPiServer.Web;
 using EPiServer.Web.Internal;
 using Geta.Tags.Attributes;
@@ -22,7 +23,7 @@ namespace Geta.Tags.Helpers
 
             if ((cultureSpecificAttribute != null) && (cultureSpecificAttribute.IsCultureSpecific))
             {
-                groupKey += CultureInfo.CurrentCulture;
+                groupKey += ContentLanguage.PreferredCulture ?? CultureInfo.CurrentCulture;
             }
 
             return groupKey;
