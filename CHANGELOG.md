@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.4]
+ - Fixed #65 set groupkey based on the current content language instead of CMS language
+
+
 ## [3.0.3]
  - Added #59 Add sortable tags
 
