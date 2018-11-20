@@ -10,7 +10,7 @@ namespace Geta.Tags.Interfaces
     public interface ITagService
     {
         Tag GetTagById(Identity id);
-        IEnumerable<Tag> GetTagByPage(Guid pageGuid);
+        IEnumerable<Tag> GetTagsByContent(Guid contentGuid);
         Tag GetTagByName(string name);
         IQueryable<Tag> GetAllTags();
         Identity Save(Tag tag);

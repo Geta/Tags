@@ -24,12 +24,6 @@ namespace Geta.Tags.Implementations
             return TagStore.Find<Tag>("Name", name).FirstOrDefault();
         }
 
-        [Obsolete("Use GetTagsByContent instead.")]
-        public IEnumerable<Tag> GetTagsByPage(Guid pageGuid)
-        {
-            return GetAllTags().Where(t => t.PermanentLinks.Contains(pageGuid));
-        }
-
         public IEnumerable<Tag> GetTagsByContent(Guid contentGuid)
         {
             return GetAllTags().Where(t => t.PermanentLinks.Contains(contentGuid));

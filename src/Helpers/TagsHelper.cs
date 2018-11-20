@@ -5,7 +5,6 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Globalization;
 using EPiServer.Web;
-using EPiServer.Web.Internal;
 using Geta.Tags.Attributes;
 
 namespace Geta.Tags.Helpers
@@ -28,13 +27,6 @@ namespace Geta.Tags.Helpers
             }
 
             return groupKey;
-        }
-
-        [Obsolete("Use GetContentReference instead")]
-        public static PageReference GetPageReference(Guid pageGuid)
-        {
-            var map = PermanentLinkMapStore.Find(pageGuid) as PermanentContentLinkMap;
-            return (map != null) ? map.ContentReference as PageReference : PageReference.EmptyReference;
         }
 
         public static ContentReference GetContentReference(Guid contentGuid)

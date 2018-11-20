@@ -23,9 +23,9 @@ namespace Geta.Tags.Implementations
             return _tagRepository.GetTagById(id);
         }
 
-        public IEnumerable<Tag> GetTagByPage(Guid pageGuid)
+        public IEnumerable<Tag> GetTagsByContent(Guid contentGuid)
         {
-            return _tagRepository.GetTagsByPage(pageGuid);
+            return _tagRepository.GetTagsByContent(contentGuid);
         }
 
         public Tag GetTagByName(string name)

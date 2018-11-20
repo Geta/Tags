@@ -60,7 +60,7 @@ namespace Geta.Tags
 
         private void CleanupOldTags(Guid contentGuid)
         {
-            var oldTags = _tagService.GetTagByPage(contentGuid);
+            var oldTags = _tagService.GetTagsByContent(contentGuid);
 
             foreach (var tag in oldTags)
             {
