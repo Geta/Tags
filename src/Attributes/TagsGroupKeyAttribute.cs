@@ -7,9 +7,9 @@ namespace Geta.Tags.Attributes
     {
         public TagsGroupKeyAttribute(string key)
         {
-            this.Key = key;
+            Key = key;
         }
 
-        public virtual string Key { get; private set; }
+        public virtual string Key { get; }
     }
 }

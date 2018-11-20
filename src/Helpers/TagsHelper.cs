@@ -14,20 +14,21 @@ namespace Geta.Tags.Helpers
     {
         public static string GetGroupKeyFromAttributes(TagsGroupKeyAttribute groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute)
         {
-            string groupKey = string.Empty;
+            var groupKey = string.Empty;
 
             if (groupKeyAttribute != null)
             {
                 groupKey += groupKeyAttribute.Key;
             }
 
-            if ((cultureSpecificAttribute != null) && (cultureSpecificAttribute.IsCultureSpecific))
+            if (cultureSpecificAttribute != null && cultureSpecificAttribute.IsCultureSpecific)
             {
                 groupKey += ContentLanguage.PreferredCulture ?? CultureInfo.CurrentCulture;
             }
 
             return groupKey;
         }
+
         [Obsolete("Use GetContentReference instead")]
         public static PageReference GetPageReference(Guid pageGuid)
         {

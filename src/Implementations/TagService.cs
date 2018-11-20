@@ -85,7 +85,7 @@ namespace Geta.Tags.Implementations
 
         public void Delete(string name)
         {
-            Tag tag = GetTagByName(name);
+            var tag = GetTagByName(name);
 
             if (tag == null)
             {
@@ -97,7 +97,7 @@ namespace Geta.Tags.Implementations
 
         public void Delete(Identity id)
         {
-            Tag tag = _tagRepository.GetTagById(id);
+            var tag = _tagRepository.GetTagById(id);
 
             if (tag == null)
             {

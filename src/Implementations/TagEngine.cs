@@ -18,19 +18,16 @@ namespace Geta.Tags.Implementations
 
         public TagEngine(ITagService tagService, IContentLoader contentLoader)
         {
-            this._tagService = tagService;
-            this._contentLoader = contentLoader;
+            _tagService = tagService;
+            _contentLoader = contentLoader;
         }
 
         [Obsolete("Use GetContentByTag instead.")]
         public PageDataCollection GetPagesByTag(string tagName)
         {
-            if (string.IsNullOrEmpty(tagName))
-            {
-                return null;
-            }
-
-            return this.GetPagesByTag(this._tagService.GetTagByName(tagName));
+            return !string.IsNullOrEmpty(tagName)
+                ? GetPagesByTag(_tagService.GetTagByName(tagName))
+                : null;
         }
 
         [Obsolete("Use GetContentsByTag instead.")]
@@ -45,7 +42,7 @@ namespace Geta.Tags.Implementations
 
             if (tag.PermanentLinks == null)
             {
-                var tempTerm = this._tagService.GetTagByName(tag.Name);
+                var tempTerm = _tagService.GetTagByName(tag.Name);
 
                 if (tempTerm != null)
                 {
@@ -59,9 +56,9 @@ namespace Geta.Tags.Implementations
 
             var pages = new PageDataCollection();
 
-            foreach (Guid pageGuid in pageLinks)
+            foreach (var pageGuid in pageLinks)
             {
-                pages.Add(this._contentLoader.Get<PageData>(TagsHelper.GetContentReference(pageGuid)));
+                pages.Add(_contentLoader.Get<PageData>(TagsHelper.GetContentReference(pageGuid)));
             }
 
             return pages;
@@ -70,18 +67,18 @@ namespace Geta.Tags.Implementations
         [Obsolete("Use GetContentsByTag instead.")]
         public PageDataCollection GetPagesByTag(string tagName, PageReference rootPageReference)
         {
-            return this.GetPagesByTag(this._tagService.GetTagByName(tagName));
+            return GetPagesByTag(_tagService.GetTagByName(tagName));
         }
 
         [Obsolete("Use GetContentsByTag instead.")]
         public PageDataCollection GetPagesByTag(Tag tag, PageReference rootPageReference)
         {
-            if (tag == null || tag.PermanentLinks == null)
+            if (tag?.PermanentLinks == null)
             {
                 return null;
             }
 
-            IList<PageReference> descendantPageReferences = DataFactory.Instance.GetDescendents(rootPageReference);
+            var descendantPageReferences = DataFactory.Instance.GetDescendents(rootPageReference);
 
             if (descendantPageReferences == null || descendantPageReferences.Count < 1)
             {
@@ -90,13 +87,13 @@ namespace Geta.Tags.Implementations
 
             var pages = new PageDataCollection();
 
-            foreach (Guid pageGuid in tag.PermanentLinks)
+            foreach (var pageGuid in tag.PermanentLinks)
             {
                 var pageReference = TagsHelper.GetContentReference(pageGuid);
 
                 if (descendantPageReferences.FirstOrDefault(p => p.ID == pageReference.ID) != null)
                 {
-                    pages.Add(this._contentLoader.Get<PageData>(pageReference));
+                    pages.Add(_contentLoader.Get<PageData>(pageReference));
                 }
             }
 
@@ -111,7 +108,7 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            var tags = tagNames.Split(',').Select(tagName => this._tagService.GetTagByName(tagName)).ToList();
+            var tags = tagNames.Split(',').Select(tagName => _tagService.GetTagByName(tagName)).ToList();
 
             return GetPageReferencesByTags(tags);
         }
@@ -121,22 +118,20 @@ namespace Geta.Tags.Implementations
         {
             var matches = new Dictionary<PageReference, int>();
 
-            foreach (Tag tag in tags)
+            foreach (var tag in tags)
             {
-                if (tag != null && tag.PermanentLinks != null)
+                if (tag?.PermanentLinks == null) continue;
+                foreach (var pageGuid in tag.PermanentLinks)
                 {
-                    foreach (Guid pageGuid in tag.PermanentLinks)
-                    {
-                        var pageReference = TagsHelper.GetPageReference(pageGuid);
+                    var pageReference = TagsHelper.GetPageReference(pageGuid);
 
-                        if (matches.ContainsKey(pageReference))
-                        {
-                            matches[pageReference] += 1;
-                        }
-                        else
-                        {
-                            matches.Add(pageReference, 1);
-                        }
+                    if (matches.ContainsKey(pageReference))
+                    {
+                        matches[pageReference] += 1;
+                    }
+                    else
+                    {
+                        matches.Add(pageReference, 1);
                     }
                 }
             }
@@ -149,14 +144,14 @@ namespace Geta.Tags.Implementations
         [Obsolete("Use GetContentReferencesByTags instead.")]
         public IEnumerable<PageReference> GetPageReferencesByTags(string tagNames, PageReference rootPageReference)
         {
-            IList<Tag> tags = new List<Tag>();
+            var tags = new List<Tag>();
 
-            foreach (string tagName in tagNames.Split(','))
+            foreach (var tagName in tagNames.Split(','))
             {
-                tags.Add(this._tagService.GetTagByName(tagName));
+                tags.Add(_tagService.GetTagByName(tagName));
             }
 
-            return this.GetPageReferencesByTags(tags, rootPageReference);
+            return GetPageReferencesByTags(tags, rootPageReference);
         }
 
         [Obsolete("Use GetContentReferencesByTags instead.")]
@@ -167,7 +162,7 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            IList<PageReference> descendantPageReferences = DataFactory.Instance.GetDescendents(rootPageReference);
+            var descendantPageReferences = DataFactory.Instance.GetDescendents(rootPageReference);
 
             if (descendantPageReferences == null || descendantPageReferences.Count < 1)
             {
@@ -176,14 +171,14 @@ namespace Geta.Tags.Implementations
 
             var matches = new Dictionary<PageReference, int>();
 
-            foreach (Tag tag in tags)
+            foreach (var tag in tags)
             {
-                if (tag == null || tag.PermanentLinks == null)
+                if (tag?.PermanentLinks == null)
                 {
                     continue;
                 }
 
-                foreach (Guid pageGuid in tag.PermanentLinks)
+                foreach (var pageGuid in tag.PermanentLinks)
                 {
                     var pageReference = TagsHelper.GetPageReference(pageGuid);
 
@@ -208,12 +203,9 @@ namespace Geta.Tags.Implementations
 
         public IEnumerable<ContentData> GetContentByTag(string tagName)
         {
-            if (string.IsNullOrEmpty(tagName))
-            {
-                return null;
-            }
-
-            return this.GetContentsByTag(this._tagService.GetTagByName(tagName));
+            return !string.IsNullOrEmpty(tagName) ?
+                GetContentsByTag(_tagService.GetTagByName(tagName))
+                : null;
         }
 
         public IEnumerable<ContentData> GetContentsByTag(Tag tag)
@@ -227,7 +219,7 @@ namespace Geta.Tags.Implementations
 
             if (tag.PermanentLinks == null)
             {
-                var tempTerm = this._tagService.GetTagByName(tag.Name);
+                var tempTerm = _tagService.GetTagByName(tag.Name);
 
                 if (tempTerm != null)
                 {
@@ -239,22 +231,24 @@ namespace Geta.Tags.Implementations
                 contentLinks = tag.PermanentLinks.ToList();
             }
 
-            return contentLinks.Select(contentGuid => this._contentLoader.Get<ContentData>(TagsHelper.GetContentReference(contentGuid))).ToList();
+            return contentLinks
+                .Select(contentGuid => _contentLoader.Get<ContentData>(TagsHelper.GetContentReference(contentGuid)))
+                .ToList();
         }
 
         public IEnumerable<ContentData> GetContentsByTag(string tagName, ContentReference rootContentReference)
         {
-            return this.GetContentsByTag(this._tagService.GetTagByName(tagName), rootContentReference);
+            return GetContentsByTag(_tagService.GetTagByName(tagName), rootContentReference);
         }
 
         public IEnumerable<ContentData> GetContentsByTag(Tag tag, ContentReference rootContentReference)
         {
-            if (tag == null || tag.PermanentLinks == null)
+            if (tag?.PermanentLinks == null)
             {
                 return null;
             }
 
-            IEnumerable<ContentReference> descendantContentReferences = this._contentLoader.GetDescendents(rootContentReference);
+            var descendantContentReferences = _contentLoader.GetDescendents(rootContentReference)?.ToArray();
 
             if (descendantContentReferences == null || !descendantContentReferences.Any())
             {
@@ -263,13 +257,13 @@ namespace Geta.Tags.Implementations
 
             var items = new List<ContentData>();
 
-            foreach (Guid contentGuid in tag.PermanentLinks)
+            foreach (var contentGuid in tag.PermanentLinks)
             {
                 var contentReference = TagsHelper.GetContentReference(contentGuid);
 
                 if (descendantContentReferences.FirstOrDefault(p => p.ID == contentReference.ID) != null)
                 {
-                    items.Add(this._contentLoader.Get<PageData>(contentReference));
+                    items.Add(_contentLoader.Get<PageData>(contentReference));
                 }
             }
 
@@ -283,7 +277,7 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            var tags = tagNames.Split(',').Select(tagName => this._tagService.GetTagByName(tagName)).ToList();
+            var tags = tagNames.Split(',').Select(tagName => _tagService.GetTagByName(tagName)).ToList();
 
             return GetContentReferencesByTags(tags);
         }
@@ -294,20 +288,19 @@ namespace Geta.Tags.Implementations
 
             foreach (Tag tag in tags)
             {
-                if (tag != null && tag.PermanentLinks != null)
-                {
-                    foreach (Guid contentGuid in tag.PermanentLinks)
-                    {
-                        var contentReference = TagsHelper.GetContentReference(contentGuid);
+                if (tag?.PermanentLinks == null) continue;
 
-                        if (matches.ContainsKey(contentReference))
-                        {
-                            matches[contentReference] += 1;
-                        }
-                        else
-                        {
-                            matches.Add(contentReference, 1);
-                        }
+                foreach (var contentGuid in tag.PermanentLinks)
+                {
+                    var contentReference = TagsHelper.GetContentReference(contentGuid);
+
+                    if (matches.ContainsKey(contentReference))
+                    {
+                        matches[contentReference] += 1;
+                    }
+                    else
+                    {
+                        matches.Add(contentReference, 1);
                     }
                 }
             }
@@ -321,12 +314,12 @@ namespace Geta.Tags.Implementations
         {
             IList<Tag> tags = new List<Tag>();
 
-            foreach (string tagName in tagNames.Split(','))
+            foreach (var tagName in tagNames.Split(','))
             {
-                tags.Add(this._tagService.GetTagByName(tagName));
+                tags.Add(_tagService.GetTagByName(tagName));
             }
 
-            return this.GetContentReferencesByTags(tags, rootContentReference);
+            return GetContentReferencesByTags(tags, rootContentReference);
         }
 
         public IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags, ContentReference rootContentReference)
@@ -336,7 +329,7 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            IEnumerable<ContentReference> descendantPageReferences = this._contentLoader.GetDescendents(rootContentReference);
+            var descendantPageReferences = _contentLoader.GetDescendents(rootContentReference)?.ToArray();
 
             if (descendantPageReferences == null || !descendantPageReferences.Any())
             {
@@ -345,14 +338,14 @@ namespace Geta.Tags.Implementations
 
             var matches = new Dictionary<ContentReference, int>();
 
-            foreach (Tag tag in tags)
+            foreach (var tag in tags)
             {
-                if (tag == null || tag.PermanentLinks == null)
+                if (tag?.PermanentLinks == null)
                 {
                     continue;
                 }
 
-                foreach (Guid contentGuid in tag.PermanentLinks)
+                foreach (var contentGuid in tag.PermanentLinks)
                 {
                     var contentReference = TagsHelper.GetContentReference(contentGuid);
 

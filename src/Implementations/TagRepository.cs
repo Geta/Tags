@@ -12,13 +12,7 @@ namespace Geta.Tags.Implementations
     [ServiceConfiguration(typeof(ITagRepository))]
     public class TagRepository : ITagRepository
     {
-        private static DynamicDataStore TagStore
-        {
-            get
-            {
-                return typeof(Tag).GetOrCreateStore();
-            }
-        }
+        private static DynamicDataStore TagStore => typeof(Tag).GetOrCreateStore();
 
         public Tag GetTagById(Identity id)
         {
@@ -33,12 +27,12 @@ namespace Geta.Tags.Implementations
         [Obsolete("Use GetTagsByContent instead.")]
         public IEnumerable<Tag> GetTagsByPage(Guid pageGuid)
         {
-            return this.GetAllTags().Where(t => t.PermanentLinks.Contains(pageGuid));
+            return GetAllTags().Where(t => t.PermanentLinks.Contains(pageGuid));
         }
 
         public IEnumerable<Tag> GetTagsByContent(Guid contentGuid)
         {
-            return this.GetAllTags().Where(t => t.PermanentLinks.Contains(contentGuid));
+            return GetAllTags().Where(t => t.PermanentLinks.Contains(contentGuid));
         }
 
         public IQueryable<Tag> GetAllTags()
@@ -53,13 +47,10 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            Tag existingTag = this.GetTagByName(tag.Name);
-            if (existingTag != null)
-            {
-                return TagStore.Save(tag, existingTag.GetIdentity());
-            }
-
-            return TagStore.Save(tag);
+            var existingTag = GetTagByName(tag.Name);
+            return existingTag != null
+                ? TagStore.Save(tag, existingTag.GetIdentity())
+                : TagStore.Save(tag);
         }
 
         public void Delete(Tag tag)

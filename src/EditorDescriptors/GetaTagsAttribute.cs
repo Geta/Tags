@@ -35,18 +35,23 @@ namespace Geta.Tags.EditorDescriptors
                 return;
             }
 
-            var groupKeyAttribute = extendedMetadata.Attributes.FirstOrDefault(a => typeof(TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
-            var cultureSpecificAttribute = extendedMetadata.Attributes.FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
+            var groupKeyAttribute = extendedMetadata
+                .Attributes
+                .FirstOrDefault(a => typeof(TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
+            var cultureSpecificAttribute = extendedMetadata
+                .Attributes
+                .FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
 
             extendedMetadata.ClientEditingClass = "geta-tags/TagsSelection";
             extendedMetadata.CustomEditorSettings["uiType"] = extendedMetadata.ClientEditingClass;
             extendedMetadata.CustomEditorSettings["uiWrapperType"] = UiWrapperType.Floating;
-            extendedMetadata.EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
-            extendedMetadata.EditorConfiguration["allowSpaces"] = this.AllowSpaces;
-            extendedMetadata.EditorConfiguration["allowDuplicates"] = this.AllowDuplicates;
-            extendedMetadata.EditorConfiguration["caseSensitive "] = this.CaseSensitive;
-            extendedMetadata.EditorConfiguration["readOnly "] = this.ReadOnly;
-            extendedMetadata.EditorConfiguration["tagLimit"] = this.TagLimit;
+            extendedMetadata.EditorConfiguration["GroupKey"] =
+                Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+            extendedMetadata.EditorConfiguration["allowSpaces"] = AllowSpaces;
+            extendedMetadata.EditorConfiguration["allowDuplicates"] = AllowDuplicates;
+            extendedMetadata.EditorConfiguration["caseSensitive "] = CaseSensitive;
+            extendedMetadata.EditorConfiguration["readOnly "] = ReadOnly;
+            extendedMetadata.EditorConfiguration["tagLimit"] = TagLimit;
         }
     }
 }

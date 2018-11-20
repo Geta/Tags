@@ -50,12 +50,12 @@ namespace Geta.Tags
 
                     if (!ContentReference.IsNullOrEmpty(contentReference))
                     {
-                        content = this._contentLoader.Get<IContent>(contentReference);
+                        content = _contentLoader.Get<IContent>(contentReference);
                     }
                 }
                 catch (ContentNotFoundException) {}
 
-                if (content == null || (content is PageData && ((PageData)content).IsDeleted))
+                if (content == null || (content is PageData data && data.IsDeleted))
                 {
                     RemoveFromAllTags(contentGuid, tags);
                     continue;
@@ -100,7 +100,7 @@ namespace Geta.Tags
 
         private static IEnumerable<Guid> GetTaggedContentGuids(IEnumerable<Tag> tags)
         {
-            return tags.Where(x => x != null && x.PermanentLinks != null)
+            return tags.Where(x => x?.PermanentLinks != null)
                 .SelectMany(x => x.PermanentLinks)
                 .ToList();
         }

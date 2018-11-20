@@ -25,12 +25,12 @@ namespace Geta.Tags
         private void OnPublishedContent(object sender, ContentEventArgs e)
         {
             var content = e.Content;
-            
+
             CleanupOldTags(content.ContentGuid);
-            
+
             var contentType = _contentTypeRepository.Load(content.ContentTypeID);
 
-            var tagProperties = contentType.PropertyDefinitions.Where(p => p.TemplateHint == "Tags");
+            var tagProperties = contentType.PropertyDefinitions.Where(p => p.TemplateHint == "Tags").ToArray();
 
             if (!tagProperties.Any())
             {
@@ -47,10 +47,12 @@ namespace Geta.Tags
                     return;
                 }
 
-                var groupKeyAttribute = tagPropertyInfo.GetCustomAttribute(typeof(TagsGroupKeyAttribute)) as TagsGroupKeyAttribute;
-                var cultureSpecificAttribute = tagPropertyInfo.GetCustomAttribute(typeof(CultureSpecificAttribute)) as CultureSpecificAttribute;
+                var groupKeyAttribute =
+                    tagPropertyInfo.GetCustomAttribute(typeof(TagsGroupKeyAttribute)) as TagsGroupKeyAttribute;
+                var cultureSpecificAttribute
+                    = tagPropertyInfo.GetCustomAttribute(typeof(CultureSpecificAttribute)) as CultureSpecificAttribute;
 
-                string groupKey = TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+                var groupKey = TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
 
                 _tagService.Save(content.ContentGuid, tags, groupKey);
             }
@@ -76,23 +78,21 @@ namespace Geta.Tags
         private static IEnumerable<string> GetPropertyTags(ContentData content, PropertyDefinition propertyDefinition)
         {
             var tagNames = content[propertyDefinition.Name] as string;
-            return tagNames == null
-                ? Enumerable.Empty<string>()
-                : tagNames.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            return tagNames?.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>();
         }
 
         public void Initialize(InitializationEngine context)
         {
-            this._tagService = ServiceLocator.Current.GetInstance<ITagService>();
-            this._contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
-            this._contentEvents = ServiceLocator.Current.GetInstance<IContentEvents>();
+            _tagService = ServiceLocator.Current.GetInstance<ITagService>();
+            _contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
+            _contentEvents = ServiceLocator.Current.GetInstance<IContentEvents>();
 
-            this._contentEvents.PublishedContent += OnPublishedContent;
+            _contentEvents.PublishedContent += OnPublishedContent;
         }
 
         public void Uninitialize(InitializationEngine context)
         {
-            this._contentEvents.PublishedContent -= OnPublishedContent;
+            _contentEvents.PublishedContent -= OnPublishedContent;
         }
     }
 }
