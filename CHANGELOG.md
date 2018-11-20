@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0]
+
+- Removed obsolete methods which used old page API.
+- Changed all methods which return IEnumerable, to always return a result instead of null.
+
 ## [3.0.4]
  - Fixed #65 set groupkey based on the current content language instead of CMS language
 
