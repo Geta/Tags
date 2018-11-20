@@ -24,16 +24,16 @@ namespace Geta.Tags.Implementations
 
         public IEnumerable<ContentData> GetContentByTag(string tagName)
         {
-            return !string.IsNullOrEmpty(tagName) ?
-                GetContentsByTag(_tagService.GetTagByName(tagName))
-                : null;
+            return !string.IsNullOrEmpty(tagName)
+                ? GetContentsByTag(_tagService.GetTagByName(tagName))
+                : Enumerable.Empty<ContentData>();
         }
 
         public IEnumerable<ContentData> GetContentsByTag(Tag tag)
         {
             if (tag == null)
             {
-                return null;
+                return Enumerable.Empty<ContentData>();
             }
 
             var contentLinks = new List<Guid>();
@@ -66,40 +66,34 @@ namespace Geta.Tags.Implementations
         {
             if (tag?.PermanentLinks == null)
             {
-                return null;
+                return Enumerable.Empty<ContentData>();
             }
 
             var descendantContentReferences = _contentLoader.GetDescendents(rootContentReference)?.ToArray();
 
             if (descendantContentReferences == null || !descendantContentReferences.Any())
             {
-                return null;
+                return Enumerable.Empty<ContentData>();
             }
 
-            var items = new List<ContentData>();
-
-            foreach (var contentGuid in tag.PermanentLinks)
-            {
-                var contentReference = TagsHelper.GetContentReference(contentGuid);
-
-                if (descendantContentReferences.FirstOrDefault(p => p.ID == contentReference.ID) != null)
-                {
-                    items.Add(_contentLoader.Get<PageData>(contentReference));
-                }
-            }
-
-            return items;
+            return tag
+                .PermanentLinks
+                .Select(TagsHelper.GetContentReference)
+                .Where(contentLink =>
+                    descendantContentReferences.FirstOrDefault(p => p.ID == contentLink.ID) != null)
+                .Select(contentReference => _contentLoader.Get<PageData>(contentReference))
+                .Cast<ContentData>()
+                .ToList();
         }
 
         public IEnumerable<ContentReference> GetContentReferencesByTags(string tagNames)
         {
             if (string.IsNullOrEmpty(tagNames))
             {
-                return null;
+                return Enumerable.Empty<ContentReference>();
             }
 
             var tags = tagNames.Split(',').Select(tagName => _tagService.GetTagByName(tagName)).ToList();
-
             return GetContentReferencesByTags(tags);
         }
 
@@ -133,13 +127,11 @@ namespace Geta.Tags.Implementations
 
         public IEnumerable<ContentReference> GetContentReferencesByTags(string tagNames, ContentReference rootContentReference)
         {
-            IList<Tag> tags = new List<Tag>();
-
-            foreach (var tagName in tagNames.Split(','))
+            if (string.IsNullOrEmpty(tagNames))
             {
-                tags.Add(_tagService.GetTagByName(tagName));
+                return Enumerable.Empty<ContentReference>();
             }
-
+            var tags = tagNames.Split(',').Select(tagName => _tagService.GetTagByName(tagName)).ToList();
             return GetContentReferencesByTags(tags, rootContentReference);
         }
 
@@ -147,14 +139,14 @@ namespace Geta.Tags.Implementations
         {
             if (tags == null || ContentReference.IsNullOrEmpty(rootContentReference))
             {
-                return null;
+                return Enumerable.Empty<ContentReference>();
             }
 
             var descendantPageReferences = _contentLoader.GetDescendents(rootContentReference)?.ToArray();
 
             if (descendantPageReferences == null || !descendantPageReferences.Any())
             {
-                return null;
+                return Enumerable.Empty<ContentReference>();
             }
 
             var matches = new Dictionary<ContentReference, int>();
@@ -170,16 +162,15 @@ namespace Geta.Tags.Implementations
                 {
                     var contentReference = TagsHelper.GetContentReference(contentGuid);
 
-                    if (descendantPageReferences.FirstOrDefault(p => p.ID == contentReference.ID) != null)
+                    if (descendantPageReferences.FirstOrDefault(p => p.ID == contentReference.ID) == null) continue;
+
+                    if (matches.ContainsKey(contentReference))
                     {
-                        if (matches.ContainsKey(contentReference))
-                        {
-                            matches[contentReference] += 1;
-                        }
-                        else
-                        {
-                            matches.Add(contentReference, 1);
-                        }
+                        matches[contentReference] += 1;
+                    }
+                    else
+                    {
+                        matches.Add(contentReference, 1);
                     }
                 }
             }
