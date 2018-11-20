@@ -286,7 +286,7 @@ namespace Geta.Tags.Implementations
         {
             var matches = new Dictionary<ContentReference, int>();
 
-            foreach (Tag tag in tags)
+            foreach (var tag in tags)
             {
                 if (tag?.PermanentLinks == null) continue;
 

@@ -80,7 +80,7 @@ namespace Geta.Tags
 
                 var tagNames = ((ContentData)content)[propertyDefinition.Name] as string;
 
-                IList<Tag> allTags = tags;
+                var allTags = tags;
 
                 if (tagNames == null)
                 {

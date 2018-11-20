@@ -42,7 +42,7 @@ namespace Geta.Tags.Implementations
 
         public Identity Save(Tag tag)
         {
-            if (tag == null || string.IsNullOrEmpty(tag.Name))
+            if (string.IsNullOrEmpty(tag?.Name))
             {
                 return null;
             }
