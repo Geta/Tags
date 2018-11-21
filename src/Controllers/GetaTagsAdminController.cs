@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,7 +16,10 @@ using PagedList;
 namespace Geta.Tags.Controllers
 {
     [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins")]
-    [EPiServer.PlugIn.GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/GetaTagsAdmin", DisplayName = "Geta Tags Management")]
+    [EPiServer.PlugIn.GuiPlugIn(
+        Area = EPiServer.PlugIn.PlugInArea.AdminMenu,
+        Url = "/GetaTagsAdmin",
+        DisplayName = "Geta Tags Management")]
     public class GetaTagsAdminController : Controller
     {
         public static int PageSize { get; } = 30;
@@ -26,21 +28,25 @@ namespace Geta.Tags.Controllers
         private readonly IContentRepository _contentRepository;
         private readonly ITagEngine _tagEngine;
 
-        public GetaTagsAdminController() : this(ServiceLocator.Current.GetInstance<ITagRepository>(), ServiceLocator.Current.GetInstance<IContentRepository>(), ServiceLocator.Current.GetInstance<ITagEngine>())
+        public GetaTagsAdminController() : this(
+                ServiceLocator.Current.GetInstance<ITagRepository>(),
+                ServiceLocator.Current.GetInstance<IContentRepository>(),
+                ServiceLocator.Current.GetInstance<ITagEngine>())
         {
         }
 
-        public GetaTagsAdminController(ITagRepository tagRepository, IContentRepository contentRepository, ITagEngine tagEngine)
+        public GetaTagsAdminController(
+            ITagRepository tagRepository, IContentRepository contentRepository, ITagEngine tagEngine)
         {
-            this._tagRepository = tagRepository;
-            this._contentRepository = contentRepository;
-            this._tagEngine = tagEngine;
+            _tagRepository = tagRepository;
+            _contentRepository = contentRepository;
+            _tagEngine = tagEngine;
         }
 
         public ActionResult Index(string searchString, int? page)
         {
             var pageNumber = page ?? 1;
-            var tags = this._tagRepository.GetAllTags().ToList();
+            var tags = _tagRepository.GetAllTags().ToList();
             ViewBag.TotalCount = tags.Count;
 
             if (string.IsNullOrEmpty(searchString) && (page == null || page == pageNumber))
@@ -85,9 +91,9 @@ namespace Geta.Tags.Controllers
 
             if (existingTag == null)
             {
-                return RedirectToAction("Index", new { page = page, searchString = searchString });
+                return RedirectToAction("Index", new { page, searchString });
             }
-            
+
             if (eddittedTag.checkedEditContentTags)
             {
                 EditTagsInContentRepository(existingTag, eddittedTag);
@@ -98,7 +104,7 @@ namespace Geta.Tags.Controllers
 
             _tagRepository.Save(existingTag);
 
-            return RedirectToAction("Index", new { page = page, searchString = searchString });
+            return RedirectToAction("Index", new { page, searchString });
         }
 
         public void EditTagsInContentRepository(Tag tagFromTagRepository, Tag tagFromUser)
@@ -108,13 +114,13 @@ namespace Geta.Tags.Controllers
 
             foreach (var item in contentReferencesFromTag)
             {
-                var pageFromRepository = _contentRepository.Get<IContent>(item) as PageData;
+                var pageFromRepository = (PageData)_contentRepository.Get<IContent>(item);
 
                 var clone = pageFromRepository.CreateWritableClone();
 
                 var tagAttributes = clone.GetType().GetProperties().Where(
-                    prop => Attribute.IsDefined(prop, typeof(UIHintAttribute)) && 
-                    prop.PropertyType == typeof(string) && 
+                    prop => Attribute.IsDefined(prop, typeof(UIHintAttribute)) &&
+                    prop.PropertyType == typeof(string) &&
                     ((UIHintAttribute)Attribute.GetCustomAttribute(prop, typeof(UIHintAttribute))).UIHint.Equals("Tags"));
 
                 foreach (var tagAttribute in tagAttributes)
@@ -122,8 +128,8 @@ namespace Geta.Tags.Controllers
                     var tags = tagAttribute.GetValue(clone) as string;
                     if (string.IsNullOrEmpty(tags)) continue;
 
-                    IList<string> pageTagList = tags.Split(',').ToList<string>();
-                    int indexTagToReplace = pageTagList.IndexOf(existingTagName);
+                    var pageTagList = tags.Split(',').ToList();
+                    var indexTagToReplace = pageTagList.IndexOf(existingTagName);
 
                     if (indexTagToReplace == -1) continue;
                     pageTagList[indexTagToReplace] = tagFromUser.Name;

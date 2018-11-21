@@ -22,10 +22,7 @@ namespace Geta.Tags.Models
         public string Description { get; set; }
 
         // number of objects, pages that use this term
-        public int Count
-        {
-            get { return PermanentLinks == null ? 0 : PermanentLinks.Count; }
-        }
+        public int Count => PermanentLinks?.Count ?? 0;
 
         public IList<Guid> PermanentLinks { get; set; }
 
@@ -33,12 +30,7 @@ namespace Geta.Tags.Models
 
         public override int GetHashCode()
         {
-            if (Name == null)
-            {
-                return base.GetHashCode();
-            }
-
-            return Name.GetHashCode();
+            return Name == null ? base.GetHashCode() : Name.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -55,12 +47,7 @@ namespace Geta.Tags.Models
 
             var tag = (Tag) obj;
 
-            if (!Equals(Name, tag.Name))
-            {
-                return false;
-            }
-
-            return true;
+            return Equals(Name, tag.Name);
         }
     }
 }

@@ -5,34 +5,28 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Globalization;
 using EPiServer.Web;
-using EPiServer.Web.Internal;
 using Geta.Tags.Attributes;
 
 namespace Geta.Tags.Helpers
 {
     public static class TagsHelper
     {
-        public static string GetGroupKeyFromAttributes(TagsGroupKeyAttribute groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute)
+        public static string GetGroupKeyFromAttributes(
+            TagsGroupKeyAttribute groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute)
         {
-            string groupKey = string.Empty;
+            var groupKey = string.Empty;
 
             if (groupKeyAttribute != null)
             {
                 groupKey += groupKeyAttribute.Key;
             }
 
-            if ((cultureSpecificAttribute != null) && (cultureSpecificAttribute.IsCultureSpecific))
+            if (cultureSpecificAttribute != null && cultureSpecificAttribute.IsCultureSpecific)
             {
                 groupKey += ContentLanguage.PreferredCulture ?? CultureInfo.CurrentCulture;
             }
 
             return groupKey;
-        }
-        [Obsolete("Use GetContentReference instead")]
-        public static PageReference GetPageReference(Guid pageGuid)
-        {
-            var map = PermanentLinkMapStore.Find(pageGuid) as PermanentContentLinkMap;
-            return (map != null) ? map.ContentReference as PageReference : PageReference.EmptyReference;
         }
 
         public static ContentReference GetContentReference(Guid contentGuid)

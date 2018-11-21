@@ -18,12 +18,17 @@ namespace Geta.Tags.EditorDescriptors
         public override void ModifyMetadata(EPiServer.Shell.ObjectEditing.ExtendedMetadata metadata,
             IEnumerable<Attribute> attributes)
         {
-            base.ModifyMetadata(metadata, attributes);
-            var groupKeyAttribute = attributes.FirstOrDefault(a => typeof (TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
-            var cultureSpecificAttribute = attributes.FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
-            var getaAttribute = attributes.FirstOrDefault(a => typeof(GetaTagsAttribute) == a.GetType()) as GetaTagsAttribute;
+            var attrs = attributes.ToArray();
+            base.ModifyMetadata(metadata, attrs);
+            var groupKeyAttribute = attrs.FirstOrDefault(
+                a => typeof (TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
+            var cultureSpecificAttribute = attrs.FirstOrDefault(
+                a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
+            var getaAttribute = attrs.FirstOrDefault(
+                a => typeof(GetaTagsAttribute) == a.GetType()) as GetaTagsAttribute;
 
-            metadata.EditorConfiguration["GroupKey"] = Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+            metadata.EditorConfiguration["GroupKey"] =
+                Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
             metadata.EditorConfiguration["allowSpaces"] = getaAttribute?.AllowSpaces ?? false;
             metadata.EditorConfiguration["allowDuplicates"] = getaAttribute?.AllowDuplicates ?? false;
             metadata.EditorConfiguration["readOnly"] = getaAttribute?.ReadOnly ?? false;
