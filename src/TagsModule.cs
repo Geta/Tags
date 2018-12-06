@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using EPiServer;
+﻿using EPiServer;
+using EPiServer.Cms.Shell;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
@@ -12,10 +9,14 @@ using EPiServer.ServiceLocation;
 using Geta.Tags.Attributes;
 using Geta.Tags.Helpers;
 using Geta.Tags.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Geta.Tags
 {
-    [ModuleDependency(typeof (ServiceContainerInitialization))]
+    [ModuleDependency(typeof(ServiceContainerInitialization))]
     public class TagsModule : IInitializableModule
     {
         private ITagService _tagService;
@@ -26,7 +27,7 @@ namespace Geta.Tags
         {
             var content = e.Content;
 
-            CleanupOldTags(content.ContentGuid);
+            CleanupOldTags(content);
 
             var contentType = _contentTypeRepository.Load(content.ContentTypeID);
 
@@ -58,13 +59,15 @@ namespace Geta.Tags
             }
         }
 
-        private void CleanupOldTags(Guid contentGuid)
+        private void CleanupOldTags(IContent content)
         {
+            var contentGuid = content.ContentGuid;
             var oldTags = _tagService.GetTagsByContent(contentGuid);
+            var language = content.LanguageBranch();
 
             foreach (var tag in oldTags)
             {
-                if (tag.PermanentLinks == null || !tag.PermanentLinks.Contains(contentGuid))
+                if (tag.PermanentLinks == null || !tag.PermanentLinks.Contains(contentGuid) || tag.GroupKey != language)
                 {
                     continue;
                 }
