@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [4.0.1]
 
-- Fixed a bug when tag changes in one language removes tags in other languages.
+- Fixed a bug when tag changes in one language, remove tags in other languages.
 
 ## [4.0.0]
 
