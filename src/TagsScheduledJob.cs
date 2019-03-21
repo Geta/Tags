@@ -108,7 +108,7 @@ namespace Geta.Tags
         private IEnumerable<Tag> ParseTags(string tagNames)
         {
             return tagNames.Split(',')
-                .Select(_tagService.GetTagByName)
+                .SelectMany(_tagService.GetTagsByName)
                 .Where(tag => tag != null)
                 .ToList();
         }

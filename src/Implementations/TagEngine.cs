@@ -25,7 +25,7 @@ namespace Geta.Tags.Implementations
         public IEnumerable<ContentData> GetContentByTag(string tagName)
         {
             return !string.IsNullOrEmpty(tagName)
-                ? GetContentsByTag(_tagService.GetTagByName(tagName))
+                ? _tagService.GetTagsByName(tagName).SelectMany(GetContentsByTag)
                 : Enumerable.Empty<ContentData>();
         }
 
@@ -40,7 +40,7 @@ namespace Geta.Tags.Implementations
 
             if (tag.PermanentLinks == null)
             {
-                var tempTerm = _tagService.GetTagByName(tag.Name);
+                var tempTerm = _tagService.GetTagByNameAndGroup(tag.Name, tag.GroupKey);
 
                 if (tempTerm != null)
                 {
@@ -59,7 +59,9 @@ namespace Geta.Tags.Implementations
 
         public IEnumerable<ContentData> GetContentsByTag(string tagName, ContentReference rootContentReference)
         {
-            return GetContentsByTag(_tagService.GetTagByName(tagName), rootContentReference);
+            return !string.IsNullOrEmpty(tagName)
+                ? _tagService.GetTagsByName(tagName).SelectMany(t => GetContentsByTag(t, rootContentReference))
+                : Enumerable.Empty<ContentData>();
         }
 
         public IEnumerable<ContentData> GetContentsByTag(Tag tag, ContentReference rootContentReference)
@@ -93,8 +95,16 @@ namespace Geta.Tags.Implementations
                 return Enumerable.Empty<ContentReference>();
             }
 
-            var tags = tagNames.Split(',').Select(tagName => _tagService.GetTagByName(tagName)).ToList();
+            var tags = GetTags(tagNames);
             return GetContentReferencesByTags(tags);
+        }
+
+        private List<Tag> GetTags(string tagNames)
+        {
+            return tagNames
+                .Split(',')
+                .SelectMany(tagName => _tagService.GetTagsByName(tagName))
+                .ToList();
         }
 
         public IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags)
@@ -131,7 +141,7 @@ namespace Geta.Tags.Implementations
             {
                 return Enumerable.Empty<ContentReference>();
             }
-            var tags = tagNames.Split(',').Select(tagName => _tagService.GetTagByName(tagName)).ToList();
+            var tags = GetTags(tagNames);
             return GetContentReferencesByTags(tags, rootContentReference);
         }
 

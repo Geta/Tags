@@ -11,7 +11,10 @@ namespace Geta.Tags.Interfaces
     {
         Tag GetTagById(Identity id);
         IEnumerable<Tag> GetTagsByContent(Guid contentGuid);
+        [Obsolete("Use GetTagByNameAndGroup instead.")]
         Tag GetTagByName(string name);
+        Tag GetTagByNameAndGroup(string name, string groupKey);
+        IEnumerable<Tag> GetTagsByName(string name);
         IQueryable<Tag> GetAllTags();
         Identity Save(Tag tag);
         Tag Save(Guid contentGuid, string name, string groupKey);

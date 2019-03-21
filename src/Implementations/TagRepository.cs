@@ -24,6 +24,21 @@ namespace Geta.Tags.Implementations
             return TagStore.Find<Tag>("Name", name).FirstOrDefault();
         }
 
+        public Tag GetTagByNameAndGroup(string name, string groupKey)
+        {
+            return TagStore
+                .Find<Tag>(new Dictionary<string, object>
+                {
+                    { "Name", name }, { "GroupKey", groupKey }
+                })
+                .FirstOrDefault();
+        }
+
+        public IEnumerable<Tag> GetTagsByName(string name)
+        {
+            return TagStore.Find<Tag>("Name", name);
+        }
+
         public IEnumerable<Tag> GetTagsByContent(Guid contentGuid)
         {
             return GetAllTags().Where(t => t.PermanentLinks.Contains(contentGuid));
@@ -41,7 +56,7 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            var existingTag = GetTagByName(tag.Name);
+            var existingTag = GetTagByNameAndGroup(tag.Name, tag.GroupKey);
             return existingTag != null
                 ? TagStore.Save(tag, existingTag.GetIdentity())
                 : TagStore.Save(tag);

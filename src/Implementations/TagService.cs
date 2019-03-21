@@ -30,7 +30,19 @@ namespace Geta.Tags.Implementations
 
         public Tag GetTagByName(string name)
         {
+#pragma warning disable 618
             return _tagRepository.GetTagByName(name);
+#pragma warning restore 618
+        }
+
+        public Tag GetTagByNameAndGroup(string name, string groupKey)
+        {
+            return _tagRepository.GetTagByNameAndGroup(name, groupKey);
+        }
+
+        public IEnumerable<Tag> GetTagsByName(string name)
+        {
+            return _tagRepository.GetTagsByName(name);
         }
 
         public IQueryable<Tag> GetAllTags()
@@ -50,13 +62,12 @@ namespace Geta.Tags.Implementations
                 return null;
             }
 
-            var tag = GetTagByName(name)
+            var tag = GetTagByNameAndGroup(name, groupKey)
                       ?? new Tag
                       {
-                          Name = name
+                          Name = name,
+                          GroupKey = groupKey
                       };
-
-            tag.GroupKey = groupKey;
 
             if (tag.PermanentLinks == null)
             {
