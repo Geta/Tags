@@ -67,7 +67,7 @@ function (
             return $(".tagit-label", list)
                 .clone()
                 .text(function (index, text) {
-                    return (index == 0) ? text : "," + text;
+                    return (index === 0) ? text : "," + text;
                 })
                 .text();
         }
