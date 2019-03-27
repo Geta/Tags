@@ -118,10 +118,10 @@ namespace Geta.Tags.Controllers
 
                 var clone = pageFromRepository.CreateWritableClone();
 
-                var tagAttributes = clone.GetType().GetProperties().Where(
+                 var tagAttributes = clone.GetType().GetProperties().Where(
                     prop => Attribute.IsDefined(prop, typeof(UIHintAttribute)) &&
                     prop.PropertyType == typeof(string) &&
-                    ((UIHintAttribute)Attribute.GetCustomAttribute(prop, typeof(UIHintAttribute))).UIHint.Equals("Tags"));
+                    Attribute.GetCustomAttributes(prop, typeof(UIHintAttribute)).Any(x=> ((UIHintAttribute)x).Equals("Tags")));
 
                 foreach (var tagAttribute in tagAttributes)
                 {
