@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.3]
+
+ - Fixed UIHint attribute to support multiple.
+
 ## [4.0.1]
 
 - Fixed a bug when tag changes in one language, remove tags in other languages.
