@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
  - Fixed UIHint attribute to support multiple.
 
+## [4.0.2]
+
+- Setting language for the tag for all values so that tags are removed properly.
+
 ## [4.0.1]
 
 - Fixed a bug when tag changes in one language, remove tags in other languages.
