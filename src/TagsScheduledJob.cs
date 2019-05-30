@@ -78,7 +78,7 @@ namespace Geta.Tags
                     continue;
                 }
 
-                var tagNames = ((ContentData)content)[propertyDefinition.Name] as string;
+                var tagNames = GetTagNames(content, propertyDefinition);
 
                 var allTags = tags;
 
@@ -96,6 +96,25 @@ namespace Geta.Tags
                 // make sure there's no ContentReference to this ContentReference in the rest of the tags
                 RemoveFromAllTags(content.ContentGuid, allTags);
             }
+        }
+
+        private string GetTagNames(IContent content, PropertyDefinition propertyDefinition)
+        {
+            if (content is ILocalizable)
+            {
+                return GetAllLanguageTagNames(content, propertyDefinition);
+            }
+            return ((ContentData)content)[propertyDefinition.Name] as string;
+        }
+
+        private string GetAllLanguageTagNames(IContent localizableContent, PropertyDefinition tagPropertyDefinition)
+        {
+            var localizable = (ILocalizable)localizableContent;
+            var tags = localizable
+                .ExistingLanguages
+                .Select(language => _contentLoader.Get<IContent>(localizableContent.ContentGuid, language))
+                .Select(x => ((ContentData)x)[tagPropertyDefinition.Name] as string);
+            return string.Join(",", tags);
         }
 
         private static IEnumerable<Guid> GetTaggedContentGuids(IEnumerable<Tag> tags)
