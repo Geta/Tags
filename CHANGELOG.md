@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.4]
+
+- Fixed a maintenance job to not remove tags from the localized content.
+
 ## [4.0.3]
 
  - Fixed UIHint attribute to support multiple.
