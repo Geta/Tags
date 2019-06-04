@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.5]
+
+- Fix for removing a tag from a page doesn't remove the page from the list where it's displayed ([#70](https://github.com/Geta/Tags/issues/70))
+
 ## [4.0.4]
 
 - Fixed a maintenance job to not remove tags from the localized content.
