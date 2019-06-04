@@ -1,10 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+﻿using EPiServer.Cms.Shell.Extensions;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell;
 using EPiServer.Shell.ObjectEditing;
 using Geta.Tags.Attributes;
+using Geta.Tags.Helpers;
+using System;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Geta.Tags.EditorDescriptors
 {
@@ -18,7 +20,8 @@ namespace Geta.Tags.EditorDescriptors
 
         public bool ReadOnly { get; set; }
 
-        public GetaTagsAttribute() {
+        public GetaTagsAttribute()
+        {
             AllowDuplicates = false;
             AllowSpaces = false;
             CaseSensitive = true;
@@ -41,12 +44,13 @@ namespace Geta.Tags.EditorDescriptors
             var cultureSpecificAttribute = extendedMetadata
                 .Attributes
                 .FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;
+            var ownerContent = extendedMetadata.FindOwnerContent();
 
             extendedMetadata.ClientEditingClass = "geta-tags/TagsSelection";
             extendedMetadata.CustomEditorSettings["uiType"] = extendedMetadata.ClientEditingClass;
             extendedMetadata.CustomEditorSettings["uiWrapperType"] = UiWrapperType.Floating;
             extendedMetadata.EditorConfiguration["GroupKey"] =
-                Helpers.TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+                TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute, ownerContent);
             extendedMetadata.EditorConfiguration["allowSpaces"] = AllowSpaces;
             extendedMetadata.EditorConfiguration["allowDuplicates"] = AllowDuplicates;
             extendedMetadata.EditorConfiguration["caseSensitive "] = CaseSensitive;

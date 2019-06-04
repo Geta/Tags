@@ -53,7 +53,7 @@ namespace Geta.Tags
                 var cultureSpecificAttribute
                     = tagPropertyInfo.GetCustomAttribute(typeof(CultureSpecificAttribute)) as CultureSpecificAttribute;
 
-                var groupKey = TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute);
+                var groupKey = TagsHelper.GetGroupKeyFromAttributes(groupKeyAttribute, cultureSpecificAttribute, content);
 
                 _tagService.Save(content.ContentGuid, tags, groupKey);
             }
