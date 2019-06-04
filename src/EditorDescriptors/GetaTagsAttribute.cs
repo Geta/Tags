@@ -38,7 +38,6 @@ namespace Geta.Tags.EditorDescriptors
                 return;
             }
 
-
             var groupKeyAttribute = extendedMetadata
                 .Attributes
                 .FirstOrDefault(a => typeof(TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
