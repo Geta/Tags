@@ -41,7 +41,8 @@ namespace Geta.Tags.Helpers
 
         public static bool IsTagProperty(PropertyDefinition propertyDefinition)
         {
-            return propertyDefinition != null && propertyDefinition.TemplateHint == "Tags";
+            return propertyDefinition != null 
+                   && propertyDefinition.TemplateHint == "Tags";
         }
     }
 }
