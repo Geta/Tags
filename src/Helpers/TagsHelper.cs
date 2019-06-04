@@ -1,20 +1,25 @@
-﻿using System;
-using System.Globalization;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Globalization;
 using EPiServer.Web;
 using Geta.Tags.Attributes;
+using System;
+using System.Globalization;
 
 namespace Geta.Tags.Helpers
 {
     public static class TagsHelper
     {
         public static string GetGroupKeyFromAttributes(
-            TagsGroupKeyAttribute groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute)
+            TagsGroupKeyAttribute groupKeyAttribute, CultureSpecificAttribute cultureSpecificAttribute, IContent content)
         {
             var groupKey = string.Empty;
+
+            if (groupKeyAttribute == null && cultureSpecificAttribute == null && content is ILocalizable localizableContent)
+            {
+                groupKey += localizableContent.MasterLanguage;
+            }
 
             if (groupKeyAttribute != null)
             {
@@ -36,8 +41,8 @@ namespace Geta.Tags.Helpers
 
         public static bool IsTagProperty(PropertyDefinition propertyDefinition)
         {
-            return propertyDefinition != null
-                   && propertyDefinition.TemplateHint == "Tags";
+            return propertyDefinition != null && 
+                   propertyDefinition.TemplateHint == "Tags";
         }
     }
 }
