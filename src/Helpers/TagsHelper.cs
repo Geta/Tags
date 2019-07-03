@@ -5,6 +5,8 @@ using EPiServer.Globalization;
 using EPiServer.Web;
 using Geta.Tags.Attributes;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Geta.Tags.Helpers
@@ -37,6 +39,19 @@ namespace Geta.Tags.Helpers
         public static ContentReference GetContentReference(Guid contentGuid)
         {
             return PermanentLinkUtility.FindContentReference(contentGuid) ?? ContentReference.EmptyReference;
+        }
+
+        public static IEnumerable<ContentReference> GetContentReferences(List<Guid> contentLinks)
+        {
+            foreach (var contentLink in contentLinks)
+            {
+                var reference = GetContentReference(contentLink);
+
+                if (!ContentReference.IsNullOrEmpty(reference))
+                {
+                    yield return reference;
+                }
+            }
         }
 
         public static bool IsTagProperty(PropertyDefinition propertyDefinition)

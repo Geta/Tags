@@ -52,8 +52,10 @@ namespace Geta.Tags.Implementations
                 contentLinks = tag.PermanentLinks.ToList();
             }
 
-            return contentLinks
-                .Select(contentGuid => _contentLoader.Get<ContentData>(TagsHelper.GetContentReference(contentGuid)))
+            var contentReferences = TagsHelper.GetContentReferences(contentLinks);
+
+            return contentReferences
+                .Select(contentLink => _contentLoader.Get<ContentData>(contentLink))
                 .ToList();
         }
 
