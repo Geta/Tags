@@ -53,21 +53,6 @@ namespace Geta.Tags.Helpers
                 }
             }
         }
-        {
-            var list = new List<ContentReference>();
-
-            foreach(var contentLink in contentLinks)
-            {
-                var reference = GetContentReference(contentLink);
-
-                if(!ContentReference.IsNullOrEmpty(reference))
-                {
-                    list.Add(reference);
-                }
-            }
-
-            return list;
-        }
 
         public static bool IsTagProperty(PropertyDefinition propertyDefinition)
         {
