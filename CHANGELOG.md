@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.7]
+
+- Upgrading System.Security.Cryptography.Xml package
+
 ## [4.0.6]
 
 - Fix for missing references in TagEngine
@@ -16,7 +20,7 @@ All notable changes to this project will be documented in this file.
 
 ## [4.0.3]
 
- - Fixed UIHint attribute to support multiple.
+- Fixed UIHint attribute to support multiple.
 
 ## [4.0.2]
 
@@ -58,20 +62,21 @@ IEnumerable<Tag> GetTagByPage(Guid pageGuid);
 - Added a method to get content by content Guid to the `ITagService` - `IEnumerable<Tag> GetTagsByContent(Guid contentGuid);`
 - Changed all methods which return IEnumerable, to always return a result instead of null.
 
-
 ## [3.0.4]
- - Fixed #65 set groupkey based on the current content language instead of CMS language
 
+- Fixed #65 set groupkey based on the current content language instead of CMS language
 
 ## [3.0.3]
- - Added #59 Add sortable tags
+
+- Added #59 Add sortable tags
 
 ## [3.0.2]
- - Fixed #57 Add PagedList to modules/Geta.Tags/ClientResources/styles
+
+- Fixed #57 Add PagedList to modules/Geta.Tags/ClientResources/styles
 
 ## [3.0.1]
 
 ### Added
+
 - Added Changelog
 - Added checkbox on the edit tag page to also update the tags defined in the content properties
-
