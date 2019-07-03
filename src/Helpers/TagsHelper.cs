@@ -43,6 +43,17 @@ namespace Geta.Tags.Helpers
 
         public static IEnumerable<ContentReference> GetContentReferences(List<Guid> contentLinks)
         {
+            foreach (var contentLink in contentLinks)
+            {
+                var reference = GetContentReference(contentLink);
+
+                if (!ContentReference.IsNullOrEmpty(reference))
+                {
+                    yield return reference;
+                }
+            }
+        }
+        {
             var list = new List<ContentReference>();
 
             foreach(var contentLink in contentLinks)
