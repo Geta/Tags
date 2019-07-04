@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  geta-tags-demo-web:
+    ports:
+      - "80"
+networks:
+  default:
+    external:
+      name: nat

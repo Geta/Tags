@@ -1,0 +1,4 @@
+@using Geta.Tags.Demo
+@model PageViewModel<Geta.Tags.Demo.Models.Pages.StartPage>
+
+@Html.PropertyFor(x => x.CurrentPage.MainContentArea, new { CssClass = "row equal-height", tag = Global.ContentAreaTags.FullWidth })
