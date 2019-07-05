@@ -16,7 +16,4 @@ RUN MKDIR ClientResources
 RUN MKDIR Views
 WORKDIR /inetpub/wwwroot
 
-RUN Get-ChildItem -Path '/inetpub/wwwroot' -Directory
-
-RUN New-WebVirtualDirectory -Site 'Default Web Site' -Name 'modules/Geta.Tags/4.0.7/ClientResources' -PhysicalPath c:\data\ClientResources
-RUN New-WebVirtualDirectory -Site 'Default Web Site' -Name 'modules/Geta.Tags/4.0.7/Views' -PhysicalPath c:\data\Views
+RUN New-WebVirtualDirectory -Site 'Default Web Site' -Name 'Episerver/Geta.Tags/' -PhysicalPath c:\data\

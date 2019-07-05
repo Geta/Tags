@@ -65,22 +65,21 @@
     
       <!-- Copy -->
       <ItemGroup>
-        <ClientResources Include="$(SolutionDir)\src\ClientResources\**\*" />
-        <Views Include="$(SolutionDir)\src\Views\**\*" />
+        <ClientResources Include="$(SolutionDir)\src\module\$(Version)\ClientResources\**\*" />
+        <Views Include="$(SolutionDir)\src\module\$(Version)\Views\**\*" />
       </ItemGroup>  
       
-      <Copy SourceFiles="$(SolutionDir)\src\module.config" DestinationFolder="$(TmpOutDir)\content" />
+      <Copy SourceFiles="$(SolutionDir)\src\module\module.config" DestinationFolder="$(TmpOutDir)\content" />
       <Copy SourceFiles="@(ClientResources)" DestinationFiles="@(ClientResources -> '$(TmpOutDir)\content\$(Version)\ClientResources\%(RecursiveDir)%(Filename)%(Extension)')"/>
       <Copy SourceFiles="@(Views)" DestinationFiles="@(Views -> '$(TmpOutDir)\content\$(Version)\Views\%(RecursiveDir)%(Filename)%(Extension)')"/>
 
       <!-- Update the module config with the version information -->
       <XmlPoke XmlInputPath="$(TmpOutDir)\content\module.config" Query="/module/@clientResourceRelativePath" Value="$(Version)" />
 
-      <!-- Create the Zip file BUG: CMS-3891 protected modules and .cshtml files-->
-      <!--<ZipDirectory
+      <ZipDirectory
         InputPath="$(TmpOutDir)\content"
         OutputFileName="$(OutDir)\Geta.Tags.zip"
-        OverwriteExistingFile="true" />-->
+        OverwriteExistingFile="true" />
 
       <!-- Create the package -->
       <PropertyGroup>

@@ -208,25 +208,24 @@
     <Compile Include="TagsTransferModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientResources\styles\jquery.tagit.css" />
-    <Content Include="ClientResources\styles\tagit.ui-zendesk.css" />
-    <Content Include="ClientResources\TagsSelection.js" />
-    <Content Include="ClientResources\vendor\jquery-2.1.0.min.js" />
-    <Content Include="ClientResources\vendor\jquery-ui.min.js" />
-    <Content Include="ClientResources\vendor\tag-it.min.js" />
-    <Content Include="ClientResources\styles\PagedList.css" />
     <Content Include="Geta.Tags.nuspec" />
-    <None Include="module.config">
+    <None Include="module\module.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\web.config" />
+    <Content Include="module\ClientResources\styles\jquery.tagit.css" />
+    <Content Include="module\ClientResources\styles\PagedList.css" />
+    <Content Include="module\ClientResources\styles\tagit.overrides.css" />
+    <Content Include="module\ClientResources\styles\tagit.ui-zendesk.css" />
+    <Content Include="module\ClientResources\TagsSelection.js" />
+    <Content Include="module\ClientResources\vendor\jquery-2.1.0.min.js" />
+    <Content Include="module\ClientResources\vendor\jquery-ui.min.js" />
+    <Content Include="module\ClientResources\vendor\tag-it.min.js" />
+    <Content Include="module\Views\Admin\Edit.cshtml" />
+    <Content Include="module\Views\Admin\Index.cshtml" />
+    <Content Include="module\Views\Shared\_Layout.cshtml" />
+    <Content Include="module\Views\web.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientResources\styles\tagit.overrides.css" />
+    <Content Include="Web.config.transform" />
   </ItemGroup>
   <ItemGroup>
     <None Include="msbuild\Main.proj" />

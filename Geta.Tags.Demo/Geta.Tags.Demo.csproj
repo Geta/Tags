@@ -128,9 +128,6 @@
     <Reference Include="EPiServer.Web.WebControls, Version=11.11.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>packages\EPiServer.CMS.AspNet.11.11.3\lib\net461\EPiServer.Web.WebControls.dll</HintPath>
     </Reference>
-    <Reference Include="Geta.Tags, Version=4.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Geta.Tags.4.0.7\lib\net45\Geta.Tags.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -357,14 +354,6 @@
     <Content Include="ClientResources\Styles\Styles.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\styles\jquery.tagit.css" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\styles\PagedList.css" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\styles\tagit.overrides.css" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\styles\tagit.ui-zendesk.css" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\TagsSelection.js" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\vendor\jquery-2.1.0.min.js" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\vendor\jquery-ui.min.js" />
-    <Content Include="modules\Geta.Tags\4.0.7\ClientResources\vendor\tag-it.min.js" />
     <Content Include="Resources\LanguageFiles\ContentTypeNames.xml" />
     <Content Include="Resources\LanguageFiles\Display.xml" />
     <Content Include="Resources\LanguageFiles\EditorHints.xml" />
@@ -430,11 +419,9 @@
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="modules\_protected\CMS\CMS.zip" />
     <Content Include="module.config" />
-    <Content Include="modules\Geta.Tags\module.config" />
-    <Content Include="modules\Geta.Tags\4.0.7\Views\web.config" />
-    <Content Include="modules\Geta.Tags\4.0.7\Views\Shared\_Layout.cshtml" />
-    <Content Include="modules\Geta.Tags\4.0.7\Views\Admin\Index.cshtml" />
-    <Content Include="modules\Geta.Tags\4.0.7\Views\Admin\Edit.cshtml" />
+    <Content Include="modules\_protected\Geta.Tags\module.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -484,6 +471,13 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\Geta.Tags.csproj">
+      <Project>{dac7c620-4960-4523-8ed6-352d9fbf5e17}</Project>
+      <Name>Geta.Tags</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">

@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  geta-tags-demo-web:
+    image: ${DOCKER_REGISTRY-}getatagsdemo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks: 
+     - alloy-network
+    depends_on:
+     - geta-tags-demo-db
+    volumes: 
+      - ../src/module/:C:/data/
+    mac_address: 84-69-95-6C-7F-85
+  geta-tags-demo-db:
+    image: microsoft/mssql-server-windows-developer
+    ports:
+      - "1433:1433"
+    environment:
+     - ACCEPT_EULA=Y
+     - sa_password=T@gs19
+     - attach_dbs=[{'dbName':'EPiServerDB_dada52e0','dbFiles':['C:\\data\\EPiServerDB_dada52e0.mdf','C:\\data\\EPiServerDB_dada52e0_log.ldf']}]
+    volumes: 
+      - ../Geta.Tags.Demo/App_Data:C:/data/
+    networks:
+      - alloy-network
+networks: 
+  alloy-network:
+    external:
+      name: nat
