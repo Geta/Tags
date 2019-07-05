@@ -419,9 +419,6 @@
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="modules\_protected\CMS\CMS.zip" />
     <Content Include="module.config" />
-    <Content Include="modules\_protected\Geta.Tags\module.config">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

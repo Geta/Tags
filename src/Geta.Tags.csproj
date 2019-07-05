@@ -228,7 +228,9 @@
     <Content Include="Web.config.transform" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="msbuild\Main.proj" />
+    <None Include="msbuild\Main.proj">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
