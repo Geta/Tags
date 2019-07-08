@@ -76,11 +76,11 @@ In order to debug or contribute to the package, the Alloy demo site which is inc
 
 - Checkout the repository
 - Install Docker on your local machine: https://docs.docker.com/get-started/
-- [Optional] Install the Docker extension for Visual Studio
+- Install the Docker extension for Visual Studio
 
 ### Get started
 
-Set the `docker-compose` as default project (if not already by default). Now, the required images are downloaded (windows server and sql server), this will take some time. Note, that this is only needed once. See Output window (source Docker) to follow the progress.
+Set the `docker-compose` as default project (if not already by default). Now, the required images are downloaded (windows server and sql server), this will take some time. Note, this only happens the first time after that it cached on your local machine. See Output window (source Docker) to follow the progress. After you see the line 'Docker containers are ready', you are ready to run the project.
 
 ![Docker output](docs/images/docker-output.PNG)
 
