@@ -80,7 +80,11 @@ In order to debug or contribute to the package, the Alloy demo site which is inc
 
 ### Get started
 
-Set the `docker-compose` as default project (if not already by default). The first time the project is build images from Docker are downloaded, this will take some time. Just run the project and start debugging the code. The frontend and backend code can be found in the Geta.Tags project. The frontend code is available under the module folder.
+Set the `docker-compose` as default project (if not already by default). Now, the required images are downloaded (windows server and sql server), this will take some time. Note, that this is only needed once. After the images are downloaded just run the project and start debugging the code. The frontend and backend code can be found in the Geta.Tags project. The frontend code is available under the module folder.
+
+### Alloy login
+
+Use the default epiadmin user for Alloy, see [logins](https://github.com/episerver/AlloyDemoKit/wiki/Logins).
 
 ## Package maintainer
 
