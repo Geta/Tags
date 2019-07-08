@@ -6,7 +6,7 @@
     <ProjectGuid>072efcdc-eac4-48ff-8e5d-efce769492d6</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>http://{ServiceIPAddress}</DockerServiceUrl>
-    <DockerServiceName>geta.tags.demo</DockerServiceName>
+    <DockerServiceName>geta-tags-sample-web</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
