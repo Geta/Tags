@@ -65,8 +65,8 @@
     
       <!-- Copy -->
       <ItemGroup>
-        <ClientResources Include="$(SolutionDir)\src\module\$(Version)\ClientResources\**\*" />
-        <Views Include="$(SolutionDir)\src\module\$(Version)\Views\**\*" />
+        <ClientResources Include="$(SolutionDir)\src\module\ClientResources\**\*" />
+        <Views Include="$(SolutionDir)\src\module\Views\**\*" />
       </ItemGroup>  
       
       <Copy SourceFiles="$(SolutionDir)\src\module\module.config" DestinationFolder="$(TmpOutDir)\content" />
