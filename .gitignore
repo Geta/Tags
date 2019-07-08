@@ -109,3 +109,5 @@ UpgradeLog*.XML
 
 .vs
 .idea
+
+License.config

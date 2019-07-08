@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.8]
+
+### Changed
+
+- Install package as protected module. When installing this version make sure you remove the `Geta.Tags` folder from `/modules. The new one is created under ~/modules/protected/
+
 ## [4.0.7]
 
 - Upgrading System.Security.Cryptography.Xml package

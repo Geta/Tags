@@ -20,7 +20,7 @@
   </metadata>
   <files>
     <file src="bin\Geta.Tags.dll" target="lib\net45\" />
-    <!--<file src="bin\Geta.Tags.zip" target="content\modules\_protected\Geta.Tags\" />-->
-    <file src="..\tmp\content\**\*.*" target="content\modules\Geta.Tags\" />
+    <file src="bin\Geta.Tags.zip" target="content\modules\_protected\Geta.Tags\" />
+    <file src="web.config.transform" target="content" />
   </files>
 </package>
