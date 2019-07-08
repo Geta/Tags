@@ -15,6 +15,8 @@ Geta Tags is a library that adds tagging functionality to EPiServer content.
 - Admin page for managing tags
 - Tags maintenance schedule job
 
+See the [editor guide](docs/editor-guide.md) for more information.
+
 ## How to get started?
 
 Start by installing NuGet package (use [EPiServer NuGet](http://nuget.episerver.com/)):
