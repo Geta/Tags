@@ -14,8 +14,6 @@ services:
       - ../src/module/:C:/data/
     mac_address: 84-69-95-6C-7F-85
   geta-tags-demo-db:
-    ports:
-      - "1433:1433"
     image: microsoft/mssql-server-windows-developer:1709
     environment:
      - ACCEPT_EULA=Y
