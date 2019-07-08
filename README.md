@@ -82,7 +82,7 @@ In order to debug or contribute to the package, the Alloy demo site which is inc
 
 Set the `docker-compose` as default project (if not already by default). Now, the required images are downloaded (windows server and sql server), this will take some time. Note, that this is only needed once. See Output window (source Docker) to follow the progress.
 
-![Docker output](docs/images/docker-output.png)
+![Docker output](docs/images/docker-output.PNG)
 
 After the images are downloaded just run the project and start debugging the code. The frontend and backend code can be found in the Geta.Tags project. The frontend code is available under the module folder.
 
