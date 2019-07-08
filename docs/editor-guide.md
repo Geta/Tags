@@ -14,6 +14,6 @@ In the admin mode, a new plugin is available under the 'tools' menu section. The
 
 ## Geta Tags maintenance scheduled job
 
-- fix tag - content relations
+- A scheduled job that verifies all content - tag relations.
 
 ![Tags management](images/tags-scheduled-job.PNG)
