@@ -29,7 +29,7 @@ namespace Geta.Tags.Implementations
             return TagStore
                 .Find<Tag>(new Dictionary<string, object>
                 {
-                    { "Name", name }, { "GroupKey", groupKey ?? string.Empty }
+                    { "Name", name }, { "GroupKey", groupKey }
                 })
                 .FirstOrDefault();
         }
