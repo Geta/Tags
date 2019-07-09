@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.9]
+
+### Fixed
+
+- Fix getting tags property when editing tag in admin page
+
 ## [4.0.8]
 
 ### Changed
