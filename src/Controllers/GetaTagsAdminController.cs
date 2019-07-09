@@ -101,7 +101,6 @@ namespace Geta.Tags.Controllers
 
             existingTag.Name = eddittedTag.Name;
             existingTag.GroupKey = eddittedTag.GroupKey;
-
             _tagRepository.Save(existingTag);
 
             return RedirectToAction("Index", new { page, searchString });
@@ -118,10 +117,10 @@ namespace Geta.Tags.Controllers
 
                 var clone = pageFromRepository.CreateWritableClone();
 
-                 var tagAttributes = clone.GetType().GetProperties().Where(
-                    prop => Attribute.IsDefined(prop, typeof(UIHintAttribute)) &&
-                    prop.PropertyType == typeof(string) &&
-                    Attribute.GetCustomAttributes(prop, typeof(UIHintAttribute)).Any(x=> ((UIHintAttribute)x).Equals("Tags")));
+                var tagAttributes = clone.GetType().GetProperties().Where(
+                   prop => Attribute.IsDefined(prop, typeof(UIHintAttribute)) &&
+                   prop.PropertyType == typeof(string) &&
+                   Attribute.GetCustomAttributes(prop, typeof(UIHintAttribute)).Any(x => ((UIHintAttribute)x).UIHint == "Tags"));
 
                 foreach (var tagAttribute in tagAttributes)
                 {
