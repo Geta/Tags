@@ -1,6 +1,8 @@
-﻿@using EPiServer.Shell
+﻿@using System.Web.Mvc.Html
+@using EPiServer.Shell
 @using Geta.Tags.Controllers
-@model Geta.Tags.Models.Tag
+
+@inherits System.Web.Mvc.WebViewPage<Geta.Tags.Models.Tag>
 @{
     ViewBag.Title = "Edit tag";
     Layout = Paths.ToClientResource(typeof(GetaTagsAdminController), "Views/Shared/_Layout.cshtml");
@@ -18,7 +20,7 @@
         @Html.LabelFor(model => model.Name) <br />@Html.TextBoxFor(model => model.Name)
     </p>
     <p>
-        @Html.LabelFor(model => model.GroupKey) <br/>@Html.TextBoxFor(model => model.GroupKey)
+        @Html.LabelFor(model => model.GroupKey) <br />@Html.TextBoxFor(model => model.GroupKey)
     </p>
     <p>
         @Html.CheckBoxFor(model => model.checkedEditContentTags) Check this box to edit existing tags in the content
