@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.10]
+
+### Fixed
+
+- Fix Geta Tags Management admin page, see issue #79
+
 ## [4.0.9]
 
 ### Fixed
