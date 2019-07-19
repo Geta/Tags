@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
@@ -51,13 +52,23 @@ namespace Geta.Tags.Controllers
 
             if (string.IsNullOrEmpty(searchString) && (page == null || page == pageNumber))
             {
-                return View(GetViewPath("Index"), tags.ToPagedList(pageNumber, PageSize));
+                return View(GetViewPath("Index"), GetPagedTagList(tags, pageNumber, PageSize));
             }
 
             ViewBag.SearchString = searchString;
             tags = _tagRepository.GetAllTags().Where(s => s.Name.Contains(searchString)).ToList();
 
-            return View(GetViewPath("Index"), tags.ToPagedList(pageNumber, PageSize));
+            return View(GetViewPath("Index"), GetPagedTagList(tags, pageNumber, PageSize));
+        }
+
+        private IPagedList<Tag> GetPagedTagList(IList<Tag> tags, int pageNumber, int pageSize)
+        {
+            var list = tags.ToPagedList(pageNumber, PageSize);
+            if (!list.Any() && pageNumber > 1)
+            {
+                return tags.ToPagedList(pageNumber - 1, PageSize);
+            }
+            return list;
         }
 
         public ActionResult Edit(string tagId, int? page, string searchString)
