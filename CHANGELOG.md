@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.11]
+
+### Fixed
+
+- Fix #83: Miss icons on Search, Cancel button
+- Fix #84: Geta Tags displays incorrect after deletion
+- Fix #85: Can view search data on other page
+- Fix #86: Total tag should show number of displaying tags
+
 ## [4.0.10]
 
 ### Fixed
