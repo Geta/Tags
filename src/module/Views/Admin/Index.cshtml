@@ -16,13 +16,15 @@
 
 @using (Html.BeginForm("Index", "GetaTagsAdmin", FormMethod.Get))
 {
-    <p>
-        Find by tag name: @Html.TextBox("SearchString", ViewBag.SearchString as string)
-        <input type="submit" value="Search" />
-    </p>
+<p>
+    Find by tag name: @Html.TextBox("SearchString", ViewBag.SearchString as string)
+    <span class="epi-cmsButton">
+        <input type="submit" value="Search" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Search" />
+    </span>
+</p>
 }
 <p>
-    Total tags: @ViewBag.TotalCount
+    Total tags: @Model.TotalItemCount
 </p>
 <p class="EP-systemInfo">@ViewBag.StatusMessage</p>
 
@@ -65,5 +67,5 @@
     <br />
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.SearchString }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchString = ViewBag.SearchString }))
 </div>

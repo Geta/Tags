@@ -72,25 +72,7 @@ public virtual string Tags { get; set; }
 
 ## Local development setup
 
-In order to debug or contribute to the package, the Alloy demo site which is included in the repository can be used.
-
-### Prerequisites
-
-- Checkout the repository
-- Install Docker on your local machine: https://docs.docker.com/get-started/
-- Install the Docker extension for Visual Studio
-
-### Get started
-
-Set the `docker-compose` as default project (if not already by default). Now, the required images are downloaded (windows server and sql server), this will take some time. Note, this only happens the first time after that it cached on your local machine. See Output window (source Docker) to follow the progress. After you see the line 'Docker containers are ready', you are ready to run the project.
-
-![Docker output](docs/images/docker-output.PNG)
-
-After the images are downloaded just run the project and start debugging the code. The frontend and backend code can be found in the Geta.Tags project. The frontend code is available under the module folder.
-
-### Alloy login
-
-Use the default epiadmin user for Alloy, see [logins](https://github.com/episerver/AlloyDemoKit/wiki/Logins).
+See description in [shared repository](https://github.com/Geta/package-shared/blob/master/README.md#local-development-set-up) regarding how to setup local development environment.
 
 ## Package maintainer
 

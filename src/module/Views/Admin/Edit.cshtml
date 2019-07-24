@@ -30,7 +30,7 @@
             <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" value="Save" />
         </span>
         <span class="epi-cmsButton">
-            @Html.ActionLink("Cancel", "Index", new { @class = "epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Cancel" })
+            <input type="button" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Cancel" value="Cancel" onclick="@("location.href='"+ Url.Action("Index","GetaTagsAdmin")+ "'")" />
         </span>
     </div>
 }
