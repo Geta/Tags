@@ -74,6 +74,12 @@ public virtual string Tags { get; set; }
 
 See description in [shared repository](https://github.com/Geta/package-shared/blob/master/README.md#local-development-set-up) regarding how to setup local development environment.
 
+### Docker hostnames
+
+Instead of using the static IP addresses the following hostnames can be used out-of-the-box.
+
+- http://tags.getalocaltest.me
+
 ## Package maintainer
 
 https://github.com/patkleef

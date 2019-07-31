@@ -7,7 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     networks: 
-     - geta-tags-network
+      geta-tags-network:
+        ipv4_address: 172.16.238.71
     depends_on:
      - geta-tags-sample-db
     volumes: 
@@ -21,9 +22,12 @@ services:
      - attach_dbs=[{'dbName':'EPiServerDB_dada52e0','dbFiles':['C:\\data\\EPiServerDB_dada52e0.mdf','C:\\data\\EPiServerDB_dada52e0_log.ldf']}]
     volumes: 
       - ../Geta.Tags.Sample/App_Data:C:/data/
-    networks:
-      - geta-tags-network
+    networks: 
+      geta-tags-network:
+        ipv4_address: 172.16.238.72
 networks: 
   geta-tags-network:
-    external:
-      name: nat
+    ipam:
+      driver: default
+      config:
+         - subnet: '172.16.238.0/24'
