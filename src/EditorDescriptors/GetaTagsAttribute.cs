@@ -1,4 +1,7 @@
-﻿using EPiServer.Cms.Shell.Extensions;
+﻿// Copyright (c) Geta Digital. All rights reserved.
+// Licensed under MIT. See the LICENSE file in the project root for more information
+
+using EPiServer.Cms.Shell.Extensions;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell;
 using EPiServer.Shell.ObjectEditing;

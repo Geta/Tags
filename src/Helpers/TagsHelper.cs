@@ -1,4 +1,7 @@
-﻿using EPiServer.Core;
+﻿// Copyright (c) Geta Digital. All rights reserved.
+// Licensed under MIT. See the LICENSE file in the project root for more information
+
+using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Globalization;

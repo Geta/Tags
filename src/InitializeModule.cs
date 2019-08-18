@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿// Copyright (c) Geta Digital. All rights reserved.
+// Licensed under MIT. See the LICENSE file in the project root for more information
+
+using System.Web.Mvc;
 using System.Web.Routing;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
@@ -17,8 +20,6 @@ namespace Geta.Tags
                 defaults: new { controller = "GetaTagsAdmin", action = "Index" });
         }
 
-        public void Uninitialize(InitializationEngine context)
-        {
-        }
+        public void Uninitialize(InitializationEngine context) { }
     }
 }

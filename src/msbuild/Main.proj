@@ -12,7 +12,7 @@
       <Using Namespace="System.IO" />
       <Using Namespace="System.IO.Compression" />
       <Code Type="Fragment" Language="cs">
-        <![CDATA[        
+        <![CDATA[
           if(this.OverwriteExistingFile) {
             File.Delete(this.OutputFileName);
           }
@@ -55,20 +55,20 @@
       <PropertyGroup>
         <Version></Version>
       </PropertyGroup>
-      
+
       <GetVersion AssemblyPath="$(SolutionDir)\src\bin\Geta.Tags.dll">
         <Output TaskParameter="Version" PropertyName="Version" />
       </GetVersion>
-    
+
       <!-- Create the Versioned out dir for the client resources-->
       <MakeDir Directories="$(TmpOutDir)\content\$(Version)" />
-    
+
       <!-- Copy -->
       <ItemGroup>
         <ClientResources Include="$(SolutionDir)\src\module\ClientResources\**\*" />
         <Views Include="$(SolutionDir)\src\module\Views\**\*" />
-      </ItemGroup>  
-      
+      </ItemGroup>
+
       <Copy SourceFiles="$(SolutionDir)\src\module\module.config" DestinationFolder="$(TmpOutDir)\content" />
       <Copy SourceFiles="@(ClientResources)" DestinationFiles="@(ClientResources -> '$(TmpOutDir)\content\$(Version)\ClientResources\%(RecursiveDir)%(Filename)%(Extension)')"/>
       <Copy SourceFiles="@(Views)" DestinationFiles="@(Views -> '$(TmpOutDir)\content\$(Version)\Views\%(RecursiveDir)%(Filename)%(Extension)')"/>
