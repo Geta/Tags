@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geta Digital")]
 [assembly: AssemblyProduct("Geta.Tags")]
-[assembly: AssemblyCopyright("Copyright © Geta DigitaL 2019")]
+[assembly: AssemblyCopyright("Copyright © Geta Digital 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
