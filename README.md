@@ -53,7 +53,7 @@ IEnumerable<ContentReference> GetContentReferencesByTags(string tagNames, Conten
 IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags, ContentReference rootContentReference);
 ```
 
-##Customize Tag-it behaviour
+## Customize Tag-it behaviour
 You can customize the [Tag-it.js](https://github.com/aehlke/tag-it) settings by using the GetaTagsAttribute.
 The following settings can currently be customized
 
