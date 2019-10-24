@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.12]
+
+### Fixed
+
+- Fix #95: InvalidCastException when trying to edit tags for Block
+
 ## [4.0.11]
 
 ### Fixed
