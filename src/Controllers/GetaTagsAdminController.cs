@@ -127,7 +127,7 @@ namespace Geta.Tags.Controllers
 
             foreach (var item in contentReferencesFromTag)
             {
-                var pageFromRepository = (PageData)_contentRepository.Get<IContent>(item);
+                var pageFromRepository = (ContentData)_contentRepository.Get<IContent>(item);
 
                 var clone = pageFromRepository.CreateWritableClone();
 
@@ -151,7 +151,7 @@ namespace Geta.Tags.Controllers
 
                     tagAttribute.SetValue(clone, tagsCommaSeperated);
                 }
-                _contentRepository.Save(clone, SaveAction.Publish, AccessLevel.NoAccess);
+                _contentRepository.Save((IContent)clone, SaveAction.Publish, AccessLevel.NoAccess);
             }
             _tagRepository.Delete(tagFromTagRepository);
         }
