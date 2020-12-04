@@ -151,7 +151,7 @@ namespace Geta.Tags.Controllers
 
                     tagAttribute.SetValue(clone, tagsCommaSeperated);
                 }
-                _contentRepository.Save((IContent)clone, SaveAction.Publish, AccessLevel.NoAccess);
+                _contentRepository.Save((IContent)clone, SaveAction.Publish | SaveAction.SkipValidation, AccessLevel.NoAccess);
             }
             _tagRepository.Delete(tagFromTagRepository);
         }
