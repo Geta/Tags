@@ -12,6 +12,7 @@
     <copyright>Copyright © 2019 Geta</copyright>
     <tags>EPiServer Tags</tags>
     <iconUrl>http://cdn.geta.no/opensource/icons/geta-tags-icon.png</iconUrl>
+    <repository type="git" url="URL" branch="BRANCH_NAME" commit="COMMIT" />
     <dependencies>
       <dependency id="EPiServer.CMS.Core" version="[11.1.0, 12.0)" />
       <dependency id="EPiServer.CMS.UI.Core" version="[11.1.0, 12.0)" />
